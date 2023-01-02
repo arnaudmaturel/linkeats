@@ -1,0 +1,29 @@
+Mettre un try and catch dans chaque route des apis
+
+Faire de la doc sur chaque route
+
+Lier aux bases chaque route
+
+Relire et mettre au propre les fichiers de Docker (compose et file)
+
+Voir si il faut mettre la route de la doc de l'api dans le routage de nginx + avec auth
+
+Rajouter le checking de role sur les routes
+
+Ne mettre que les index.js pour apidoc
+
+Mettre le dossier de sortie à un autre endroit pour apidoc (besoin de regénérer)
+
+Mettre au propre le fichier de conf de nginx
+
+Mettre au propre les fichiers js
+
+Faire des erreurs et code d'erreurs propres (ex: Pas assez de caractères sur les arguments obligatoires, arg déjà présent, ressource non trouvé, ...)
+
+Renvoyer ds jsons au format {error: $error} dans le cas d'erreurs dans les apis
+
+Regarder httponly
+
+Connecter l'api au front
+
+Mettre des ; partout

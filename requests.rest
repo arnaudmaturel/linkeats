@@ -1,0 +1,87 @@
+POST http://localhost:80/auth/login
+Content-Type: application/json
+
+{
+    "username": "Josh",
+    "password": "password"
+}
+
+
+###
+
+
+GET http://localhost:80/users
+
+
+###
+
+
+POST http://localhost:80/auth/refresh
+Content-Type: application/json
+
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm9obiIsImlhdCI6MTY3MDM0NDU0MX0.kTwE_TtMqC_9jFY_b_ZLhXkXJhZSmcCT4wp4ccup3x4"
+}
+
+###
+
+POST http://localhost:80/users
+Content-Type: application/json
+
+{
+    "username": "Josh",
+    "password": "password"
+}
+
+###
+
+GET http://localhost:80/orders
+
+###
+
+
+GET http://localhost:80/orders
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NzI2NTk0NzcsImV4cCI6MTY3MjY2MzA3N30.nc5EQJmzOogoUa2nAKFuZwkqzJGYMwerLi11naQnrhY
+
+
+###
+
+POST http://localhost:80/orders
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm9zaCIsInBhc3N3b3JkIjoiJDJiJDEwJFFBd25pSzBkZjZiNnl2NEZ6QUxJYnV0Ui92UjM5U3ZpM1prWm1oTzk4di8vUXpYNWNFUHo2IiwiaWF0IjoxNjcyNDg3NDMyLCJleHAiOjE2NzI0OTEwMzJ9.O5tWmwTVxjG4C3f8jxlbeujggdeVIzke042aZ9DseFM
+Content-Type: application/json
+
+{
+    "id": 595,
+    "type": "alpha",
+    "datas": [1, 2, 7],
+    "metrics": true
+}
+
+
+###
+
+PUT http://localhost:80/orders/55
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm9zaCIsInBhc3N3b3JkIjoiJDJiJDEwJFFBd25pSzBkZjZiNnl2NEZ6QUxJYnV0Ui92UjM5U3ZpM1prWm1oTzk4di8vUXpYNWNFUHo2IiwiaWF0IjoxNjcxNDkwMDk5LCJleHAiOjE2NzE0OTM2OTl9.wEQl0pnG5fhEODHuqf3EauvcHJxcXAktsCd9UKV5weI
+Content-Type: application/json
+
+{
+    "type": "Satan",
+    "metrics": true
+}
+
+###
+
+DELETE http://localhost:80/orders/2
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm9zaCIsInBhc3N3b3JkIjoiJDJiJDEwJFFBd25pSzBkZjZiNnl2NEZ6QUxJYnV0Ui92UjM5U3ZpM1prWm1oTzk4di8vUXpYNWNFUHo2IiwiaWF0IjoxNjcxNDkwMDk5LCJleHAiOjE2NzE0OTM2OTl9.wEQl0pnG5fhEODHuqf3EauvcHJxcXAktsCd9UKV5weI
+
+###
+
+
+# POST http://localhost:80/auth/refresh
+
+POST http://localhost:80/refresh
+Content-Type: application/json
+
+{
+    "refreshToken": 
+}

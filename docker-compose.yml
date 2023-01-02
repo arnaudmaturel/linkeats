@@ -1,0 +1,87 @@
+version: '3.9'
+services:
+  mongodb:
+    container_name: linkeats-mongodb
+    restart: unless-stopped
+    image: mongo:5.0
+    # environment:
+      # - MONGO_INITDB_ROOT_USERNAME=admin
+      # - MONGO_INITDB_DATABASE=auth
+      # - MONGO_INITDB_ROOT_PASSWORD=pass
+    # networks: 
+    #   - mongo-compose-network
+    ports:
+      - '27017:27017'
+    volumes: 
+      - ./.data/mongodb:/data/db
+  mssql:
+    container_name: linkeats-mssql
+    restart: unless-stopped
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=Password10_
+      - MSSQL_PID=Express 
+    ports:
+      - '1433:1433'
+    volumes: 
+      - ./.data/mssql:/var/opt/mssql/data
+  # front:
+  #   container_name: linkeats-front
+  #   restart: unless-stopped
+  #   build: ./front
+  #   depends_on:
+  #     - nginx
+  #   volumes:
+  #     - ./front:/usr/src/app
+  #   ports:
+  #   - '8080:8080'
+  api_doc:
+    container_name: linkeats-api_doc
+    restart: unless-stopped
+    build: ./api_doc
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./api_doc:/usr/src/app
+      - ./api:/usr/src/api_code:ro
+  auth_api:
+    container_name: linkeats-auth_api
+    restart: unless-stopped
+    build: ./api/auth_api
+    depends_on:
+      - mssql
+    volumes:
+      - ./api/auth_api:/usr/src/app
+  order_api:
+    container_name: linkeats-order_api
+    restart: unless-stopped
+    build: ./api/order_api
+    # deploy:
+    #   mode: replicated
+    #   replicas: 6
+    depends_on:
+      - mongodb
+    volumes:
+      - ./api/order_api:/usr/src/app
+  user_api:
+    container_name: linkeats-user_api
+    restart: unless-stopped
+    build: ./api/user_api
+    depends_on:
+      - mssql
+    volumes:
+      - ./api/user_api:/usr/src/app
+  nginx:
+    container_name: linkeats-nginx
+    restart: unless-stopped
+    image: nginx:1.23
+    depends_on:
+      - auth_api
+      - order_api
+      - user_api
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/logs:/home/logs
+    ports:
+    - '80:80'
