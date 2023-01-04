@@ -1,30 +1,31 @@
 <template>
   <v-app-bar
-      color="light-green accent-4"
+      color="orange accent-4"
       dense
       dark
   >
+    <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
     <v-toolbar-title>LinkEats!</v-toolbar-title>
 
     <v-spacer></v-spacer>
 
-    <template v-slot:extension>
-      <v-tabs align-with-title>
-        <v-tab :href="'/'">Home</v-tab>
-        <v-tab :href="'/restaurants'">Restaurants</v-tab>
-        <v-tab :href="'/about'">About us</v-tab>
-      </v-tabs>
-    </template>
+    <v-menu>
+      <template v-slot:activator="{ props }">
+        <v-avatar>
+          <v-btn icon="mdi-cart" v-bind="props"></v-btn>
+        </v-avatar>
+      </template>
 
-    <v-spacer></v-spacer>
-
-    <v-btn icon href="/cart">
-      <v-icon>mdi-cart</v-icon>
-    </v-btn>
-
-    <v-btn icon>
-      <v-icon>mdi-magnify</v-icon>
-    </v-btn>
+      <v-list>
+        <v-list-item>
+          <v-list-item-content>
+            <v-list-item-title>
+              Burger <v-icon icon="mdi-food"></v-icon>
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-menu>
 
     <v-menu>
       <template v-slot:activator="{ props }">
@@ -35,7 +36,7 @@
 
       <v-list>
         <v-list-item>
-          <v-btn href="/login">Login</v-btn>
+          <v-btn data-bs-target="#myModal" data-bs-toggle="modal">Login</v-btn>
         </v-list-item>
         <v-list-item>
           <v-btn href="/register">Register</v-btn>
@@ -45,13 +46,60 @@
         </v-list-item>
       </v-list>
     </v-menu>
-
   </v-app-bar>
+  <v-navigation-drawer app v-model="drawer" color="orange">
+    <v-list dense nav>
+      <v-list-item link href="/">
+        <v-list-item-icon>
+          <v-icon icon="mdi-home"></v-icon>
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-list-item-title>
+            Home
+          </v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+      <v-list-item link href="/restaurants">
+        <v-list-item-icon>
+          <v-icon icon="mdi-silverware"></v-icon>
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-list-item-title>
+            Restaurants
+          </v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+      <v-list-item link href="/about">
+        <v-list-item-icon>
+          <v-icon icon="mdi-information"></v-icon>
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-list-item-title>
+            About us
+          </v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+    </v-list>
+  </v-navigation-drawer>
+
+  <UserModal />
 </template>
 
 <script>
+import UserModal from "@/components/UserModal.vue";
+
 export default {
-  name: 'SideBar'
+  name: 'SideBar',
+  components: {UserModal},
+  data: () => ({
+    drawer: false,
+    items: [
+      { title: 'Dashboard', icon: 'mdi-view-dashboard' },
+      { title: 'Account', icon: 'mdi-account-box' },
+      { title: 'Settings', icon: 'mdi-cog' },
+    ],
+    open: false
+  }),
 }
 </script>
 
