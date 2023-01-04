@@ -1,16 +1,12 @@
-# Temporary
-web1
-
 # Fichiers node
 node_modules
 package-lock.json
 
-# nginx logs
-
+# Nginx logs
 nginx/logs
 
 # Generated api doc
-doc
+api_doc/doc
 
 # Databases data
 .data
