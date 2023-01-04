@@ -3,5 +3,6 @@
     "version": "1.0.0",
     "description": "Linkeats api documentation",
     "title": "Linkeats api documentation",
-    "url" : "https://linkeats.fr/v1"
+    "url" : "http://linkeats.fr/v1",
+    "sampleUrl": "http://localhost:80"
 }
