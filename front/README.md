@@ -1,4 +1,4 @@
-# app
+# wshop
 
 ## Project setup
 ```
