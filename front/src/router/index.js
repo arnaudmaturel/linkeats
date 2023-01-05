@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import RestaurantsView from '../views/RestaurantsView.vue'
 import RestaurantView from '../views/RestaurantView.vue'
+import ClientAccount from '../views/Clients/ClientAccount.vue'
 
 const routes = [
   {
@@ -30,7 +31,7 @@ const routes = [
   {
     path: '/account',
     name: 'account',
-    component: HomeView
+    component: ClientAccount
   },
   {
     path: '/register',

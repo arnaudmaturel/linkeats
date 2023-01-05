@@ -72,6 +72,14 @@ services:
       - mssql
     volumes:
       - ./api/user_api:/usr/src/app
+  user_clients:
+    container_name: linkeats-clients_api
+    restart: unless-stopped
+    build: ./api/clients_api
+    depends_on:
+      - mssql
+    volumes:
+      - ./api/clients_api:/usr/src/app
   nginx:
     container_name: linkeats-nginx
     restart: unless-stopped
