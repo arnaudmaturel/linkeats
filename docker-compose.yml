@@ -72,7 +72,7 @@ services:
       - mssql
     volumes:
       - ./api/user_api:/usr/src/app
-  user_clients:
+  clients_api:
     container_name: linkeats-clients_api
     restart: unless-stopped
     build: ./api/clients_api
