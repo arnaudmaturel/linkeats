@@ -11,20 +11,7 @@ const app = express();
 app.use(express.json());
 
 
-//MONGODB Connect
-const db = require('./models')
-db.mongoose
-    .connect(`mongodb://${process.env.MONGO_HOST}:${process.env.MONGO_PORT}/${process.env.MONGO_DB}`, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true
-    })
-    .then(() => {
-        console.log('Successfully connected to MongoDB.');
-    })
-    .catch(err => {
-        console.error(err);
-        process.exit()
-    });
+const db = require('./models/index')
 
 
 //Routes

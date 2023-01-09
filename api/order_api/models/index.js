@@ -1,9 +1,6 @@
-const mongoose = require('mongoose')
-mongoose.Promise = global.Promise
-
 const db = {}
 
-db.mongoose = mongoose
+db.mongoose = require('./connection_init')
 
 db.sensor = require('./sensor.model')
 
