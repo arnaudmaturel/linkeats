@@ -68,17 +68,16 @@ export default {
       let item = {
         pid: menu.pid,
         title: menu.title,
-        store: this.store,
-        price: menu.price
+        price: menu.price,
+        tags: this.$route.params.name
       }
       this.$store.commit("addItem", item)
     },
     del(menu, quantity = 1) {
       this.$store.commit("delItem", {
-        itemKeys: {store: this.store, title: menu.title}, 
+        itemKeys: {store: this.$route.params.name, title: menu.title}, 
         quantity: quantity
-        }
-      );
+      });
     }
   }
 }
