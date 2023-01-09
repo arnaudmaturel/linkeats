@@ -1,0 +1,58 @@
+<svg width="240" height="240" version="1.1" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient id="Gradient" x1="0" y1="0" x2="1" y2="1">
+            <animate attributeName="x1" values="0;0.5" keyTimes="0;1" dur="1s" repeatCount="indefinite" />
+            <animate attributeName="y1" values="0;0" keyTimes="0;1" dur="1s" repeatCount="indefinite" />
+            <animate attributeName="x2" values="1;0.5" keyTimes="0;1" dur="1s" repeatCount="indefinite" />
+            <animate attributeName="y2" values="1;1" keyTimes="0;1" dur="1s" repeatCount="indefinite" />
+            <stop offset="30%" stop-color="transparent" />
+            <stop offset="40%" stop-color="#CD7D00" />
+            <stop offset="50%" stop-color="#F9B233" />
+            <stop offset="60%" stop-color="#CD7D00" />
+            <stop offset="70%" stop-color="transparent" />
+        </linearGradient>
+
+        <linearGradient id="Gradient2" x1="1" y1="0" x2="0" y2="1">
+            <animate attributeName="x1" values="1;1" keyTimes="0;1" dur="1s" repeatCount="indefinite" />
+            <animate attributeName="y1" values="0;0.5" keyTimes="0;1" dur="1s" repeatCount="indefinite" />
+            <animate attributeName="x2" values="0;0" keyTimes="0;1" dur="1s" repeatCount="indefinite" />
+            <animate attributeName="y2" values="1;0.5" keyTimes="0;1" dur="1s" repeatCount="indefinite" />
+            <stop offset="30%" stop-color="transparent" />
+            <stop offset="40%" stop-color="#CD7D00" />
+            <stop offset="50%" stop-color="#F9B233" />
+            <stop offset="60%" stop-color="#CD7D00" />
+            <stop offset="70%" stop-color="transparent" />
+        </linearGradient>
+
+        <linearGradient id="Gradient3" x1="0.5" y1="0" x2="0.5" y2="1">
+            <animate attributeName="x1" values="0.5;1" keyTimes="0;1" dur="1s" repeatCount="indefinite" />
+            <animate attributeName="y1" values="0;0" keyTimes="0;1" dur="1s" repeatCount="indefinite" />
+            <animate attributeName="x2" values="0.5;0" keyTimes="0;1" dur="1s" repeatCount="indefinite" />
+            <animate attributeName="y2" values="1;1" keyTimes="0;1" dur="1s" repeatCount="indefinite" />
+            <stop offset="30%" stop-color="transparent" />
+            <stop offset="40%" stop-color="#CD7D00" />
+            <stop offset="50%" stop-color="#F9B233" />
+            <stop offset="60%" stop-color="#CD7D00" />
+            <stop offset="70%" stop-color="transparent" />
+        </linearGradient>
+
+
+        <linearGradient id="Gradient4" x1="0" y1="0.5" x2="1" y2="0.5">
+            <animate attributeName="x1" values="0;0" keyTimes="0;1" dur="1s" repeatCount="indefinite" />
+            <animate attributeName="y1" values="0.5;0" keyTimes="0;1" dur="1s" repeatCount="indefinite" />
+            <animate attributeName="x2" values="1;1" keyTimes="0;1" dur="1s" repeatCount="indefinite" />
+            <animate attributeName="y2" values="0.5;1" keyTimes="0;1" dur="1s" repeatCount="indefinite" />
+            <stop offset="30%" stop-color="transparent" />
+            <stop offset="40%" stop-color="#CD7D00" />
+            <stop offset="50%" stop-color="#F9B233" />
+            <stop offset="60%" stop-color="#CD7D00" />
+            <stop offset="70%" stop-color="transparent" />
+        </linearGradient>
+
+    </defs>
+    <rect width="240" height="240" style="fill:#CD7D00" />
+    <rect x="0" y="0" width="240" height="240" fill="url(#Gradient)" />
+    <rect x="0" y="0" width="240" height="240" fill="url(#Gradient2)" />
+    <rect x="0" y="0" width="240" height="240" fill="url(#Gradient3)" />
+    <rect x="0" y="0" width="240" height="240" fill="url(#Gradient4)" />
+</svg>
