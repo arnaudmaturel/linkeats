@@ -1,30 +1,25 @@
 <template>
-  <v-app-bar
-      color="orange accent-4"
-      dense
-      dark
-  >
-    <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-    <v-toolbar-title>LinkEats!</v-toolbar-title>
+  <v-app-bar color="orange">
+    <v-app-bar-nav-icon size="50" @click.stop="mainMenu = !mainMenu"></v-app-bar-nav-icon>
+    <v-toolbar-title>
+      <v-list style="text-align: center">
+        <b>LinkEats!</b>
+      </v-list>
+    </v-toolbar-title>
 
     <v-spacer></v-spacer>
 
-    <v-menu>
+    <v-menu
+      v-model="cartMenu"
+      :close-on-content-click="false"
+    >
       <template v-slot:activator="{ props }">
-        <v-avatar>
-          <v-btn icon="mdi-cart" v-bind="props"></v-btn>
-        </v-avatar>
+        <v-badge color="error" :content=cart.itemCount>
+          <v-btn color="primary" v-bind="props" icon="mdi-cart"
+          ></v-btn>
+        </v-badge>
       </template>
-
-      <v-list>
-        <v-list-item>
-          <v-list-item-content>
-            <v-list-item-title>
-              Burger <v-icon icon="mdi-food"></v-icon>
-            </v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
+      <CartComponent/>
     </v-menu>
 
     <v-menu>
@@ -47,7 +42,8 @@
       </v-list>
     </v-menu>
   </v-app-bar>
-  <v-navigation-drawer app v-model="drawer" color="orange">
+
+  <v-navigation-drawer app v-model="mainMenu" color="light-green">
     <v-list dense nav>
       <v-list-item link href="/">
         <v-list-item-icon>
@@ -87,22 +83,19 @@
 
 <script>
 import UserModal from "@/components/UserModal.vue";
+import CartComponent from "@/components/cart/CartComponent.vue";
+import {mapGetters, mapMutations, useStore} from "vuex";
+import {computed} from 'vue';
 
 export default {
   name: 'SideBar',
-  components: {UserModal},
-  data: () => ({
-    drawer: false,
-    items: [
-      { title: 'Dashboard', icon: 'mdi-view-dashboard' },
-      { title: 'Account', icon: 'mdi-account-box' },
-      { title: 'Settings', icon: 'mdi-cog' },
-    ],
-    open: false
-  }),
+  components: { UserModal, CartComponent },
+  data() {
+    return {
+      mainMenu: false,
+      cartMenu: false,
+      cart: this.cart = this.$store.getters
+    }
+  }
 }
 </script>
-
-<style scoped>
-
-</style>
