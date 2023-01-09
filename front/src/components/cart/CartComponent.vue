@@ -4,13 +4,12 @@
         <v-col>
             <v-card width="350">
                 <v-card-item>
-                  <v-card-title>Your cart {{ cart.lenght }}</v-card-title>
+                  <v-card-title>
+                    Your cart {{ cart.lenght }}
+                  </v-card-title>
                 </v-card-item>
-                <v-card-item
-                    v-for="item in cart"
-                    size="x-small"
-                    color="green"
-                >
+
+                <v-card-item v-for="item in cart" size="x-small" color="green">
                     <strong>
                         {{ item.title }} X{{ item.quantity }}
                     </strong> 
@@ -26,9 +25,6 @@
 </template>
 
 <script>
-import {mapGetters, mapMutations, useStore} from "vuex";
-import {computed} from 'vue';
-
 export default {
   name: "RestaurantMenus",
   data() {
@@ -46,9 +42,6 @@ export default {
             price: menu.price
         }
         this.$store.commit("delItem", item, quantity);
-    },
-    itemKeys() {
-      this.cart = this.$store.getters.cart;
     }
   }
 }

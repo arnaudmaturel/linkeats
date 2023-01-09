@@ -6,8 +6,6 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue';
-
 // Components
 import SideBar from '../components/SideBar.vue';
 

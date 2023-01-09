@@ -10,8 +10,8 @@ export default createStore({
     allRestaurants: []
   },
   getters: {
-    getAllMenus: state => {
-      return state.allMenus;
+    getAllMenus: state => store => {
+      return state.allMenus.filter(menu => menu.tags === store);
     },
     getAllRestaurants: state => {
       return state.allRestaurants;

@@ -9,10 +9,7 @@
 
     <v-spacer></v-spacer>
 
-    <v-menu
-      v-model="cartMenu"
-      :close-on-content-click="false"
-    >
+    <v-menu v-model="cartMenu" :close-on-content-click="false">
       <template v-slot:activator="{ props }">
         <v-badge color="error" :content=cart.itemCount>
           <v-btn color="primary" v-bind="props" icon="mdi-cart"
@@ -84,8 +81,6 @@
 <script>
 import UserModal from "@/components/UserModal.vue";
 import CartComponent from "@/components/cart/CartComponent.vue";
-import {mapGetters, mapMutations, useStore} from "vuex";
-import {computed} from 'vue';
 
 export default {
   name: 'SideBar',

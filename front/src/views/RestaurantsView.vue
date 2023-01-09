@@ -2,36 +2,25 @@
   <SideBar />
   <v-container>
     <v-row>
-      <v-col v-for="(restaurant, index) in allRestaurants" key="index">
-        <v-card
-            min-width="250"
-            max-width="400"
-            :loading="loading"
-            :id="restaurant"
-        >
-          <v-img
-              height="100%"
-              src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
-          ></v-img>
-          <v-card-title>{{ restaurant.title }}</v-card-title>
+      <v-col v-for="(restaurant, index) in allRestaurants" key="index" cols="3">
+        <v-card min-width="250" max-width="400" :loading="loading" :id="restaurant">
+
+          <v-img height="250" :src='restaurant.image'></v-img>
+
+          <v-card-title>
+            {{ restaurant.title }}
+          </v-card-title>
+
           <v-card-subtitle>
             {{ restaurant.tags }}
           </v-card-subtitle>
+
           <v-card-text>
-            <v-rating
-                :value="4.5"
-                color="amber"
-                dense
-                half-increments
-                readonly
-                size="14"
-            ></v-rating>
+            <v-rating color="amber" dense half-increments size="14"></v-rating>
           </v-card-text>
+
           <v-card-actions>
-            <v-btn
-                color="deep-purple lighten-2"
-                :href='"/restaurants/"+restaurant.title'
-            >
+            <v-btn color="deep-purple lighten-2" :href='"/restaurants/"+restaurant.title'>
               Order from
             </v-btn>
           </v-card-actions>
@@ -43,9 +32,8 @@
 
 <script>
 // Components
-import SideBar from '../components/SideBar.vue';
-import {mapGetters, mapMutations, useStore} from "vuex";
-import {computed} from 'vue';
+import SideBar from '../components/SideBar.vue'
+import {mapGetters} from "vuex"
 
 export default {
   name: 'ShopView',
@@ -53,10 +41,10 @@ export default {
     allRestaurants: "getAllRestaurants"
   }),
   created() {
-    this.$store.dispatch("getAllRestaurants");
+    this.$store.dispatch("getAllRestaurants")
   },
   components: {
-    SideBar,
+    SideBar
   }
 }
 </script>
