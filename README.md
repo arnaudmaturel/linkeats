@@ -39,4 +39,5 @@ Cela permet d'arrêter et supprimer les conteneurs et le réseau des application
 3. docker-compose up -d
 
 Cela permet de créer et démarrer les conteneurs et le réseau des applications dockers multi-conteneurs
+
 L'option -d permet de faire touner l'application en daemon soit en arrière-plan
