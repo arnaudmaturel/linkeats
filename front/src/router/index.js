@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import RestaurantsView from '../views/RestaurantsView.vue'
 import RestaurantView from '../views/RestaurantView.vue'
+import ClientAccount from '../views/Clients/ClientAccount.vue'
+import LoginView from "../views/LoginView.vue"
 
 const routes = [
   {
@@ -28,15 +30,40 @@ const routes = [
     component: RestaurantsView
   },
   {
-    path: '/account',
-    name: 'account',
-    component: HomeView
+    path: '/client/:id',
+    name: 'clients/account',
+    component: ClientAccount
   },
   {
     path: '/register',
     name: 'register',
     component: HomeView
-  }
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: LoginView
+  },
+  {
+    path:'/restaurant/login',
+    name: "restaurant/login",
+    component:HomeView,
+  },
+  {
+    path:'/deliveryman/login',
+    name: "restaurant/login",
+    component:HomeView,
+  },
+  {
+    path:'/contact-us',
+    name: "/contact-us",
+    component:HomeView,
+  },
+  {
+    path:'/confidentiality',
+    name: "/confidentiality",
+    component:HomeView,
+  },
 ]
 
 const router = createRouter({

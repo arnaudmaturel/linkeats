@@ -28,7 +28,8 @@
 
       <v-list>
         <v-list-item>
-          <v-btn data-bs-target="#myModal" data-bs-toggle="modal">Login</v-btn>
+          <!-- <v-btn data-bs-target="#myModal" href="/login"  data-bs-toggle="modal">Login</v-btn> -->
+          <v-btn href="/login">Login</v-btn>
         </v-list-item>
         <v-list-item>
           <v-btn href="/register">Register</v-btn>

@@ -1,0 +1,22 @@
+{
+  "name": "clients_api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon -L index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "ALE",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "express": "^4.18.2",
+    "nodemon": "^2.0.20",
+    "router": "^1.3.7",
+    "sequelize": "^6.28.0",
+    "swagger-ui-express": "^4.6.0",
+    "tedious": "^11.0.8",
+    "uuid": "^9.0.0"
+  }
+}
