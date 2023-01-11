@@ -19,11 +19,11 @@ async function initialize() {
     const sequelize = new Sequelize(dbName, userName, password, { host, dialect });
 
     // init models and add them to the expoxted db object
-    const ClientSchema = require('./Models/ClientModel')(sequelize);
+    const DevelopperSchema = require('./Models/DevelopperModel')(sequelize);
     const CredentialsSchema = require('./Models/CredentialsModel')(sequelize);
     const RegisteryTokenSchema = require('./Models/RegisteryTokenModel')(sequelize);
 
-    db.Client = ClientSchema;
+    db.Developper = DevelopperSchema;
     db.Credentials = CredentialsSchema;
     db.RegisteryToken = RegisteryTokenSchema;
 

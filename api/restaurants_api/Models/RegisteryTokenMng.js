@@ -2,6 +2,7 @@ const { DataTypes } = require('sequelize');
 const db = require('../db');
 const { v4: uuidv4 } = require('uuid');
 
+
 module.exports = {
     getAll,
     getById,

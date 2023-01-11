@@ -1,11 +1,11 @@
 const express = require('express');
-const clientMng = require('../Models/ClientMng')
+const deliverimanMng = require('../Models/DeliverymanMng')
 const router = express.Router();
 
 
-// get info of the client account specified in the id
+// get info of the deliveryman account specified in the id
 router.get('/:id', (req, res) => {
-    const c = clientMng.getById(req.params.id);
+    const c = deliverimanMng.getById(req.params.id);
     c.then((value) => {
         if (value)
             res.json(value)
@@ -16,11 +16,11 @@ router.get('/:id', (req, res) => {
 });
 
 
-// create a client account
+// create a deliveryman account
 router.post('/register', (req, res) => {
-    clientMng.create(req.body)
+    deliverimanMng.create(req.body)
         .then((value) => {
-            console.log("Creation Sucessful! Welcome to user \n");
+            console.log("Creation Sucessful! Welcome of deliverymen account \n");
             res.status(200).send(value);
         })
         .catch((err) => {
@@ -30,9 +30,9 @@ router.post('/register', (req, res) => {
 });
 
 
-// update the client information
+// update the deliveryman information
 router.put('/:id', (req, res) => {
-    clientMng.update(req.params.id, req.body)
+    deliverimanMng.update(req.params.id, req.body)
         .then((value) => {
             console.log("Update sucess !");
             res.status(200).send();
@@ -44,9 +44,9 @@ router.put('/:id', (req, res) => {
 });
 
 
-// deleted the client account (HARD DELETED)
+// deleted the deliveryman account (HARD DELETED)
 router.delete('/:id', (req, res) => {
-    clientMng.delete(req.params.id)
+    deliverimanMng.delete(req.params.id)
         .then((value) => {
             console.log("Delete Sucess !");
             res.status(200).send();
@@ -56,10 +56,6 @@ router.delete('/:id', (req, res) => {
             res.status(500).send();
         });
 });
-
-
-// health link
-router.get('/satus', (req, res) => { res.status(200) });
 
 
 module.exports = router;

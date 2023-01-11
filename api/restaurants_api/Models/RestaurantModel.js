@@ -4,13 +4,15 @@ module.exports = clientModel;
 
 function clientModel(sequelize) {
 	const attributes = {
-		ClientLinkerFeatureEnabled : { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false },
-		ClientLastName : { type: DataTypes.STRING, allowNull: false },
-		ClientFirstName : { type: DataTypes.STRING, allowNull: false },
-		ClientCurrentXP : { type: DataTypes.INTEGER, allowNull: false, defaultValue: 0 },
-		ClientNextLevelXP : { type: DataTypes.INTEGER, allowNull: false, defaultValue: 0 },
-		ClientLevel : { type: DataTypes.INTEGER, allowNull: false, defaultValue: 0 },
-		ClientWallet : { type: DataTypes.INTEGER, allowNull: false, defaultValue: 0 },
+		RestaurantSiret : { type: DataTypes.STRING, allowNull: false },
+		RestaurantSiren : { type: DataTypes.STRING, allowNull: false },
+		RestaurantName : { type: DataTypes.STRING, allowNull: false },
+		RestaurantIBAN : { type: DataTypes.STRING, allowNull: false },
+		RestaurantImgIdentityPath : { type: DataTypes.STRING, allowNull: false },
+		RestaurantImgBannerPath : { type: DataTypes.STRING, allowNull: false },
+		RestaurantIsOpen : { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: false },
+		RestaurantStars : { type: DataTypes.DOUBLE, allowNull: false, defaultValue: 0 },
+		RestaurantDeliveryRange : { type: DataTypes.DOUBLE, allowNull: false, defaultValue: 0 },
 		UserID : { primaryKey: true, type: DataTypes.UUID, allowNull: false, defaultValue: DataTypes.UUIDV4 },
 		UserCredentialID : { foreignKey: true, type: DataTypes.UUID, allowNull: false, defaultValue: DataTypes.UUIDV4 },
 		UserRole : { type: DataTypes.INTEGER, allowNull: false, defaultValue: 0 },
@@ -25,5 +27,5 @@ function clientModel(sequelize) {
         updatedAt: false,
     };
 
-    return sequelize.define('Client', attributes, options)
+    return sequelize.define('Restaurants', attributes, options)
 }

@@ -8,8 +8,8 @@
 </template>
 
 <script>
-import RegisterComponent from './RegisterComponent.vue';
-import LoginComponent from './LoginComponent.vue';
+import RegisterComponent from '../RegisterComponent.vue';
+import LoginComponent from '../LoginComponent.vue';
 
 export default {
   components: {
@@ -24,7 +24,6 @@ export default {
   created() {
     console.log('will flipped in 3s');
     // setTimeout(() => { this.flipped = true; }, 3000);
-
   },
   methods: {
   }

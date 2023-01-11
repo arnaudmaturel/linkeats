@@ -1,7 +1,6 @@
 const { DataTypes, where } = require('sequelize');
-const bcrypt = require('bcryptjs');
 const db = require('../db');
-const registerTokenMng = require('./RegisteryTokenMng');
+const credentialMng = require('./CredentialsMng');
 
 module.exports = {
     getAll,
@@ -15,53 +14,40 @@ async function getAll() {
     return await db.Client.findAll();
 }
 
-// get the client by the UserID
+// get the deliveryman by the id 
 async function getById(id) {
     return await getClient(id);
 }
 
-// create user
+// create a deliveryman
 async function create(params) {
-    const client = await db.Client.findOne({ where: { UserLogin: params.UserLogin, UserEmail: params.UserEmail } });
-    if (client) throw new Error('can\'t create a new client with this login and mail');
 
-    const token = await registerTokenMng.create();
+    try {
+        const newCredential = await credentialMng.create(params);
+        const newClient = new db.Client(params);
+        newClient.RgpdObjectLastWrite = new Date();
+        newClient.RgpdObjectCreatedAt = new Date();
+        newClient.ClientWallet = 0;
+        newClient.ClientLevel = 1;
+        newClient.ClientNextLevelXP = 0;
+        newClient.ClientCurrentXP = 100;
+        newCredential.CredentialUserRole = 1;
+        newClient.UserRole = 1;
+        newClient.UserCredentialID = newCredential.CredentialID;
+        newCredential.CredentialAssociatedUserID = newClient.UserID;
 
-    if (token) {
-        console.log('The token ' + token.RegistreryTokenID + ' associated for ' + params.ClientFirstName + "  " + params.ClientLastName + " aka " + params.UserLogin);
+        // save the new deliveryman in database
+        await newClient.save();
+        await newCredential.save();
+
+        return newClient.UserID;
+    } catch (error) {
+        throw error;
     }
-    else {
-        throw err = 'Error token null';
-    }
-
-    Object.defineProperty(params, 'UserRegistreryTokenRegistreryTokenID', {
-        value: token.RegistreryTokenID,
-        writable: false
-    });
-
-    Object.defineProperty(params, 'UserID', {
-        value: DataTypes.UUIDV4.value,
-        writable: false
-    });
-
-
-    const newClient = new db.Client(params);
-
-    //hash password
-    newClient.UserPassword = await bcrypt.hash(params.UserPassword, 10);
-
-
-    newClient.UserRegistreryTokenRegistreryTokenID = token.RegistreryTokenID;
-
-    console.log("\n\n\nNewClient created : " + newClient.UserRegistreryTokenRegistreryTokenID);
-    // save the newUser in database
-    await newClient.save();
-
-    return newClient.UserID;
 }
 
 
-// update props of the clients
+// update props of the client
 async function update(id, params) {
     const client = await getClient(id);
 
@@ -74,13 +60,12 @@ async function update(id, params) {
 // delete the client and the token associated
 async function _deleted(id) {
     const client = await getClient(id);
-    const idToken = client.UserRegistreryTokenRegistreryTokenID;
+    const idCredential = client.UserCredentialID;
     await client.destroy();
-    await registerTokenMng.delete(idToken);
+    credentialMng.delete(idCredential);
 }
 
 // utility to get client
 async function getClient(id) {
     return await db.Client.findOne({ where: { UserID: id } });
-
 }
