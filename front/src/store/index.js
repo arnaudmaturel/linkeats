@@ -10,8 +10,8 @@ export default createStore({
     allRestaurants: []
   },
   getters: {
-    getAllMenus: state => {
-      return state.allMenus;
+    getAllMenus: state => store => {
+      return state.allMenus.filter(menu => menu.tags === store);
     },
     getAllRestaurants: state => {
       return state.allRestaurants;
@@ -19,7 +19,7 @@ export default createStore({
     itemCount: state => {
       return state.cartCount;
     },
-    cart: state => {
+    getCart: state => {
       return state.cartItems;
     }
   },
@@ -31,25 +31,66 @@ export default createStore({
       state.allRestaurants = restaurants;
     },
     addItem(state, newItem) {
+      let objItem = {
+        pid: newItem.pid,
+        title: newItem.title,
+        price: newItem.price,
+        tags: newItem.tags,
+        quantity: 1
+      }
+      let strItem = JSON.stringify(objItem)
       let found = state.cartItems.findIndex(i => i.pid === newItem.pid)
-      // IF EXIST ADD QTY ELSE ADD NEW ITEM
+      // IF EXIST ADD +1 QTY ELSE ADD NEW ITEM WITH 1 QTY
       if (found > -1) {
         state.cartItems[found].quantity += newItem.quantity || 1;
-        state.cartCount++;
+        localStorage.removeItem('cart', strItem);
+
+        objItem = {
+          pid: newItem.pid,
+          title: newItem.title,
+          price: newItem.price,
+          tags: newItem.tags,
+          quantity: state.cartItems[found].quantity
+        }
+        strItem = JSON.stringify(objItem)
       } else {
         if (newItem['quantity'] == undefined) {
             newItem.quantity = 1;
         }
-        state.cartCount++;
         state.cartItems.push(newItem);
       }
+      localStorage.setItem('cart', strItem);
+      state.cartCount++;
     },
     delItem(state, params) {
+      let objItem = {
+        pid: params.pid,
+        title: params.title,
+        price: params.price,
+        tags: params.tags,
+        quantity: params.quantity
+      }
+      let strItem = JSON.stringify(objItem)
+
       let found = state.cartItems.findIndex(i => i.pid === params.pid)
+
       if (found > -1) {
         state.cartItems[found].quantity -= params.quantity || 1;
+
         if (state.cartItems[found].quantity < 1) {
-          state.cartItems.splice(found,1)
+          state.cartItems.splice(found, 1)
+          localStorage.removeItem('cart', strItem);
+        } else {
+          localStorage.removeItem('cart', strItem);
+          objItem = {
+            pid: params.pid,
+            title: params.title,
+            price: params.price,
+            tags: params.tags,
+            quantity: state.cartItems[found].quantity
+          }
+          strItem = JSON.stringify(objItem)
+          localStorage.setItem('cart', (strItem));
         }
         state.cartCount--;
       } 
@@ -72,8 +113,5 @@ export default createStore({
     delItem(context, params) {
         context.commit(params);
     }
-  },
-  modules: {
-
-  },
+  }
 });
