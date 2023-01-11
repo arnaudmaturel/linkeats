@@ -1,7 +1,7 @@
 version: '3.9'
 services:
-  mongodb:
-    container_name: linkeats-mongodb
+  basket_mongodb:
+    container_name: linkeats-basket_mongodb
     restart: unless-stopped
     image: mongo:5.0
     # environment:
@@ -13,7 +13,7 @@ services:
     ports:
       - '27017:27017'
     volumes: 
-      - ./.data/mongodb:/data/db
+      - ./.data/mongodb/basket_mongodb:/data/db
   mssql:
     container_name: linkeats-mssql
     restart: unless-stopped
@@ -53,17 +53,28 @@ services:
       - mssql
     volumes:
       - ./api/auth_api:/usr/src/app
-  order_api:
-    container_name: linkeats-order_api
+  # order_api:
+  #   container_name: linkeats-order_api
+  #   restart: unless-stopped
+  #   build: ./api/order_api
+  #   # deploy:
+  #   #   mode: replicated
+  #   #   replicas: 6
+  #   depends_on:
+  #     - mongodb
+  #   volumes:
+  #     - ./api/order_api:/usr/src/app
+  basket_api:
+    container_name: linkeats-basket_api
     restart: unless-stopped
-    build: ./api/order_api
+    build: ./api/basket_api
     # deploy:
     #   mode: replicated
     #   replicas: 6
     depends_on:
-      - mongodb
+      - basket_mongodb
     volumes:
-      - ./api/order_api:/usr/src/app
+      - ./api/basket_api:/usr/src/app
   user_api:
     container_name: linkeats-user_api
     restart: unless-stopped
@@ -78,7 +89,7 @@ services:
     image: nginx:1.23
     depends_on:
       - auth_api
-      - order_api
+      - basket_api
       - user_api
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
