@@ -27,15 +27,15 @@ async function create(params) {
         const newDeliveryman = new db.Deliveryman(params);
         newDeliveryman.RgpdObjectLastWrite = new Date();
         newDeliveryman.RgpdObjectCreatedAt = new Date();
-        newDeliveryman.CredentialUserRole = 3;
-        newCredential.UserRole = 3;
+        newCredential.CredentialUserRole = 3;
+        newDeliveryman.UserRole = 3;
         newDeliveryman.UserCredentialID = newCredential.CredentialID;
         newCredential.CredentialAssociatedUserID = newDeliveryman.UserID;
-    
+
         // save the new deliveryman in database
         await newDeliveryman.save();
         await newCredential.save();
-    
+
         return newDeliveryman.UserID;
     } catch (error) {
         throw error;

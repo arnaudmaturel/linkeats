@@ -4,10 +4,11 @@ const express = require('express');
 const app = express();
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken');
+const credentialMng = require("./models/CredentialsMng");
 
 app.use(express.json())
 
-const db = require('./models/index')
+//const db = require('./models/index')
 
 /**
  * @api {get} /auth/authenticate Check Access Token
@@ -66,12 +67,12 @@ app.post('/auth/refresh', (req, res) => {
         res.sendStatus(401)
     }
 
-    if(isRefreshTokenValid(refreshToken)) {
+    if (isRefreshTokenValid(refreshToken)) {
         jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
             if (err) {
                 res.sendStatus(403)
             }
-            const accessToken = generateAccessToken({name: user.name})
+            const accessToken = generateAccessToken({ name: user.name })
             res.json({
                 accessToken
             })
@@ -82,14 +83,20 @@ app.post('/auth/refresh', (req, res) => {
 
 app.post('/auth/register', async (req, res) => {
     try {
-        const user = await db.user.findOne({ where: { name: req.body.username } });
-        if (await db.user.findOne({ where: { name: req.body.username } }) === null) {
-            return res.status(404).send('User not existing');
-        }
-        if (await bcrypt.compare(req.body.password, user.password)) {
-            // const accessToken = generateAccessToken({username: user.username, role: user.role});
-            const accessToken = generateAccessToken({username: user.username});
-            const refreshToken = jwt.sign({username: user.name}, process.env.REFRESH_TOKEN_SECRET);
+        // const userCredential = await db.user.findOne({ where: { name: req.body.username } });
+        // if (await db.user.findOne({ where: { name: req.body.username } }) === null) {
+        //     return res.status(404).send('User not existing');
+        // }
+        const userCredential = credentialMng.getByUserName(req.body.username)
+
+        if (!userCredential)
+            res.sendStatus(404, "User not find");
+
+
+        if (await bcrypt.compare(req.body.password, userCredential.password)) {
+            // const accessToken = generateAccessToken({username: userCredential.username, role: userCredential.role});
+            const accessToken = generateAccessToken({ username: userCredential.username });
+            const refreshToken = jwt.sign({ username: userCredential.name }, process.env.REFRESH_TOKEN_SECRET);
             res.status(200).json({
                 accessToken,
                 refreshToken
@@ -108,8 +115,9 @@ app.post('/auth/register', async (req, res) => {
  * @apiGroup Auth
  * @apiDescription Api route to login.
  * Return an access token and a refresh token.
- * @apiBody {String} username          <code>Mandatory</code> Username of the User.
- * @apiBody {String} password          <code>Mandatory</code> Password of the User.
+ * @apiBody {String} username          <code>Mandatory</code> Username of the User (mail, phone or login).
+ * @apiBody {String} password          <code>Mandatory</code> Password of the User. must be hashed
+ * @apiBody {int} userRole          <code>Mandatory</code> role of the User.
  * @apiError Unauthorized The <code>username</code> and/or <code>password</code> of the User are empty.
  * @apiErrorExample {json} Unauthorized:
  *     HTTP/1.1 401 Unauthorized
@@ -138,21 +146,30 @@ app.post('/auth/register', async (req, res) => {
 
 app.post('/auth/login', async (req, res) => {
     try {
-        if (! req.body.username || req.body.username === '' ||
-            ! req.body.password || req.body.password === ''
-        ) {
-                return res.status(401).json({error: 'Missing credentials'});
+        if (!req.body.username || req.body.username === '' || !req.body.password || req.body.password === '') {
+            console.log("Crendential recieved not valid");
+            return res.status(401).json({ error: 'Missing credentials' });
         }
-        const user = await db.user.findOne({ where: { name: req.body.username } });
-        if (await db.user.findOne({ where: { name: req.body.username } }) === null) {
-            return res.status(404).json({error: 'User not found'});
+
+        // const user = await db.user.findOne({ where: { name: req.body.username } });
+        const user = await credentialMng.getByUserName(req.body.username, req.body.userRole)
+
+        if (!user) {
+            console.log("Credential not found");
+            return res.status(404).json({ error: 'User not found' });
         }
-        if (await bcrypt.compare(req.body.password, user.password)) {
+
+        // if (await db.user.findOne({ where: { name: req.body.username } }) === null) {
+        //     return res.status(404).json({ error: 'User not found' });
+        // }
+
+        // if (await bcrypt.compare(req.body.password, user.password)) {
+        if (req.body.password == user.CredentialPassword) {
             // const accessToken = generateAccessToken({username: user.username, role: user.role});
-            const accessToken = generateAccessToken({username: user.username});
+            const accessToken = generateAccessToken({ username: user.username });
             const refreshToken = jwt.sign(
-                {username: user.name},
-                process.env.REFRESH_TOKEN_SECRET, 
+                { username: user.name },
+                process.env.REFRESH_TOKEN_SECRET,
                 {
                     expiresIn: '30d',
                     issuer: "linkeats"
@@ -162,11 +179,14 @@ app.post('/auth/login', async (req, res) => {
                 accessToken,
                 refreshToken
             });
+            console.log(user.CredentialID + " aka " + user.CredentialLogin + " Crendential Successful !");
         } else {
-            res.status(403).json({error: 'Incorrect credentials'});
+            console.log(user.CredentialID + " aka " + user.CredentialLogin + " Crendential Incorrect !");
+            res.status(403).json({ error: 'Incorrect credentials' });
         }
     } catch (error) {
-        res.status(500).json({error: error});
+        console.log("Error Login : " + error.message);
+        res.status(500).json({ error: error });
     }
 });
 
@@ -177,7 +197,7 @@ app.delete('/auth/logout', (req, res) => {
 })
 
 function generateAccessToken(user) {
-    return accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '1h'})
+    return accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' })
 }
 
 function isRefreshTokenValid(refreshToken) {
