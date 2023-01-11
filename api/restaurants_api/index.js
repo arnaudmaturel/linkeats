@@ -10,15 +10,15 @@ app.use(express.json())
 // for swagger doc
 //app.use('./api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 
-// route clients
-app.use('/restaurants', restaurantRouter);
-
 // health link
-app.get('/restaurants-status', (req, res) => { 
-    console.log("he's alive !"); 
-    res.status(200).send(); 
+app.get('/restaurants/status', (req, res) => {
+    console.log("he's alive !");
+    res.status(200).send();
 });
 
 
+// route restaurants
+app.use('/restaurants', restaurantRouter);
 
-app.listen(5555, () => console.log('Server started: 5555'));
+
+app.listen(3000, () => console.log('Server started: 3000'));

@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import FlipCard from '../components/FlipCard/FlipCard.vue'
+import FlipCard from '@/components/FlipCard.vue'
 import FooterComponent from '../components/FooterComponent.vue'
 import LoginComponent from '../components/LoginComponent.vue'
 import RegisterComponent from '../components/RegisterComponent.vue'

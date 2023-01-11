@@ -91,6 +91,30 @@ services:
       - mssql
     volumes:
       - ./api/clients_api:/usr/src/app
+  restaurants_api:
+    container_name: linkeats-restaurants_api
+    restart: unless-stopped
+    build: ./api/restaurants_api
+    depends_on:
+      - mssql
+    volumes:
+      - ./api/restaurants_api:/usr/src/app
+  developpers_api:
+    container_name: linkeats-developpers_api
+    restart: unless-stopped
+    build: ./api/developpers_api
+    depends_on:
+      - mssql
+    volumes:
+      - ./api/developpers_api:/usr/src/app
+  deliverymen_api:
+    container_name: linkeats-deliverymen_api
+    restart: unless-stopped
+    build: ./api/deliverymen_api
+    depends_on:
+      - mssql
+    volumes:
+      - ./api/deliverymen_api:/usr/src/app
   nginx:
     container_name: linkeats-nginx
     restart: unless-stopped

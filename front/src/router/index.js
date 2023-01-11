@@ -3,7 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import RestaurantsView from '../views/RestaurantsView.vue'
 import RestaurantView from '../views/RestaurantView.vue'
 import ClientAccount from '../views/Clients/ClientAccount.vue'
-import LoginView from "../views/LoginView.vue"
+import LoginView from "@/views/LoginView.vue"
 
 const routes = [
   {
@@ -45,24 +45,24 @@ const routes = [
     component: LoginView
   },
   {
-    path:'/restaurant/login',
+    path: '/restaurant/login',
     name: "restaurant/login",
-    component:HomeView,
+    component: HomeView,
   },
   {
-    path:'/deliveryman/login',
+    path: '/deliveryman/login',
     name: "restaurant/login",
-    component:HomeView,
+    component: HomeView,
   },
   {
-    path:'/contact-us',
+    path: '/contact-us',
     name: "/contact-us",
-    component:HomeView,
+    component: HomeView,
   },
   {
-    path:'/confidentiality',
+    path: '/confidentiality',
     name: "/confidentiality",
-    component:HomeView,
+    component: HomeView,
   },
 ]
 

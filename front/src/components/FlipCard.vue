@@ -8,8 +8,8 @@
 </template>
 
 <script>
-import RegisterComponent from '../RegisterComponent.vue';
-import LoginComponent from '../LoginComponent.vue';
+import RegisterComponent from './RegisterComponent.vue';
+import LoginComponent from './LoginComponent.vue';
 
 export default {
   components: {
