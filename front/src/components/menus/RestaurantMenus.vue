@@ -18,23 +18,15 @@
             <div>{{ ((menu.price)/100).toFixed(2) }} €</div>
           </v-card-text>
 
-          <!--<v-divider class="mx-4"></v-divider>
-
-          <v-card-title>
-            Choose your quantity
-          </v-card-title>
-
-          <v-card-text>
-            <v-chip-group v-model="selection" active-class="deep-purple accent-4 white--text" column>
-              <v-chip>Small</v-chip>
-              <v-chip>Medium</v-chip>
-              <v-chip>Large</v-chip>
-            </v-chip-group>
-          </v-card-text>-->
-
           <v-card-actions>
-            
-
+            <v-btn color="deep-purple lighten-2" size="small">
+              Infos
+              <v-icon
+                end
+                icon="mdi-information-outline"
+              ></v-icon>
+            </v-btn>
+            <v-spacer></v-spacer>
             <v-btn color="deep-purple lighten-2" @click="add(menu)">
               Add to cart
             </v-btn>

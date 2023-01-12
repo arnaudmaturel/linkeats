@@ -41,7 +41,7 @@
                   </v-list-item>
                 </v-list>
 
-                <v-btn variant="plain" v-if='this.$store.getters.itemCount > 0'>Validate</v-btn>
+                <v-btn variant="plain" v-if='this.$store.getters.itemCount > 0' :href='"account/cart"'>Validate</v-btn>
             </v-card>
         </v-col>
     </v-row>

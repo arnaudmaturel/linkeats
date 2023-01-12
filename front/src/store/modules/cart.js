@@ -1,6 +1,7 @@
 const state = {
     cartItems: [],
-    cartCount: 0
+    cartCount: 0,
+    cartTotal: 0
 }
 
 const getters = {
@@ -24,6 +25,21 @@ const getters = {
             state.cartItems = JSON.parse(localStorage.getItem('cart'))
         }
         return state.cartItems;
+    },
+    getTotal: state => {
+        let objSum = []
+        let sum = 0
+
+        if(localStorage.getItem('cart')) {
+            objSum = JSON.parse(localStorage.getItem('cart'))
+
+            objSum.forEach(element => {
+                sum += element.price * element.quantity
+            });
+        }
+        state.cartTotal = sum
+
+        return state.cartTotal;
     }
 }
 
