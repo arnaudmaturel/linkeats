@@ -1,8 +1,7 @@
 <template>
-  <SideBar />
   <v-container>
     <v-row>
-      <v-col v-for="(restaurant, index) in allRestaurants" key="index" cols="3">
+      <v-col v-for="restaurant in allRestaurants" key="index" cols="3">
         <v-card min-width="250" max-width="400" :loading="loading" :id="restaurant">
 
           <v-img height="250" :src='restaurant.image'></v-img>
@@ -20,7 +19,7 @@
           </v-card-text>
 
           <v-card-actions>
-            <v-btn color="deep-purple lighten-2" :href='"/restaurants/"+restaurant.title'>
+            <v-btn color="deep-purple lighten-2" :href='"/restaurants/" + restaurant.title'>
               Order from
             </v-btn>
           </v-card-actions>
@@ -31,9 +30,7 @@
 </template>
 
 <script>
-// Components
-import SideBar from '../components/SideBar.vue'
-import {mapGetters} from "vuex"
+import { mapGetters } from "vuex"
 
 export default {
   name: 'ShopView',
@@ -42,9 +39,6 @@ export default {
   }),
   created() {
     this.$store.dispatch("getAllRestaurants")
-  },
-  components: {
-    SideBar
   }
 }
 </script>

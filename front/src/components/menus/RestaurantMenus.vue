@@ -13,7 +13,7 @@
 
           <v-card-text>
             <div class="my-4 text-subtitle-1">
-              {{ $route.params.name }}
+              {{ $route.params.restaurant }}
             </div>
             <div>{{ ((menu.price)/100).toFixed(2) }} €</div>
           </v-card-text>
@@ -33,6 +33,8 @@
           </v-card-text>-->
 
           <v-card-actions>
+            
+
             <v-btn color="deep-purple lighten-2" @click="add(menu)">
               Add to cart
             </v-btn>
@@ -44,20 +46,17 @@
 </template>
 
 <script>
-import store from '@/store';
-
 export default {
   name: "RestaurantMenus",
   data() {
     return {
       cart: this.cart = this.$store.getters.cart,
-      cartKeys: ['name','store'],
-      store: this.$route.params.name
+      store: this.$route.params.restaurant
     }
   },
   computed: {
     allMenus () {
-      return this.$store.getters.getAllMenus(this.$route.params.name)
+      return this.$store.getters.getAllMenus(this.$route.params.restaurant)
     }
   },
   created() {
@@ -69,13 +68,16 @@ export default {
         pid: menu.pid,
         title: menu.title,
         price: menu.price,
-        tags: this.$route.params.name
+        tags: this.$route.params.restaurant
       }
       this.$store.commit("addItem", item)
     },
     del(menu, quantity = 1) {
       this.$store.commit("delItem", {
-        itemKeys: {store: this.$route.params.name, title: menu.title}, 
+        itemKeys: {
+          store: this.$route.params.restaurant, 
+          title: menu.title
+        },
         quantity: quantity
       });
     }
