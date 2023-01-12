@@ -5,10 +5,19 @@ const state = {
 
 const getters = {
     itemCount: state => {
-        const sum = 0
-        state.cartItems.length
+        let objSum = []
+        let sum = 0
 
-        return sum;
+        if(localStorage.getItem('cart')) {
+            objSum = JSON.parse(localStorage.getItem('cart'))
+
+            objSum.forEach(element => {
+                sum += element.quantity
+            });
+        }
+        state.cartCount = sum
+
+        return state.cartCount;
     },
     getCart: state => {
         if(localStorage.getItem('cart')) {
@@ -35,48 +44,40 @@ const mutations = {
         // IF EXIST ADD +1 QTY ELSE ADD NEW ITEM WITH 1 QTY
         if (isItemFound > -1) {
             state.cartItems[isItemFound].quantity++;
-            state.cartCount++
         } else {
             newItem.quantity = 1;
             state.cartItems.push(newItem);
             cart.push(newItem)
-            state.cartCount++
         }
         localStorage.setItem('cart', JSON.stringify(cart));
         state.cartItems = cart
     },
     delItem(state, params) {
-        let objItem = {
-            pid: params.pid,
-            title: params.title,
-            price: params.price,
-            tags: params.tags,
-            quantity: params.quantity
-        }
-        let strItem = JSON.stringify(objItem)
-
+        let cart = []
         let isItemFound = state.cartItems.findIndex(i => i.pid === params.pid)
+
+        if(localStorage.getItem('cart')) {
+            cart = JSON.parse(localStorage.getItem('cart'))
+            
+            let index = cart.findIndex(i => i.pid === params.pid)
+            if (index > -1) {
+                cart[index].quantity--
+                
+                if (state.cartItems[isItemFound].quantity < 1 || state.cartItems[isItemFound].quantity === undefined) {
+                    cart.splice(index, 1)
+                }
+            }
+        }
 
         if (isItemFound > -1) {
             state.cartItems[isItemFound].quantity--;
 
             if (state.cartItems[isItemFound].quantity < 1) {
                 state.cartItems.splice(isItemFound, 1)
-                localStorage.removeItem('cart', strItem);
-            } else {
-                localStorage.removeItem('cart', strItem);
-                objItem = {
-                    pid: params.pid,
-                    title: params.title,
-                    price: params.price,
-                    tags: params.tags,
-                    quantity: state.cartItems[isItemFound].quantity
-                }
-                strItem = JSON.stringify(objItem)
-                localStorage.setItem('cart', (strItem));
             }
-            state.cartCount--
-        } 
+        }
+        localStorage.setItem('cart', JSON.stringify(cart));
+        state.cartItems = cart
     }
 }
 

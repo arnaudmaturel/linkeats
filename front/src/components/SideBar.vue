@@ -12,7 +12,7 @@
 
     <v-menu v-model="cartMenu" :close-on-content-click="false">
       <template v-slot:activator="{ props }">
-        <v-badge color="error" :content=cart.itemCount>
+        <v-badge color="error" :content=$store.state.cartCount>
           <v-btn v-bind="props" icon="mdi-cart"
           ></v-btn>
         </v-badge>
