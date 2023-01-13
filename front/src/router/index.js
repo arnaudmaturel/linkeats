@@ -4,6 +4,7 @@ import RestaurantsView from '../views/RestaurantsView.vue'
 import RestaurantView from '../views/RestaurantView.vue'
 import ClientAccount from '../views/Clients/ClientAccount.vue'
 import LoginView from "@/views/LoginView.vue"
+import RestaurateurOrders from '../views/Restaurateur/Orders.vue'
 
 const routes = [
   {
@@ -39,6 +40,11 @@ const routes = [
     name: 'register',
     component: HomeView
   },
+  {
+    path: '/restaurateur/orders',
+    name: 'restaurateur_orders',
+    component: RestaurateurOrders
+  }
   {
     path: '/login',
     name: 'login',

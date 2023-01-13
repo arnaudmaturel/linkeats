@@ -14,6 +14,14 @@ services:
       - '27017:27017'
     volumes: 
       - ./.data/mongodb/basket_mongodb:/data/db
+  order_mongodb:
+    container_name: linkeats-order_mongodb
+    restart: unless-stopped
+    image: mongo:5.0
+    ports:
+      - '27018:27017'
+    volumes: 
+      - ./.data/mongodb/order_mongodb:/data/db
   mssql:
     container_name: linkeats-mssql
     restart: unless-stopped
@@ -35,7 +43,7 @@ services:
     volumes:
       - ./front:/usr/src/app
     ports:
-    - '8080:8080'
+    - '80:80'
   api_doc:
     container_name: linkeats-api_doc
     restart: unless-stopped
@@ -53,28 +61,35 @@ services:
       - mssql
     volumes:
       - ./api/auth_api:/usr/src/app
-  # order_api:
-  #   container_name: linkeats-order_api
-  #   restart: unless-stopped
-  #   build: ./api/order_api
-  #   # deploy:
-  #   #   mode: replicated
-  #   #   replicas: 6
-  #   depends_on:
-  #     - mongodb
-  #   volumes:
-  #     - ./api/order_api:/usr/src/app
-  basket_api:
-    container_name: linkeats-basket_api
+  order_api:
+    container_name: linkeats-order_api
     restart: unless-stopped
-    build: ./api/basket_api
+    build: ./api/order_api
     # deploy:
     #   mode: replicated
     #   replicas: 6
     depends_on:
+      - mongodb
+    volumes:
+      - ./api/order_api:/usr/src/app
+  basket_api:
+    container_name: linkeats-basket_api
+    restart: unless-stopped
+    build: ./api/basket_api
+    depends_on:
       - basket_mongodb
+      - order_mongodb
     volumes:
       - ./api/basket_api:/usr/src/app
+  dishes_api:
+    container_name: linkeats-dishes_api
+    restart: unless-stopped
+    build: ./api/dishes_api
+    depends_on:
+      - dishes_mongodb
+      - order_mongodb
+    volumes:
+      - ./api/dishes_api:/usr/src/app
   user_api:
     container_name: linkeats-user_api
     restart: unless-stopped
@@ -121,6 +136,7 @@ services:
     image: nginx:1.23
     depends_on:
       - auth_api
+      - order_api
       - basket_api
       - user_api
     volumes:

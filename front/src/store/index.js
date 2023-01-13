@@ -1,6 +1,7 @@
 import { createStore } from 'vuex'
 import menus from '../api/menus'
 import restaurants from '../api/restaurants'
+import order from './modules/order.js'
 
 export default createStore({
   state: {
@@ -113,5 +114,8 @@ export default createStore({
     delItem(context, params) {
         context.commit(params);
     }
-  }
+  },
+  modules: {
+    order
+  },
 });
