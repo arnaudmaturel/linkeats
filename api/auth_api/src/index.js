@@ -197,7 +197,7 @@ app.delete('/auth/logout', (req, res) => {
 })
 
 function generateAccessToken(user) {
-    return accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' })
+    return accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1d' })
 }
 
 function isRefreshTokenValid(refreshToken) {

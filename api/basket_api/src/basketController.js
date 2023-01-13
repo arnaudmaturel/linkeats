@@ -2,7 +2,7 @@
 
 const { json } = require('express');
 const express = require('express');
-const basketMng = require('./basketMng');
+const basketMng = require('../src/basketMng');
 const router = express.Router();
 
 
