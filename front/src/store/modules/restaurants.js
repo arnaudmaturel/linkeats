@@ -1,12 +1,21 @@
 import restaurants from '../../api/restaurants'
 
 const state = {
-    allRestaurants: []
+    allRestaurants: [],
+    restaurantInfo: []
 }
 
 const getters = {
     getAllRestaurants: state => {
         return state.allRestaurants;
+    },
+    getRestaurantByName: state => store => {
+        let info = []
+        info = state.allRestaurants.filter(restaurants => restaurants.title === store);
+
+        state.restaurantInfo = info
+
+        return state.restaurantInfo
     }
 }
 

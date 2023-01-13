@@ -42,7 +42,7 @@
       >
         <v-row>
           <v-col cols="3" v-for="restaurant in allRestaurants">
-            <v-card min-width="250" max-width="400" :loading="loading" :id="restaurant">
+            <v-card min-width="100" max-width="400" :loading="loading" :id="restaurant">
               <v-img height="250" :src='restaurant.image'></v-img>
 
               <v-card-title>

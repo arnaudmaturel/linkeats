@@ -1,6 +1,5 @@
 <template>
-  <v-app-bar height="120" style="background-color: #27476E;">
-
+  <v-app-bar height="120" style="background-color: #27476E;" elevation="0">
     <v-app-bar-nav-icon size="x-large" @click.stop="mainMenu = !mainMenu" style="color: orange; background-color: white;"></v-app-bar-nav-icon>
 
     <v-toolbar-title>
@@ -69,7 +68,13 @@
       </v-list>
     </v-menu>
   </v-app-bar>
-
+  <v-navigation-drawer location="top" v-model="mainMenu" width="150" style="background: #27476E; background: -webkit-linear-gradient(to bottom, #27476E, #1f4e76, #02678f); background: linear-gradient(to bottom, #27476E, #1f4e76, #02678f);">
+    <v-list>
+      <v-list-item>
+        It's time to find something to eat!
+      </v-list-item>
+    </v-list>
+  </v-navigation-drawer>
   <v-navigation-drawer app v-model="mainMenu" temporary>
     <v-list nav density="compact">
       <v-list-item link href="/" prepend-icon="mdi-home" title="Home" value="home" style="font-size: 24px;"></v-list-item>
@@ -79,8 +84,8 @@
       <v-list-item link href="/about" prepend-icon="mdi-information" title="About us" value="about" style="font-size: 24px;"></v-list-item>
     </v-list>
   </v-navigation-drawer>
-
-  <UserModal />
+  
+  
 </template>
 
 <script>
