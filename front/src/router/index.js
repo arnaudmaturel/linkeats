@@ -1,5 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import RestaurantsView from '../views/restaurants/RestaurantsView.vue'
+import RestaurantMenusView from '../views/restaurants/menus/RestaurantView.vue'
+import MenuView from '../views/restaurants/menus/MenuView.vue'
+import UserView from '../views/UserAccountView.vue'
+import RegisterView from '../views/RegisterView.vue'
+import CartToOrderView from '../views/orders/CartValidationView.vue'
 import RestaurantsView from '../views/RestaurantsView.vue'
 import RestaurantView from '../views/RestaurantView.vue'
 import ClientAccount from '../views/Clients/ClientAccount.vue'
@@ -15,20 +21,27 @@ const routes = [
   {
     path: '/about',
     name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-  },
-  {
-    path: '/restaurants/:name',
-    name: 'restaurant_menus',
-    component: RestaurantView
+    component: () => import('../views/AboutView.vue')
   },
   {
     path: '/restaurants',
     name: 'restaurants',
     component: RestaurantsView
+  },
+  {
+    path: '/restaurants/:restaurant',
+    name: 'restaurant_menus',
+    component: RestaurantMenusView
+  },
+  /*{
+    path: '/restaurants/:restaurant/:plate',
+    name: 'restaurant_menus',
+    component: MenuView
+  },*/
+  {
+    path: '/account/cart',
+    name: 'user_cart_to_order',
+    component: CartToOrderView
   },
   {
     path: '/clients/:id',
@@ -38,7 +51,7 @@ const routes = [
   {
     path: '/register',
     name: 'register',
-    component: HomeView
+    component: RegisterView
   },
   {
     path: '/restaurateur/orders',

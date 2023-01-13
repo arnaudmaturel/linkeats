@@ -12,7 +12,8 @@
     { pid: 8, title: 'Kaaaaaris', price: 499999999, tags: 'Sevran', image: 'https://static.cnews.fr/sites/default/files/styles/image_750_422/public/capture_decran_2018-08-01_a_17.16.48_0.jpg?itok=EI_qyT8R' }, 
     { pid: 9, title: 'C-C', price: 9999, tags: 'Food Night', image: 'https://www.francebleu.fr/s3/cruiser-production/2021/06/426c08e9-5969-4ed5-ba14-fef425acaae7/1200x680_maxnewsfrfour640755.jpg' }, 
     { pid: 10, title: 'Arouf', price: 666, tags: 'Carrouf', image: 'https://i.ytimg.com/vi/Kz0Qo3ciUtk/hqdefault.jpg' }, 
-    { pid: 11, title: 'Nuts', price: 199, tags: 'Squick', image: 'https://yt3.googleusercontent.com/l79cKyw3U8UsZJkdwTkvGoKI_pKu-63-s9eHuuTDM1zyy9ywYSMdJ4BjnozwovFSifX1uto9=s900-c-k-c0x00ffffff-no-rj' }
+    { pid: 11, title: 'Nuts', price: 199, tags: 'Squick', image: 'https://yt3.googleusercontent.com/l79cKyw3U8UsZJkdwTkvGoKI_pKu-63-s9eHuuTDM1zyy9ywYSMdJ4BjnozwovFSifX1uto9=s900-c-k-c0x00ffffff-no-rj' }, 
+    { pid: 12, title: 'Nutzy', price: 99, tags: 'Squick', image: 'https://yt3.googleusercontent.com/l79cKyw3U8UsZJkdwTkvGoKI_pKu-63-s9eHuuTDM1zyy9ywYSMdJ4BjnozwovFSifX1uto9=s900-c-k-c0x00ffffff-no-rj' }
 ];
 
 export default {
