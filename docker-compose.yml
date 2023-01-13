@@ -22,6 +22,14 @@ services:
       - '27018:27017'
     volumes: 
       - ./.data/mongodb/order_mongodb:/data/db
+  dish_mongodb:
+    container_name: linkeats-dish_mongodb
+    restart: unless-stopped
+    image: mongo:5.0
+    ports:
+      - '27019:27017'
+    volumes: 
+      - ./.data/mongodb/dish_mongodb:/data/db
   mssql:
     container_name: linkeats-mssql
     restart: unless-stopped
@@ -34,16 +42,16 @@ services:
       - '1433:1433'
     volumes: 
       - ./.data/mssql:/var/opt/mssql/data
-  front:
-    container_name: linkeats-front
-    restart: unless-stopped
-    build: ./front
-    depends_on:
-      - nginx
-    volumes:
-      - ./front:/usr/src/app
-    ports:
-    - '80:80'
+  # front:
+  #   container_name: linkeats-front
+  #   restart: unless-stopped
+  #   build: ./front
+  #   depends_on:
+  #     - nginx
+  #   volumes:
+  #     - ./front:/usr/src/app
+  #   ports:
+  #   - '8080:8080'
   api_doc:
     container_name: linkeats-api_doc
     restart: unless-stopped
@@ -69,7 +77,7 @@ services:
     #   mode: replicated
     #   replicas: 6
     depends_on:
-      - mongodb
+      - order_mongodb
     volumes:
       - ./api/order_api:/usr/src/app
   basket_api:
@@ -78,18 +86,16 @@ services:
     build: ./api/basket_api
     depends_on:
       - basket_mongodb
-      - order_mongodb
     volumes:
       - ./api/basket_api:/usr/src/app
-  dishes_api:
-    container_name: linkeats-dishes_api
+  dish_api:
+    container_name: linkeats-dish_api
     restart: unless-stopped
-    build: ./api/dishes_api
+    build: ./api/dish_api
     depends_on:
-      - dishes_mongodb
-      - order_mongodb
+      - dish_mongodb
     volumes:
-      - ./api/dishes_api:/usr/src/app
+      - ./api/dish_api:/usr/src/app
   user_api:
     container_name: linkeats-user_api
     restart: unless-stopped
