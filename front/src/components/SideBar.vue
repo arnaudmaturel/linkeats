@@ -35,7 +35,7 @@
           <v-btn href="/register">Register</v-btn>
         </v-list-item>
         <v-list-item>
-          <v-btn href="/account">Account</v-btn>
+          <v-btn href="clients/account">Account</v-btn>
         </v-list-item>
       </v-list>
     </v-menu>

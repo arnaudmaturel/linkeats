@@ -88,11 +88,12 @@ export default {
 }
 
 #loginInfoInside {
-    background-image: linear-gradient(to top,
+    /* background-image: linear-gradient(to top,
             rgb(0, 105, 146),
-            rgb(39, 71, 110)25%);
+            rgb(39, 71, 110)25%); */
 
-    background-color: transparent;
+    /* background-color: transparent; */
+    background-color: white;
     color: rgb(255, 152, 0);
     border: 2px;
 }

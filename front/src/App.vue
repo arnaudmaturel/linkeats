@@ -19,8 +19,13 @@ export default {
 
 <style>
 #app{
-  /* background-color: rgb(25, 29, 31); */
-  background-image: linear-gradient(to bottom, rgb(39,71,110) 75%,rgb(0,105,146));
-    font-family: 'Segoe UI';
+  background-color: #F9FAFA;
+  /* background-image: linear-gradient(to bottom, rgb(39,71,110) 75%,rgb(0,105,146)); */
+    font-family: MyFont;
+}
+
+@font-face {
+  font-family: 'MyFont';
+  src: url('./assets/ARLRDBD.ttf');
 }
 </style>

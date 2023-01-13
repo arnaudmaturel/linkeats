@@ -1,93 +1,50 @@
 <template>
-    <v-container id="background">
-        <SideBar />
-        <v-form>
-            <v-container>
-                <v-row>
-                    <v-col id="firstName" cols="5">
-                        <v-row>
-                            <h6>
-                                First Name
-                            </h6>
-                        </v-row>
-                        <v-row>
-                            <v-text-field v-model="firstname" value="{{ firstname }}"  placeholder="type here..." outlined required/>
-                        </v-row>
-                    </v-col>
-           
-                    <v-col cols="5" offset="2">
-                        <v-row>
-                            <h6>
-                                Last Name
-                            </h6>
-                        </v-row>
-                        <v-row>
-                            <v-text-field v-model="lastname" value=""   placeholder="type here..." outlined required/>
-                        </v-row>
-                    </v-col>
-                
-                </v-row>
-                <v-row>
-                    <v-col id="firstName" cols="5">
-                        <v-row>
-                            <h6>
-                                E-Mail
-                            </h6>
-                        </v-row>
-                        <v-row>
-                            <v-text-field v-model="mail" type="email"   placeholder="type here..." outlined required/>
-                        </v-row>
-                    </v-col>
-           
-                    <v-col cols="5" offset="2">
-                        <v-row>
-                            <h6>
-                                Phone
-                            </h6>
-                        </v-row>
-                        <v-row>
-                            <v-text-field  v-model="phone" type="phone"  placeholder="type here..."  required outlined></v-text-field>
-                        </v-row>
-                    </v-col>
-                
-                </v-row>
-                
-                <v-row>
-                    <v-col id="firstName" cols="5">
-                        <v-row>
-                            <h6>
-                                Password
-                            </h6>
-                        </v-row>
-                        <v-row>
-                            <v-text-field v-model="password" type="password" :rules="nameRules" placeholder="type here..." outlined required/>
-                        </v-row>
-                    </v-col>
-           
-                    <v-col cols="5" offset="2" >
-                        <v-row>
-                            <h6>
-                                Confirm Password
-                            </h6>
-                        </v-row>
-                        <v-row>
-                            <v-text-field rounded="x5" type="password" rules="nameRules" counter="10"  placeholder="type here..." shaped outlined required/>
-                        </v-row>
-                    </v-col>
-                    
-                </v-row>
-            </v-container>
-        </v-form>
-        <br />
-        <br/>
-        <v-card id="xpBack" width="100%" color="rgb(143, 57, 133)" elevation="10">
-            <v-card id="xpFront" elevation="0" tile>
-                <label id="xpText">xp %</label>
-            </v-card>
-        </v-card>
-        <br/>
-    </v-container>
+    <div>
 
+        <v-container>
+            <SideBar />
+            <v-row>
+                <v-col class="ma-auto" id="account-title">
+                        <h1>Mon compte</h1>
+                </v-col>
+            </v-row>
+
+            <v-tabs id="tabMenu" centered grow v-model="tab" dir="Horizontale" hide-slider="true" color="transparent"
+                active-class="active">
+                <v-tab id="tabItem" v-for="menu in menus" :key="menu" :value="menu.title" ripple="false">
+                    <div id="tabItemDiv">
+                        <v-btn id="tabItemBtn" :class="(tab == menu.title) ? 'tabItemDivActic' : 'tabItemDiv'"
+                            rounded="pill" width="100%">
+                            <v-icon start>
+                                mdi-account
+                            </v-icon>
+                            {{ menu.title }}
+                        </v-btn>
+                    </div>
+                </v-tab>
+            </v-tabs>
+            <br />
+
+
+            <div id="contentMainCard" class="d-flex">
+                <v-window id="tabWindow" v-model="tab">
+                    <v-window-item v-for="menu in menus" :key="menu" :value="menu.title" :ref="menu.title">
+                        <div v-if="menu.component == 'GeneralInfoClient'">
+                            <GeneralInfoClient />
+                        </div>
+                        <div v-else-if="menu.component == 'CredentialInfo'">
+                            <CredentialInfo/>
+                        </div>
+                        <div v-else>
+                            Not general client
+                        </div>
+                    </v-window-item>
+                </v-window>
+
+            </div>
+        </v-container>
+        <FooterComponent />
+    </div>
 </template>
 
 
@@ -97,23 +54,35 @@
 <script lang="js">
 
 // Components
+import FooterComponent from '@/components/FooterComponent.vue';
 import SideBar from '../../components/SideBar.vue';
+import GeneralInfoClient from '@/components/GeneralInfoClient.vue'
+import CredentialInfo from '@/components/CredentialInfo.vue';
 
 export default {
     name: 'ClientAccount',
+    userRole: "Client",
     components: {
         SideBar,
+        FooterComponent,
+        GeneralInfoClient,
+        CredentialInfo,
     },
-    props: [
-        'firstName',
-        'lastName',
-        'eMail',
-        'phone',
-        'password',
-        'xpCurrent',
-        'xpNextLevel',
-        'address'
-    ]
+    data: () => ({
+        tab: 'Général',
+        width: 100,
+        menus: [
+            { 'title': 'Général', 'component': "GeneralInfoClient" },
+            { 'title': 'Sécurité', 'component': "CredentialInfo" },
+            { 'title': 'Commandes', 'component': "GeneralInfoClient" },
+            { 'title': 'Addresses', 'component': "GeneralInfoClient" },
+            { 'title': 'Stars (preview)', 'component': "" },
+            { 'title': 'Linker (preview)', 'component': "" }
+        ]
+    }),
+    setCurrentTab(value) {
+        activTitle = value;
+    }
 }
 </script>
 
@@ -123,31 +92,55 @@ export default {
 
 <!-- STYLE -->
 <style>
-#background{
-    color: rgb(249, 178, 51);
-}
-
-
-#xpBack{
-    height: 75px;
-    padding: 10px;
-}
-
-#xpFront{
-    display: flex;
-    height: 100%;
-    width: 100%;
-    align-content: center;
-    align-items: center;
-    text-align: center;
+#account-title {
     vertical-align: middle;
-    background-image: linear-gradient(to right, rgb(249,178,51),rgb(255,190,75));
+    text-align: center;
+    justify-content: center;
+    display: flex;
+    padding-top: 40px;
+    padding-bottom: 40px;
 }
 
-#xpText{
-    
-    left: 50%;
-    -ms-transform: translateX(50%);
-    transform: translateX(50%);
+#borderMainCard {
+    background-color: rgb(255, 152, 0);
+    height: 80%;
+}
+
+
+#backgroundMainCard {
+    background-color: white;
+    color: rgb(0, 0, 0);
+    height: 100%;
+}
+
+#contentMainCard {
+    height: 650px;
+    justify-content: center;
+}
+
+#tabMenu:hover {
+    padding-left: 0px;
+    background-color: transparent !important;
+    /* color: transparent !important;
+    color: rgb(249, 250, 250) !important; */
+    color-scheme: transparent !important;
+}
+
+.tabItemDiv {
+    color: black !important;
+}
+
+.tabItemDivActic {
+    color: white !important;
+    background-color: rgb(255, 152, 0) !important;
+}
+
+
+#tabWindow {
+    width: 50%;
+}
+
+#btnTab {
+    color: rgb(255, 152, 0);
 }
 </style>

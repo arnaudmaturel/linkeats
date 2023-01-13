@@ -30,7 +30,7 @@ const routes = [
     component: RestaurantsView
   },
   {
-    path: '/client/:id',
+    path: '/clients/:id',
     name: 'clients/account',
     component: ClientAccount
   },

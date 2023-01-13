@@ -1,5 +1,5 @@
 <template>
-    <footer id="footer">
+    <v-footer id="footer">
         <v-row justify="center" no-gutters id="row" >
             <v-btn v-for="link in links" :key="link" elevation="0" id="btn" :href="link.link">
                 {{ link.title }}
@@ -8,7 +8,7 @@
                 {{ new Date().getFullYear() }} — <strong>LinkEats!</strong>
             </v-col>
         </v-row>
-    </footer>
+    </v-footer>
 </template>
 
 
@@ -31,31 +31,15 @@ export default {
 <!--      STYLE -->
 <style scoped>
 #btn {
-    background-color: rgb(255, 152, 0,0%);
+    background-color: rgba(255, 153, 0, 0);
     color: white;
 }
 
-a {
-    color: rgb(255, 152, 0);
-}
-
-a:hover {
-    color: rgb(205, 125, 0);
-    ;
-}
-
-#row{
-    /* display: flex; */
-    width: 100%;
-    justify-content: stretch;
-}
-
-#footer
+footer
 {
-    background-color: rgb(255, 152, 0,15%);
+    /* background-color: ; */
+    background-image: linear-gradient(to bottom,rgba(0, 105, 146,1),rgba(39, 71, 110, 1));
     color: white;
-    transform: translateY(-100%);
-    margin-bottom: 0%;
     height: 100px;
     width: 100%;
 }
