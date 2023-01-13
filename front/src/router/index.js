@@ -2,12 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import RestaurantsView from '../views/restaurants/RestaurantsView.vue'
 import RestaurantMenusView from '../views/restaurants/menus/RestaurantView.vue'
-import MenuView from '../views/restaurants/menus/MenuView.vue'
-import UserView from '../views/UserAccountView.vue'
 import RegisterView from '../views/RegisterView.vue'
 import CartToOrderView from '../views/orders/CartValidationView.vue'
-import RestaurantsView from '../views/RestaurantsView.vue'
-import RestaurantView from '../views/RestaurantView.vue'
 import ClientAccount from '../views/Clients/ClientAccount.vue'
 import LoginView from "@/views/LoginView.vue"
 import RestaurateurOrders from '../views/Restaurateur/Orders.vue'
@@ -57,7 +53,7 @@ const routes = [
     path: '/restaurateur/orders',
     name: 'restaurateur_orders',
     component: RestaurateurOrders
-  }
+  },
   {
     path: '/login',
     name: 'login',

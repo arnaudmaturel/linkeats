@@ -2,7 +2,6 @@
     <div>
 
         <v-container>
-            <SideBar />
             <v-row>
                 <v-col class="ma-auto" id="account-title">
                         <h1>Mon compte</h1>
@@ -43,7 +42,6 @@
 
             </div>
         </v-container>
-        <FooterComponent />
     </div>
 </template>
 
@@ -54,8 +52,6 @@
 <script lang="js">
 
 // Components
-import FooterComponent from '@/components/FooterComponent.vue';
-import SideBar from '../../components/SideBar.vue';
 import GeneralInfoClient from '@/components/GeneralInfoClient.vue'
 import CredentialInfo from '@/components/CredentialInfo.vue';
 
@@ -63,8 +59,6 @@ export default {
     name: 'ClientAccount',
     userRole: "Client",
     components: {
-        SideBar,
-        FooterComponent,
         GeneralInfoClient,
         CredentialInfo,
     },
