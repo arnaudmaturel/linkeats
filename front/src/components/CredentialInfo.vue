@@ -102,7 +102,7 @@ export default {
 
 #img
 {
-        background-image: url('../assets/linkEats_transp20.png');
+        background-image: url('../assets/linkEats_transp10.png');
         background-size: contain;
         background-position: center;
         /* opacity: 0.2; */

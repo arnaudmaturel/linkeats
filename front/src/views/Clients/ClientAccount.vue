@@ -131,7 +131,7 @@ export default {
 
 
 #tabWindow {
-    width: 50%;
+    width: 22cm;
 }
 
 #btnTab {

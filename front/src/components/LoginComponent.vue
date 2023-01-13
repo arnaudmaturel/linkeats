@@ -1,37 +1,52 @@
 <template>
     <v-container>
-        <v-card class="mx-auto px-2 py-2" max-width="400" :id="tagBorder" elevation="24" outlined>         
-            <v-card class="mx-auto px-5 py-5" id="loginInfoInside" outlined elevation="0">
-                 <v-form v-model="form" @submit.prevent="onSubmit">
-                    <h5>Sign In</h5>
-                    <br />
-                    <h6>Login / Email</h6>
-                    
-                    <v-text-field v-model="email" :readonly="loading" :rules="[required]" class="mb-2" clearable
-                        color="rgb(255, 152, 0)" variant="outlined" solo="true"
-                        placeholder="Enter your E-mail or login">
-                    </v-text-field>
+        <v-card id="form" rounded="5" elevation="0" class="mx-auto">
+            <v-row id="rowTitle">
+                <v-col offset="5" cols="2">
+                    <div id="title">
+                        <h5>Connexion</h5>
+                    </div>
+                </v-col>
+            </v-row>
+            <div id="middle"></div>
+            <div id="img">
+                <div id="infPart">
+                    <v-row>
+                        <v-col>
 
-                    <h6>Password</h6>
-                    <v-text-field v-model="password" type="password" :readonly="loading" :rules="[required]" clearable
-                        placeholder="Enter your password" variant="outlined" color="rgb(255, 152, 0)">
-                    </v-text-field>
-                    <br>
-                    <v-btn :disabled="!form" :loading="loading" block id="btn" size="large" type="submit"
-                        variant="elevated">
-                        Log In
-                    </v-btn>
-                    <a href="/client/reset-password">Password forget</a>
-                    <br />
-                    <br />
-                    <hr />
-                    <br />
-                    <h6>New Client ?</h6>
-                    <v-btn block id="btn" size="large" variant="elevated" @click="$emit('sign-up')">
-                        Sign Up
-                    </v-btn>
-                </v-form>
-            </v-card>
+                            <h6>Login / E-Mail / Téléphone</h6>
+                            <v-text-field v-model="login" :readonly="loading" clearable
+                                placeholder="Entrez votre login" variant="outlined" color="rgb(255, 152, 0)"
+                                :rules="[required]" class="mb-2" type="email">
+                            </v-text-field>
+                        </v-col>
+                        <v-col>
+
+                            <h6>Mot de passe</h6>
+                            <v-text-field v-model="password" :readonly="loading" clearable
+                                placeholder="Saisissez votre mot de passe" :rules="[required]" class="mb-2"
+                                variant="outlined" color="rgb(255, 152, 0)" type="password">
+                            </v-text-field>
+                        </v-col>
+                    </v-row>
+
+                    <div style="justify-content=center; text-align: center;">
+                        <v-btn id="btn" size="large" type="submit" :disabled="!form" rounded="pill"
+                            :ripple="{ class: 'text-orange', center: true }">
+                            Se Connecter
+                        </v-btn><br />
+                        <a href="/client/reset-password">Password forget</a>
+                    </div>
+                </div>
+                <div id="middle"></div>
+                <div id="signUpPart">
+                    <div style="text-align=center;">
+                        <router-link to="login">
+                            <a @click="$emit('sign-up')">Créer un compte</a>
+                        </router-link>
+                    </div>
+                </div>
+            </div>
         </v-card>
 
     </v-container>
@@ -48,10 +63,11 @@
 export default {
     data: () => ({
         form: false,
-        email: null,
+        login: null,
         password: null,
         loading: false,
-        tagBorder: 'stdBorder'
+        tagBorder: 'stdBorder',
+        userRole: 1,
     }),
 
     methods: {
@@ -60,8 +76,8 @@ export default {
 
             this.loading = true
             this.tagBorder = 'loadingBorder'
- 
-            setTimeout(() => { this.loading = false; this.tagBorder ='stdBorder' }, 2000)
+
+            setTimeout(() => { this.loading = false; this.tagBorder = 'stdBorder' }, 2000)
         },
         required(v) {
             return !!v || 'Field is required'
@@ -74,30 +90,6 @@ export default {
 
 <!--      STYLE -->
 <style scoped>
-#stdBorder {
-    display: block;
-        background-color: rgb(255, 152, 0);
-}
-
-#loadingBorder {
-    display: block;
-    background-color: rgb(255, 152, 0);;
-    background-image: url('../../src/assets/test.svg');
-    /* background: url('../../src/assets/test.svg'); */
-    background-size: 100% 100%;
-}
-
-#loginInfoInside {
-    /* background-image: linear-gradient(to top,
-            rgb(0, 105, 146),
-            rgb(39, 71, 110)25%); */
-
-    /* background-color: transparent; */
-    background-color: white;
-    color: rgb(255, 152, 0);
-    border: 2px;
-}
-
 #btn {
     background-color: rgb(255, 152, 0);
     color: white;
@@ -109,11 +101,46 @@ a {
 
 a:hover {
     color: rgb(205, 125, 0);
-    ;
 }
 
-.v-text-field--outlined fieldset {
-    size: 2px;
-    border: 2px;
+#rowTitle {
+
+    padding: 20px;
+    padding-bottom: 20px;
+}
+
+#middle {
+    background-color: rgb(228, 228, 228);
+    height: 3px;
+    width: 100%;
+}
+
+#infPart ,#signUpPart {
+    padding: 5%;
+    padding-top: 2%;
+}
+
+
+#form {
+    border: solid 3px rgb(228, 228, 228);
+    background-color: white;
+    font-family: MyFont;
+    width: 22cm;
+}
+
+#img {
+    background-image: url('../assets/linkEats_transp10.png');
+    background-size: contain;
+    background-position: center;
+}
+
+#title {
+    text-align: center;
+}
+
+#signUpPart
+{
+    justify-items: center;
+    text-align: center;
 }
 </style>

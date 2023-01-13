@@ -37,7 +37,6 @@ export default {
 
 footer
 {
-    /* background-color: ; */
     background-image: linear-gradient(to bottom,rgba(0, 105, 146,1),rgba(39, 71, 110, 1));
     color: white;
     height: 100px;
