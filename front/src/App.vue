@@ -1,9 +1,15 @@
 <template>
   <v-app id="app">
     <v-main>
-      <SideBar />
-      <router-view/>
-      <footer-component/>
+      <div>
+        <SideBar />
+      </div>
+      <div style="margin-bottom: 100px;">
+        <router-view/>
+      </div>
+      <div style="position: static; margin-bottom: 0px; width: 100%;">
+        <footer-component style="position: absolute; bottom: 0;"/>
+      </div>
     </v-main>
   </v-app>
 </template>

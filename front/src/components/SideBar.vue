@@ -3,7 +3,11 @@
     <v-app-bar-nav-icon size="x-large" @click.stop="mainMenu = !mainMenu" style="color: orange; background-color: white;"></v-app-bar-nav-icon>
 
     <v-toolbar-title>
-      <b style="color: orange; font-family: MV Boli; font-size: 36px;">LinkEats!</b>
+      <b style="font-family: MV Boli; font-size: 36px;">
+        <router-link :to="{ name: 'home' }" style="text-decoration: none; color: orange;">
+          LinkEats!
+        </router-link>
+      </b>
     </v-toolbar-title>
 
     <v-card width="400" style="background-color: #27476E;" variant="plain">
@@ -11,10 +15,10 @@
         <v-text-field
           density="compact"
           variant="solo"
-          single-line
-          hide-details
           label="Your address"
           append-inner-icon="mdi-map-marker"
+          single-line
+          hide-details
         ></v-text-field>
       </v-card-text>
     </v-card>
@@ -56,14 +60,20 @@
       </template>
 
       <v-list density="compact">
-        <v-list-item>
-          <v-btn href="/login" variant="plain">Login</v-btn>
+        <v-list-item v-if="!logged">
+          <router-link :to="{ name: 'login' }" style="text-decoration: none; color: black;">
+            <v-btn variant="plain">Login</v-btn>
+          </router-link>
         </v-list-item>
-        <v-list-item>
-          <v-btn href="/register" variant="plain">Register</v-btn>
+        <v-list-item v-if="!logged">
+          <router-link :to="{ name: 'register' }" style="text-decoration: none; color: black;">
+            <v-btn variant="plain">Register</v-btn>
+          </router-link>
         </v-list-item>
-        <v-list-item>
-          <v-btn href="/account" variant="plain">Account</v-btn>
+        <v-list-item v-if="logged">
+          <router-link :to="{ name: 'clients/account', params: { id: '1' }}" style="text-decoration: none; color: black;">
+            <v-btn href="/account" variant="plain">Account</v-btn>
+          </router-link>
         </v-list-item>
       </v-list>
     </v-menu>
@@ -75,13 +85,19 @@
       </v-list-item>
     </v-list>
   </v-navigation-drawer>
-  <v-navigation-drawer app v-model="mainMenu" temporary>
+  <v-navigation-drawer app v-model="mainMenu">
     <v-list nav density="compact">
-      <v-list-item link href="/" prepend-icon="mdi-home" title="Home" value="home" style="font-size: 24px;"></v-list-item>
+      <router-link :to="{ name: 'home' }" style="text-decoration: none; color: black;">
+        <v-list-item prepend-icon="mdi-home" title="Home" value="home" style="font-size: 24px;"></v-list-item>
+      </router-link>
 
-      <v-list-item link href="/restaurants"  prepend-icon="mdi-silverware" title="Restaurants" value="restaurants" style="font-size: 24px;"></v-list-item>
+      <router-link :to="{ name: 'restaurants' }" style="text-decoration: none; color: black;">
+        <v-list-item prepend-icon="mdi-silverware" title="Restaurants" value="restaurants" style="font-size: 24px;"></v-list-item>
+      </router-link>
       
-      <v-list-item link href="/about" prepend-icon="mdi-information" title="About us" value="about" style="font-size: 24px;"></v-list-item>
+      <router-link :to="{ name: 'about' }" style="text-decoration: none; color: black;">
+        <v-list-item prepend-icon="mdi-information" title="About us" value="about" style="font-size: 24px;"></v-list-item>
+      </router-link>
     </v-list>
   </v-navigation-drawer>
   
@@ -103,6 +119,7 @@ export default {
       mainMenu: false,
       cartMenu: false,
       locationMenu: false,
+      logged: false,
       cart: this.cart = this.$store.getters
     }
   },
