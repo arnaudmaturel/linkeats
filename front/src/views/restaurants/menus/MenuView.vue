@@ -1,35 +1,51 @@
 <template>
-    <v-card
-      class="mx-auto"
-      max-width="400"
-    >
-        <v-img
-            class="align-end text-white"
-            height="200"
-            src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
-            cover
-        >
-            <v-card-title>Top 10 Australian beaches</v-card-title>
-        </v-img>
-    
-        <v-card-subtitle class="pt-4">
-            Number 10
-        </v-card-subtitle>
-    
-        <v-card-text>
-            <div>Whitehaven Beach</div>
-    
-            <div>Whitsunday Island, Whitsunday Islands</div>
-        </v-card-text>
-    
-        <v-card-actions>
-            <v-btn color="orange">
-            Share
-            </v-btn>
-    
-            <v-btn color="orange">
-            Explore
-            </v-btn>
-        </v-card-actions>
-    </v-card>
+    <v-container>
+        <v-col>
+            <v-row>
+                <v-card
+                class="mx-auto"
+                width="50%"
+                v-for="(info, index) in menu" :key="index"
+                >
+                    <v-img
+                    class="align-end text-white" height="200" :src="info.image" cover></v-img>
+
+                    <v-card-title>{{ info.title }}</v-card-title>
+
+                    <v-card-subtitle class="pt-4">
+                        Allergies
+                    </v-card-subtitle>
+                
+                    <v-card-text>
+                        <div>Whitehaven Beach</div>
+                
+                        <div>Whitsunday Island, Whitsunday Islands</div>
+                    </v-card-text>
+                
+                    <v-card-actions v-for="restaurant in getRestaurant">
+                        <v-btn  variant="elevated" size="default" color="rgb(255, 152, 0)" style="color: white" :to="{ name: 'restaurant_menus', params: { restaurant: restaurant.title } }">
+                            Back
+                        </v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-row>
+        </v-col>
+    </v-container>
 </template>
+
+<script>
+export default {
+    computed: {
+        menu () {
+            return this.$store.getters.getMenu(this.$route.params.menu)
+        },
+        getRestaurant () {
+            return this.$store.getters.getRestaurantByName(this.$route.params.restaurant)
+        }
+    },
+    created() {
+        this.$store.dispatch("getAllMenus"),
+        this.$store.dispatch("getAllRestaurants")
+    }
+}
+</script>

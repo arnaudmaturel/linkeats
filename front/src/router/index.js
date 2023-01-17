@@ -4,6 +4,7 @@ import RestaurantsView from '../views/restaurants/RestaurantsView.vue'
 import RestaurantMenusView from '../views/restaurants/menus/RestaurantView.vue'
 import RegisterView from '../views/RegisterView.vue'
 import CartToOrderView from '../views/orders/CartValidationView.vue'
+import MenuView from '../views/restaurants/menus/MenuView.vue'
 import ClientAccount from '../views/Clients/ClientAccount.vue'
 import LoginView from "@/views/LoginView.vue"
 import RestaurateurOrders from '../views/Restaurateur/Orders.vue'
@@ -29,13 +30,18 @@ const routes = [
     name: 'restaurant_menus',
     component: RestaurantMenusView
   },
+  {
+    path: '/restaurants/:restaurant/:menu',
+    name: 'menu_info',
+    component: MenuView
+  },
   /*{
     path: '/restaurants/:restaurant/:plate',
     name: 'restaurant_menus',
     component: MenuView
   },*/
   {
-    path: '/account/cart',
+    path: '/cart',
     name: 'user_cart_to_order',
     component: CartToOrderView
   },

@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col>
-        <v-card width="50%" v-for="(restaurant, index) in getRestaurants" :key="index">
+        <v-card width="50%" v-for="(restaurant, index) in getRestaurant" :key="index">
           <v-img max-height="350" :src='restaurant.image'></v-img>
           <v-card-title>
             {{ restaurant.title }}
@@ -23,31 +23,25 @@
         <v-row>
           <v-col :cols="4" v-for="(menu, index) in allMenus" :key="index">
             <v-card min-width="100" max-width="400" :id="menu.pid">
-              <template>
-                <v-progress-linear color="deep-purple" height="10" indeterminate></v-progress-linear>
-              </template>
-
               <v-img height="250" :src='menu.image'></v-img>
 
               <v-card-title>{{ menu.title }} Menu</v-card-title>
 
               <v-card-text>
-                <div class="my-4 text-subtitle-1">
-                  
+                <div>
+                  {{ ((menu.price)/100).toFixed(2) }} €
                 </div>
-                <div>{{ ((menu.price)/100).toFixed(2) }} €</div>
               </v-card-text>
 
               <v-card-actions>
-                <v-btn color="deep-purple lighten-2" size="small">
+                <v-btn variant="elevated" color="rgb(255, 152, 0)" size="small" style="color: white" :to="{ name: 'menu_info', params: { restaurant: menu.tags, menu: menu.title } }">
                   Infos
-                  <v-icon
-                    end
-                    icon="mdi-information-outline"
-                  ></v-icon>
+                  <v-icon end icon="mdi-information-outline"></v-icon>
                 </v-btn>
+
                 <v-spacer></v-spacer>
-                <v-btn color="deep-purple lighten-2" @click="add(menu)">
+                
+                <v-btn variant="elevated" size="default" color="rgb(255, 152, 0)" style="color: white" @click="add(menu)">
                   Add to cart
                 </v-btn>
               </v-card-actions>
@@ -72,7 +66,7 @@ export default {
     allMenus () {
       return this.$store.getters.getAllMenus(this.$route.params.restaurant)
     },
-    getRestaurants () {
+    getRestaurant () {
       return this.$store.getters.getRestaurantByName(this.$route.params.restaurant)
     }
   },

@@ -6,10 +6,13 @@
           <v-card-item>
             <v-card-title>All restaurants</v-card-title>
           </v-card-item>
+
           <v-divider></v-divider>
+
           <v-card-item>
             <v-card-title>Categories</v-card-title>
           </v-card-item>
+
           <v-row>
             <v-card-item>
               <v-btn>
@@ -29,17 +32,15 @@
         </v-card>
       </v-col>
     </v-row>
+
     <v-row>
       <v-col>
         <v-card>
           <v-card-title>Filter</v-card-title>
         </v-card>
       </v-col>
-      <v-col
-        class="d-flex"
-        cols="12"
-        md="10"
-      >
+      
+      <v-col class="d-flex" cols="12" md="10">
         <v-row>
           <v-col cols="3" v-for="restaurant in allRestaurants">
             <v-card min-width="100" max-width="400" :loading="loading" :id="restaurant">
@@ -58,9 +59,11 @@
               </v-card-text>
 
               <v-card-actions>
-                <v-btn color="deep-purple lighten-2" :href='"/restaurants/" + restaurant.title'>
-                  Order from
-                </v-btn>
+                <router-link :to="{ name: 'restaurant_menus', params: { restaurant: restaurant.title }}" style="text-decoration: none;">
+                  <v-btn variant="elevated" size="default" color="rgb(255, 152, 0)" style="color: white">
+                    Order from
+                  </v-btn>
+                </router-link>
               </v-card-actions>
             </v-card>
           </v-col>
