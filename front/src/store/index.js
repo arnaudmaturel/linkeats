@@ -4,6 +4,7 @@ import storeCart from './modules/cart'
 import storeMenus from './modules/menus'
 import storeRestaurants from './modules/restaurants'
 import order from './modules/order.js'
+import dishes from './modules/dishes'
 
 export default createStore({
   state: {
@@ -18,6 +19,7 @@ export default createStore({
     storeCart,
     storeMenus,
     storeRestaurants,
-    order
+    order,
+    dishes
   }
 });

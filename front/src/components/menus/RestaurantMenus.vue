@@ -16,7 +16,7 @@
     <v-row>
       <v-col>
         <v-card>
-          <v-card-title>Plate categories</v-card-title>
+          <v-card-title>Catégories</v-card-title>
         </v-card>
       </v-col>
       <v-col class="d-flex" cols="12" md="10">
@@ -40,20 +40,28 @@
                 </v-btn>
 
                 <v-spacer></v-spacer>
-                
-                <v-btn variant="elevated" size="default" color="rgb(255, 152, 0)" style="color: white" @click="add(menu)">
-                  Add to cart
-                </v-btn>
+
+                <v-snackbar :timeout="2000" color="success">
+                  <template v-slot:activator="{ props }">
+                    <v-btn variant="elevated" size="default" color="rgb(255, 152, 0)" v-bind="props" style="color: white" @click="add(menu)" rounded>
+                      <v-icon size="large">mdi-plus-circle-outline</v-icon>
+                    </v-btn>
+                  </template>
+                  Ajouté au pannier avec succès
+                </v-snackbar>
               </v-card-actions>
             </v-card>
           </v-col>
         </v-row>
       </v-col>
     </v-row>
+    {{ getDishes }}
   </v-container>
 </template>
 
 <script>
+import {mapGetters} from "vuex";
+
 export default {
   name: "RestaurantMenus",
   data() {
@@ -62,17 +70,21 @@ export default {
       store: this.$route.params.restaurant
     }
   },
-  computed: {
+  /*computed: {
     allMenus () {
       return this.$store.getters.getAllMenus(this.$route.params.restaurant)
     },
     getRestaurant () {
       return this.$store.getters.getRestaurantByName(this.$route.params.restaurant)
     }
-  },
+  },*/
+  computed: mapGetters({
+    getDishes: "dishes"
+  }),
   created() {
-    this.$store.dispatch("getAllMenus"),
+    this.$store.dispatch("getAllMenus")
     this.$store.dispatch("getAllRestaurants")
+    this.$store.dispatch("getAllDishes")
   },
   methods: {
     add(menu) {
@@ -83,15 +95,8 @@ export default {
         tags: this.$route.params.restaurant
       }
       this.$store.commit("addItem", item)
-    },
-    del(menu, quantity = 1) {
-      this.$store.commit("delItem", {
-        itemKeys: {
-          store: this.$route.params.restaurant, 
-          title: menu.title
-        },
-        quantity: quantity
-      });
+      this.$store.commit("setCount")
+      this.$store.commit("setTotal")
     }
   }
 }

@@ -42,19 +42,19 @@
 
     <v-menu v-model="cartMenu" :close-on-content-click="false">
       <template v-slot:activator="{ props }">
-        <v-badge color="error" :content=cart.itemCount>
-          <v-btn v-bind="props" icon color="warning" size="x-large" style="background-color: white" value="Cart"
-          >
+        <v-badge color="error" :content=cartCount>
+          <v-btn v-bind="props" icon color="warning" size="x-large" style="background-color: white" value="Cart">
             <v-icon>mdi-cart</v-icon>
           </v-btn>
         </v-badge>
       </template>
+
       <CartComponent/>
     </v-menu>
 
     <v-menu>
       <template v-slot:activator="{ props }">
-        <router-link :to="{name:'login'}">
+        <router-link :to="{name:'login'}" style="text-decoration: none">
           <v-btn icon v-bind="props" size="x-large" color="warning" style="background-color: white; margin-left: 20px;" value="Account">
             <v-icon>mdi-account</v-icon>
           </v-btn>
@@ -110,6 +110,7 @@
 
 <script>
 import CartComponent from "@/components/cart/CartComponent.vue";
+import {mapGetters} from "vuex";
 
 export default {
   name: 'SideBar',
@@ -123,9 +124,14 @@ export default {
       mainMenu: false,
       cartMenu: false,
       locationMenu: false,
-      logged: false,
-      cart: this.cart = this.$store.getters
+      logged: false
     }
+  },
+  computed: mapGetters({
+    cartCount: "itemCount"
+  }),
+  created() {
+    this.$store.dispatch("getCount")
   },
   methods: {
     onClick () {
