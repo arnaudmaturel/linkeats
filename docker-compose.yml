@@ -125,7 +125,7 @@ services:
       - auth_api
       - order_api
       - basket_api
-      - user_api
+      # - user_api
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./nginx/logs:/home/logs
