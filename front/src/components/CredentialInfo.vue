@@ -18,12 +18,7 @@
                         </v-text-field>
                     </v-col>
 
-                    <v-col cols="5" offset="2">
-                        <h6>Mail</h6>
-                        <v-text-field v-model="lastName" :readonly="loading" clearable placeholder="Entrez votre nom"
-                            variant="outlined" color="rgb(255, 152, 0)">
-                        </v-text-field>
-                    </v-col>
+
                 </v-row>
 
                 <v-row>
@@ -33,6 +28,13 @@
                             placeholder="Entrez votre numéro de téléphone" variant="outlined" color="rgb(255, 152, 0)">
                         </v-text-field>
                     </v-col>
+
+                   <v-col cols="5" offset="2">
+                       <h6>Mail</h6>
+                       <v-text-field v-model="lastName" :readonly="loading" clearable placeholder="Entrez votre nom" variant="outlined"
+                           color="rgb(255, 152, 0)">
+                       </v-text-field>
+                   </v-col>
                 </v-row>
 
                 <v-row>
@@ -102,7 +104,7 @@ export default {
 
 #img
 {
-        background-image: url('../assets/linkEats_transp20.png');
+        background-image: url('../assets/linkEats_transp10.png');
         background-size: contain;
         background-position: center;
         /* opacity: 0.2; */

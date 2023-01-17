@@ -40,8 +40,8 @@ const routes = [
     component: CartToOrderView
   },
   {
-    path: '/clients/:id',
-    name: 'clients/account',
+    path: '/account',
+    name: 'account',
     component: ClientAccount
   },
   {

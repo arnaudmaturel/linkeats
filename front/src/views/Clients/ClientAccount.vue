@@ -4,7 +4,18 @@
         <v-container>
             <v-row>
                 <v-col class="ma-auto" id="account-title">
+                    <div v-if="userRole == 'Client'">
+                        <h1>Mon compte Client</h1>
+                    </div>
+                    <div v-else-if="userRole=='Restaurant'">
+                        <h1>Mon compte Restaurant</h1>
+                    </div>
+                    <div v-else-if="userRole=='Deliveryman'">
+                        <h1>Mon compte Livreur</h1>
+                    </div>
+                    <div v-else>
                         <h1>Mon compte</h1>
+                    </div>
                 </v-col>
             </v-row>
 
@@ -15,7 +26,7 @@
                         <v-btn id="tabItemBtn" :class="(tab == menu.title) ? 'tabItemDivActic' : 'tabItemDiv'"
                             rounded="pill" width="100%">
                             <v-icon start>
-                                mdi-account
+                                {{menu.icon}}
                             </v-icon>
                             {{ menu.title }}
                         </v-btn>
@@ -28,14 +39,66 @@
             <div id="contentMainCard" class="d-flex">
                 <v-window id="tabWindow" v-model="tab">
                     <v-window-item v-for="menu in menus" :key="menu" :value="menu.title" :ref="menu.title">
+                
+                <!-- GENERAL INFO -->
                         <div v-if="menu.component == 'GeneralInfoClient'">
-                            <GeneralInfoClient />
+                            <GeneralInfoClient v-if="userRole=='Client' || userRole=='Deliveryman'" />
+                            <GeneralInfoRestaurant v-else-if="userRole=='Restaurant'"/>
                         </div>
+
+                <!-- CREDENTIALS -->
                         <div v-else-if="menu.component == 'CredentialInfo'">
                             <CredentialInfo/>
                         </div>
+
+                <!-- ORDERS -->
+                        <div v-else-if="menu.component == 'OrderView'">
+                            <div v-if="userRole == 'Client'">
+                                <OrderVue/>
+                            </div>
+                            <div v-else-if="userRole=='Restaurant'">
+                                <OrdersRestaurantViewer/>
+                            </div >
+                            <div v-else-if="userRole=='Deliveryman'">
+                                <OrderDeliveryWorkComponent/>
+                            </div>
+                            <div v-else>
+                            not avalaible for your accout
+                            </div>
+                        </div>
+
+                <!-- ADDRESS -->
+                        <div v-else-if="menu.component == 'AdressesView'">
+                            <div v-if="userRole=='Client'">
+                                <AdressViewerClient/>
+                            </div>
+                            <div v-else-if="userRole=='Restaurant'" > 
+                                <AddressRestaurant :data="{name:'',cp:'',addr:'',city: ''}" style="width:100%"/>
+                            </div>
+                            <div v-else>
+                                not available
+                            </div>
+                        </div>
+
+
+                <!-- CARD EDITOR -->
+                        <div v-else-if="menu.component = 'RestaurantCardEditor'">
+                            <div v-if="userRole=='Restaurant'">
+                                <RestaurantCardEditor/>
+                            </div>
+                            <div v-else>
+                                not available
+                            </div>
+                        </div>
+
+                <!-- OPEN LAYER DEMO -->
+                        <div v-else-if="menu.component == 'OpenLayerDemo'">
+                            <opneLayerDemo/>
+                        </div>
+
+                <!-- EVERYTHING ELSE -->
                         <div v-else>
-                            Not general client
+                            Comming soon
                         </div>
                     </v-window-item>
                 </v-window>
@@ -54,24 +117,51 @@
 // Components
 import GeneralInfoClient from '@/components/GeneralInfoClient.vue'
 import CredentialInfo from '@/components/CredentialInfo.vue';
+import OrderVue from '@/components/OrdersClientViewer.vue'
+import viewClientLocOrder from '@/components/viewClientLocOrder.vue'
+import opneLayerDemo from '@/components/OpenLayerDemo.vue'
+import AdressViewerClient from '@/components/AdressViewerClient.vue';
+import AddreessEdit from '@/components/AddreessEdit.vue';
+import OrdersRestaurantViewer from '@/components/OrdersRestaurantViewer.vue';
+import AddressRestaurant from '@/components/AdressRestaurant.vue';
+import GeneralInfoRestaurant from '@/components/GeneralInfoRestaurant.vue';
+import RestaurantCardEditor from '@/components/RestaurantCardEditor.vue';
+import OrderDeliveryWorkComponent from '@/components/OrderDeliveryWorkComponent.vue';
 
 export default {
     name: 'ClientAccount',
-    userRole: "Client",
+    props: {
+        
+        // userRole: "Client",
+    },
     components: {
         GeneralInfoClient,
         CredentialInfo,
+        OrderVue,
+        viewClientLocOrder,
+        opneLayerDemo,
+        AdressViewerClient,
+        AddreessEdit,
+        OrdersRestaurantViewer,
+        AddressRestaurant,
+        GeneralInfoRestaurant,
+        RestaurantCardEditor,
+        OrderDeliveryWorkComponent
     },
     data: () => ({
+         userRole :  "Deliveryman",
+        // userRole :  "Client",
+        // userRole :  "Restaurant",
         tab: 'Général',
         width: 100,
         menus: [
-            { 'title': 'Général', 'component': "GeneralInfoClient" },
-            { 'title': 'Sécurité', 'component': "CredentialInfo" },
-            { 'title': 'Commandes', 'component': "GeneralInfoClient" },
-            { 'title': 'Addresses', 'component': "GeneralInfoClient" },
-            { 'title': 'Stars (preview)', 'component': "" },
-            { 'title': 'Linker (preview)', 'component': "" }
+            { 'title': 'Général', 'component': "GeneralInfoClient", 'icon': 'mdi-account' },
+            { 'title': 'Sécurité', 'component': "CredentialInfo", 'icon': 'mdi-account-lock' },
+            { 'title': 'Commandes', 'component': "OrderView", 'icon': 'mdi-clipboard-text' },
+            { 'title': 'Addresses', 'component': "AdressesView", 'icon': 'mdi-home-account' },
+            { 'title': 'Carte', 'component': "RestaurantCardEditor", 'icon': 'mdi-food' },
+            { 'title': 'Stars (preview)', 'component': "Stars", 'icon': 'mdi-account-star' },
+            { 'title': 'Linker (preview)', 'component': "", 'icon': 'mdi-account-heart' },
         ]
     }),
     setCurrentTab(value) {
@@ -108,7 +198,7 @@ export default {
 }
 
 #contentMainCard {
-    height: 650px;
+    /* height: 650px; */
     justify-content: center;
 }
 
@@ -131,7 +221,7 @@ export default {
 
 
 #tabWindow {
-    width: 50%;
+    width: 22cm;
 }
 
 #btnTab {
