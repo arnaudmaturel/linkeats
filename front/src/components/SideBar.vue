@@ -54,11 +54,13 @@
 
     <v-menu>
       <template v-slot:activator="{ props }">
-        <v-btn icon v-bind="props" size="x-large" color="warning" style="background-color: white; margin-left: 20px;" value="Account">
-          <v-icon>mdi-account</v-icon>
-        </v-btn>
+        <router-link :to="{name:'login'}">
+          <v-btn icon v-bind="props" size="x-large" color="warning" style="background-color: white; margin-left: 20px;" value="Account">
+            <v-icon>mdi-account</v-icon>
+          </v-btn>
+        </router-link>
       </template>
-
+<!-- 
       <v-list density="compact">
         <v-list-item v-if="!logged">
           <router-link :to="{ name: 'login' }" style="text-decoration: none; color: black;">
@@ -75,7 +77,9 @@
             <v-btn href="/account" variant="plain">Account</v-btn>
           </router-link>
         </v-list-item>
-      </v-list>
+      </v-list> -->
+
+
     </v-menu>
   </v-app-bar>
   <v-navigation-drawer location="top" v-model="mainMenu" width="150" style="background: #27476E; background: -webkit-linear-gradient(to bottom, #27476E, #1f4e76, #02678f); background: linear-gradient(to bottom, #27476E, #1f4e76, #02678f);">

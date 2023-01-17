@@ -4,10 +4,10 @@
       <div>
         <SideBar />
       </div>
-      <div style="margin-bottom: 100px;">
+      <div style="padding-bottom:150px">
         <router-view/>
       </div>
-      <div style="position: static; margin-bottom: 0px; width: 100%;">
+      <div style="position: static; margin-top: 1cm; margin-bottom: 0px; width: 100%;">
         <footer-component style="position: absolute; bottom: 0;"/>
       </div>
     </v-main>

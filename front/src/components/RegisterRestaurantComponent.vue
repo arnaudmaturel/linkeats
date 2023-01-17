@@ -1,40 +1,79 @@
 <template>
-<v-container>
+<v-container  >
     <v-card id="form" rounded="5" elevation="0" class="mx-auto">
+        <v-card class="overflow-y-auto" max-height="70vh">
         <v-row id="rowTitle">
             <v-col offset="5" cols="2">
                 <div id="title">
-                    <h5>Inscription</h5>
+                    <h5>Inscription Restaurant</h5>
                 </div>
             </v-col>
         </v-row>
         <div id="middle"></div>
         <div id="img">
             <div id="infPart">
-                <v-form v-model="form" @submit.prevent="onSubmit">
+                <v-form v-model="form" @submit.prevent="onSubmit" >
 
                 <v-row>
                     <v-col cols="6">
 
                         <h6>Login</h6>
-                        <v-text-field v-model="login" :readonly="loading" clearable placeholder="Entrez votre login"
-                            variant="outlined" color="rgb(255, 152, 0)" :rules="[required]" class="mb-2" type="email">
+                        <v-text-field v-model="newResto.CredentialLogin" :readonly="loading" clearable placeholder="Entrez votre login"
+                            variant="outlined" color="rgb(255, 152, 0)" :rules="[required]" class="mb-2" type="login">
+                        </v-text-field>
+                    </v-col>
+
+                    <v-col cols="6">
+                        <h6>Nom de l'établissement</h6>
+                        <v-text-field v-model="newResto.RestaurantName" :readonly="loading" clearable placeholder="Saisissez le nom votre établissement"
+                            :rules="[required]" class="mb-2" variant="outlined" color="rgb(255, 152, 0)" type="text">
                         </v-text-field>
                     </v-col>
                     </v-row>
-                    <v-row>
+                    
+                <v-row>
+                    <v-col cols="12">
+                        <h6>SIREN</h6>
+                        <v-text-field v-model="newResto.RestaurantSiren" :readonly="loading" clearable
+                            placeholder="Saisissez votre numéro de siren" :rules="[required]" class="mb-2"
+                            variant="outlined" color="rgb(255, 152, 0)" type="text">
+                        </v-text-field>
+                    </v-col>
+                </v-row>
+                
+                <v-row>
+                    <v-col cols="12">
+                        <h6>SIRET</h6>
+                        <v-text-field v-model="newResto.RestaurantSiret" :readonly="loading" clearable
+                            placeholder="Saisissez votre numéro de siret" :rules="[required]" class="mb-2"
+                            variant="outlined" color="rgb(255, 152, 0)" type="text">
+                        </v-text-field>
+                    </v-col>
+                </v-row>
+                
+                <v-row>
+                    <v-col cols="12">
+                        <h6>IBAN</h6>
+                        <v-text-field v-model="newResto.RestaurantIBAN" :readonly="loading" clearable
+                            placeholder="Saisissez votre IBAN" :rules="[required]" class="mb-2"
+                            variant="outlined" color="rgb(255, 152, 0)" type="text">
+                        </v-text-field>
+                    </v-col>
+                </v-row>
+                
+                <v-row>
                     <v-col>
 
                         <h6>E-Mail</h6>
-                        <v-text-field v-model="email" :readonly="loading" clearable
+                        <v-text-field v-model="newResto.CredentialEmail" :readonly="loading" clearable
                             placeholder="Saisissez votre e-mail" :rules="[required]" class="mb-2"
-                            variant="outlined" color="rgb(255, 152, 0)" type="mail">
+                            variant="outlined" color="rgb(255, 152, 0)" type="email">
                         </v-text-field>
                     </v-col>
                     <v-col>
 
                         <h6>Téléphone</h6>
-                        <v-text-field v-model="phone" :readonly="loading" clearable
+                        <v-text-field v-model="newResto.CredentialPhone" :readonly="loading" clearable
                             placeholder="Saisissez votre numéro de téléphone" :rules="[required]" class="mb-2"
                             variant="outlined" color="rgb(255, 152, 0)" type="phone">
                         </v-text-field>
@@ -45,7 +84,7 @@
                     <v-col>
 
                         <h6>Mot de passe</h6>
-                        <v-text-field v-model="password" :readonly="loading" clearable
+                        <v-text-field v-model="newResto.CredentialPassword" :readonly="loading" clearable
                             placeholder="Saisissez votre mot de passe" :rules="[required]" class="mb-2"
                             variant="outlined" color="rgb(255, 152, 0)" type="password">
                         </v-text-field>
@@ -79,7 +118,7 @@
             </div>
         </div>
     </v-card>
-
+    </v-card>
 </v-container>
 </template>
 
@@ -94,10 +133,18 @@
 export default {
     data: () => ({
         form: false,
-        email: null,
-        phone: null,
-        login: null,
-        password: null,
+        newResto: {
+            CredentialEmail: null,
+            CredentialPhone: null,
+            CredentialLogin: null,
+            CredentialPassword: null,
+
+            RestaurantSiret:null,
+            RestaurantSiren: null,
+            RestaurantName: null,
+            RestaurantIBAN:null,  
+        },
+
         password2: null,
         loading: false,
         tagBorder: 'stdBorder'
@@ -106,6 +153,7 @@ export default {
     methods: {
         onSubmit() {
             if (!this.form) return
+            this.$store.dispatch('createClient', newClient)
 
             this.loading = true
             this.tagBorder = 'loadingBorder'

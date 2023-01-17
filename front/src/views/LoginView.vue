@@ -6,14 +6,11 @@
 </template>
 
 <script>
-import FlipCard from '@/components/FlipCard.vue'
-import FooterComponent from '../components/FooterComponent.vue'
-import LoginComponent from '../components/LoginComponent.vue'
-import RegisterComponent from '../components/RegisterComponent.vue'
+import FlipCard from '@/components/FlipLogSignClient.vue'
 
 export default {
     name: 'LoginView',
-    components: { LoginComponent, RegisterComponent, FlipCard },
+    components: {  FlipCard },
     setup() {
 
     },

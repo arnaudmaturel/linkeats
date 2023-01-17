@@ -2,9 +2,9 @@
     <v-container>
         <v-card id="form" rounded="5" elevation="0" class="mx-auto">
             <v-row id="rowTitle">
-                <v-col offset="5" cols="2">
+                <v-col class="ma-auto">
                     <div id="title">
-                        <h5>Connexion</h5>
+                        <h5>Connexion {{ titleUser }}</h5>
                     </div>
                 </v-col>
             </v-row>
@@ -90,6 +90,9 @@ export default {
             return !!v || 'Field is required'
         }
     },
+    props: {
+        titleUser: String
+    }
 }
 </script>
 

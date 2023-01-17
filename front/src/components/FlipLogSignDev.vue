@@ -1,14 +1,14 @@
 <template>
   <div v-bind:class="flipped ? 'flip-container flipped': 'flip-container'">
     <div class="flipper">
-        <login-component class="front" @sign-up="flipped = true"></login-component>
-        <register-component  class="back" @sign-in="flipped=false"></register-component>
+        <login-component titleUser="Developpeur" class="front" @sign-up="flipped = true"></login-component>
+        <register-component titleUser="Developpeur" class="back" @sign-in="flipped=false"></register-component>
     </div>
   </div>
 </template>
 
 <script>
-import RegisterComponent from './RegisterComponent.vue';
+import RegisterComponent from './RegisterClientComponent.vue';
 import LoginComponent from './LoginComponent.vue';
 
 export default {
@@ -16,15 +16,12 @@ export default {
     RegisterComponent,
     LoginComponent
   },
-
-  name: 'FlipCard',
+  props: {
+  },
+  name: 'FlipLogSignDev',
   data: () => ({
     flipped: false
   }),
-  created() {
-    console.log('will flipped in 3s');
-    // setTimeout(() => { this.flipped = true; }, 3000);
-  },
   methods: {
   }
 }

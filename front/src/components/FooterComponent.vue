@@ -17,11 +17,12 @@ export default {
     data: () => ({
         links: [
             {'title':'home','link':'/'},
-            {'title': 'Restaurant', 'link':'/restaurant/login'},
-            {'title':'Deliveryman','link':'/deliveryman/login'},
-            {'title':'About us','link':'/about'},
-            {'title':'Confidentiality','link':'/confidentiality'},
-            {'title':'Contact Us','link':'/contact-us'},
+            { 'title': 'Restaurant', 'link':'/restaurateur/login'},
+            {'title':'Livreur','link':'/deliveryman/login'},
+            {'title':'Developpeur','link':'/developper/login'},
+            {'title':'A propos','link':'/about'},
+            {'title':'Confidentialité','link':'/confidentiality'},
+            {'title':'Contactez-nous','link':'/contact-us'},
         ],
     }),
 }

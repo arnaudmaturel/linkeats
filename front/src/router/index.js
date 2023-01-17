@@ -8,6 +8,11 @@ import MenuView from '../views/restaurants/menus/MenuView.vue'
 import ClientAccount from '../views/Clients/ClientAccount.vue'
 import LoginView from "@/views/LoginView.vue"
 import RestaurateurOrders from '../views/Restaurateur/Orders.vue'
+import FlipLogSignClient from '@/components/FlipLogSignClient.vue'
+import FlipLogSignResto from "@/components/FlipLogSignResto.vue"
+import FlipLogSignDeliver from "@/components/FlipLogSignDeliver.vue"
+import FlipLogSignDev from "@/components/FlipLogSignDev.vue"
+
 
 const routes = [
   {
@@ -63,17 +68,22 @@ const routes = [
   {
     path: '/login',
     name: 'login',
-    component: LoginView
+    component: FlipLogSignClient
   },
   {
-    path: '/restaurant/login',
+    path: '/restaurateur/login',
     name: "restaurant/login",
-    component: HomeView,
+    component: FlipLogSignResto,
+  },
+  {
+    path: '/developper/login',
+    name: "developper/login",
+    component: FlipLogSignDev,
   },
   {
     path: '/deliveryman/login',
-    name: "restaurant/login",
-    component: HomeView,
+    name: "/deliveryman/login",
+    component: FlipLogSignDeliver,
   },
   {
     path: '/contact-us',
