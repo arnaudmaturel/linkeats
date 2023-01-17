@@ -11,32 +11,39 @@
             <div id="middle"></div>
             <div id="img">
                 <div id="infPart">
-                    <v-row>
-                        <v-col>
 
-                            <h6>Login / E-Mail / Téléphone</h6>
-                            <v-text-field v-model="login" :readonly="loading" clearable
-                                placeholder="Entrez votre login" variant="outlined" color="rgb(255, 152, 0)"
+                    <v-form v-model="form" @submit.prevent="onSubmit">
+                        
+                        <v-row>
+                            <v-col>
+                                
+                                <h6>nom d'utilisateur / E-Mail / Téléphone</h6>
+                                <v-text-field v-model="login" :readonly="loading" clearable
+                                placeholder="Entrez votre nom d'utilisateur" variant="outlined" color="rgb(255, 152, 0)"
                                 :rules="[required]" class="mb-2" type="email">
                             </v-text-field>
                         </v-col>
                         <v-col>
-
+                            
                             <h6>Mot de passe</h6>
                             <v-text-field v-model="password" :readonly="loading" clearable
-                                placeholder="Saisissez votre mot de passe" :rules="[required]" class="mb-2"
-                                variant="outlined" color="rgb(255, 152, 0)" type="password">
-                            </v-text-field>
-                        </v-col>
-                    </v-row>
+                            placeholder="Saisissez votre mot de passe" :rules="[required]" class="mb-2"
+                            variant="outlined" color="rgb(255, 152, 0)" type="password">
+                        </v-text-field>
+                    </v-col>
+                </v-row>
+                
+                <div style="justify-content=center; text-align: center;">
+                    <v-btn id="btn" size="large" type="submit" :disabled="!form" rounded="pill"
+                    :ripple="{ class: 'text-orange', center: true }">
+                    Se Connecter
+                </v-btn><br />
+                <a id="restPwd" href="/client/reset-password">Password forget</a>
+            </div>
+            
+        </v-form>
 
-                    <div style="justify-content=center; text-align: center;">
-                        <v-btn id="btn" size="large" type="submit" :disabled="!form" rounded="pill"
-                            :ripple="{ class: 'text-orange', center: true }">
-                            Se Connecter
-                        </v-btn><br />
-                        <a href="/client/reset-password">Password forget</a>
-                    </div>
+
                 </div>
                 <div id="middle"></div>
                 <div id="signUpPart">
@@ -95,12 +102,20 @@ export default {
     color: white;
 }
 
-a {
-    color: rgb(255, 152, 0);
+#restPwd {
+    color: rgb(0, 105, 146);
+}
+
+#restPwd:hover {
+    color: rgb(0, 125, 175);
 }
 
 a:hover {
     color: rgb(205, 125, 0);
+}
+
+a {
+    color: rgb(255, 152, 0);
 }
 
 #rowTitle {

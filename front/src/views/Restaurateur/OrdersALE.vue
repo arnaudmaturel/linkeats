@@ -14,7 +14,7 @@
 
 <script>
 // Components
-import OrderCard from '../../components/order/OrderCard.vue';
+import OrderCard from '../../components/order/OrderCardALE.vue';
 import {mapGetters} from "vuex";
 
 export default {

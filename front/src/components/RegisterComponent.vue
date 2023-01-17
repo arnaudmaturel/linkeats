@@ -1,75 +1,86 @@
 <template>
-    <v-container>
-        <v-card class="mx-auto px-2 py-2" max-width="750" :id="tagBorder" elevation="24" outlined>
-            <v-card class="mx-auto px-5 py-5" id="loginInfoInside" outlined elevation="0">
+<v-container>
+    <v-card id="form" rounded="5" elevation="0" class="mx-auto">
+        <v-row id="rowTitle">
+            <v-col offset="5" cols="2">
+                <div id="title">
+                    <h5>Inscription</h5>
+                </div>
+            </v-col>
+        </v-row>
+        <div id="middle"></div>
+        <div id="img">
+            <div id="infPart">
                 <v-form v-model="form" @submit.prevent="onSubmit">
-                    <v-row>
-                        <v-col>
-                            <h5>Sign Up</h5>
-                        </v-col>
-                    </v-row>
-                    <br />
-                    <v-row>
-                        <v-col>
-                            <h6>Email</h6>
-                            <v-text-field v-model="email" :readonly="loading" :rules="[required]" class="mb-2" clearable dense
-                                color="rgb(255, 152, 0)" variant="outlined" solo="true"
-                                placeholder="Enter your E-mail">
-                            </v-text-field>
-                        </v-col>
-                        <v-col>
-                            <h6>Phone</h6>
-                            <v-text-field v-model="phone" :readonly="loading" :rules="[required]" class="mb-2" clearable dense
-                                color="rgb(255, 152, 0)" variant="outlined" solo="true"
-                                placeholder="Enter your Phone number">
-                            </v-text-field>
-                        </v-col>
-                    </v-row>
 
-                    <v-row>
-                        <v-col cols="6">
-                            <h6>Login</h6>
-                            <v-text-field v-model="login" :readonly="loading" :rules="[required]" class="mb-2" clearable dense
-                            color="rgb(255, 152, 0)" variant="outlined" solo="true"
-                            placeholder="Enter your login">
+                <v-row>
+                    <v-col cols="6">
+
+                        <h6>Login</h6>
+                        <v-text-field v-model="login" :readonly="loading" clearable placeholder="Entrez votre login"
+                            variant="outlined" color="rgb(255, 152, 0)" :rules="[required]" class="mb-2" type="email">
                         </v-text-field>
                     </v-col>
                     </v-row>
+                    <v-row>
+                    <v-col>
 
+                        <h6>E-Mail</h6>
+                        <v-text-field v-model="email" :readonly="loading" clearable
+                            placeholder="Saisissez votre e-mail" :rules="[required]" class="mb-2"
+                            variant="outlined" color="rgb(255, 152, 0)" type="mail">
+                        </v-text-field>
+                    </v-col>
+                    <v-col>
+
+                        <h6>Téléphone</h6>
+                        <v-text-field v-model="phone" :readonly="loading" clearable
+                            placeholder="Saisissez votre numéro de téléphone" :rules="[required]" class="mb-2"
+                            variant="outlined" color="rgb(255, 152, 0)" type="phone">
+                        </v-text-field>
+                    </v-col>
+                </v-row>
 
                     <v-row>
-                        <v-col>
-                            <h6>Password</h6>
-                            <v-text-field v-model="password" type="password" :readonly="loading" :rules="[required]" clearable dense
-                                placeholder="Enter your password" variant="outlined" color="rgb(255, 152, 0)">
-                            </v-text-field>
-                        </v-col>
+                    <v-col>
 
-                        <v-col>                            
-                            <h6>Confirm Password</h6>
-                            <v-text-field v-model="password2" type="password" :readonly="loading" :rules="[required]" clearable dense
-                                placeholder="Enter your password" variant="outlined" color="rgb(255, 152, 0)">
-                            </v-text-field>
-                        </v-col>
+                        <h6>Mot de passe</h6>
+                        <v-text-field v-model="password" :readonly="loading" clearable
+                            placeholder="Saisissez votre mot de passe" :rules="[required]" class="mb-2"
+                            variant="outlined" color="rgb(255, 152, 0)" type="password">
+                        </v-text-field>
+                    </v-col>
+                    <v-col>
 
-                    </v-row>
+                        <h6>Confirmation</h6>
+                        <v-text-field v-model="password2" :readonly="loading" clearable
+                            placeholder="confimer votre mot de passe" :rules="[required]" class="mb-2"
+                            variant="outlined" color="rgb(255, 152, 0)" type="password">
+                        </v-text-field>
+                    </v-col>
+                </v-row>
 
-                    <br>
-                    <v-btn :disabled="!form" :loading="loading" block id="btn" size="large" type="submit"
-                        variant="elevated">
-                        Sign Up
+                <div style="justify-content=center; text-align: center;">
+                    <v-btn id="btn" size="large" type="submit" :disabled="!form" rounded="pill"
+                        :ripple="{ class: 'text-orange', center: true }">
+                        S'inscrire
                     </v-btn>
-                    <br />
-                    <hr />
-                    <h6>Already Client ?</h6>
-                    <v-btn block id="btn" size="large" variant="elevated" @click="$emit('sign-in')">
-                        Sign In
-                    </v-btn>
-                </v-form>
-            </v-card>
-        </v-card>
+                </div>
+            </v-form>
+            </div>
 
-    </v-container>
+            <div id="middle"></div>
+            <div id="signUpPart">
+                <div style="text-align=center;">
+                    <router-link to="login">
+                        <a @click="$emit('sign-in')">Connexion</a>
+                    </router-link>
+                </div>
+            </div>
+        </div>
+    </v-card>
+
+</v-container>
 </template>
 
 
@@ -115,30 +126,6 @@ export default {
 
 <!--      STYLE -->
 <style scoped>
-#stdBorder {
-    display: block;
-    background-color: rgb(255, 152, 0);
-}
-
-#loadingBorder {
-    display: block;
-    background-color: rgb(255, 152, 0);
-    ;
-    background-image: url('../../src/assets/test.svg');
-    /* background: url('../../src/assets/test.svg'); */
-    background-size: 100% 100%;
-}
-
-#loginInfoInside {
-    background-image: linear-gradient(to top,
-            rgb(0, 105, 146),
-            rgb(39, 71, 110)25%);
-
-    background-color: transparent;
-    color: rgb(255, 152, 0);
-    border: 2px;
-}
-
 #btn {
     background-color: rgb(255, 152, 0);
     color: white;
@@ -150,15 +137,46 @@ a {
 
 a:hover {
     color: rgb(205, 125, 0);
-    ;
 }
 
-.v-text-field--outlined fieldset {
-    size: 2px;
-    border: 2px;
+#rowTitle {
+
+    padding: 20px;
+    padding-bottom: 20px;
 }
 
-h5{
-    justify-content: center;
+#middle {
+    background-color: rgb(228, 228, 228);
+    height: 3px;
+    width: 100%;
+}
+
+#infPart,
+#signUpPart {
+    padding: 5%;
+    padding-top: 2%;
+}
+
+
+#form {
+    border: solid 3px rgb(228, 228, 228);
+    background-color: white;
+    font-family: MyFont;
+    width: 22cm;
+}
+
+#img {
+    background-image: url('../assets/linkEats_transp10.png');
+    background-size: contain;
+    background-position: center;
+}
+
+#title {
+    text-align: center;
+}
+
+#signUpPart {
+    justify-items: center;
+    text-align: center;
 }
 </style>
