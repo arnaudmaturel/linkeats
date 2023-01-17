@@ -8,4 +8,4 @@ COPY ./index.js ./
 
 RUN npm install apidoc -g && npm install
 
-CMD ["npm","start"]
+CMD apidoc -i ../api_code -o ./doc -e node_modules -e package-lock.json && npm start

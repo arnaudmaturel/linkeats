@@ -1,5 +1,5 @@
 const { DataTypes, where } = require('sequelize');
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcrypt');
 const db = require('../db');
 const tokenMng = require('./RegisteryTokenMng');
 var nodemailer = require('nodemailer');

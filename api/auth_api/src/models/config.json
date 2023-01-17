@@ -1,7 +1,7 @@
 {
-    "dbName": "linkeatsweb_sql_dev",
+    "dbName": "linkeats",
     "dbConfig": {
-        "server": "linkeats-sql-srv.database.windows.net",
+        "server": "linkeats-mssql",
         "options": {
             "port": 1433,
             "trustServerCertificate": true
@@ -9,8 +9,8 @@
         "authentication": {
             "type": "default",
             "options": {
-                "userName": "azureuser",
-                "password": "Linkeats*"
+                "userName": "sa",
+                "password": "Password10_"
             }
         }
     }

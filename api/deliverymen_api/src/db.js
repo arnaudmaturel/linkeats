@@ -1,5 +1,5 @@
 const { Sequelize } = require('sequelize');
-const tedious = require('tedious');
+// const tedious = require('tedious');
 
 const { dbName, dbConfig } = require('./Models/config.json');
 
@@ -10,13 +10,21 @@ initialize();
 async function initialize() {
     const dialect = 'mssql';
     const host = dbConfig.server;
+    const port = dbConfig.options.port
     const { userName, password } = dbConfig.authentication.options;
 
-    // create the database if doesn't exist
-    await ensureDbExist(dbName);
+    // // create the database if doesn't exist
+    // await ensureDbExist(dbName);
 
     // conexion to data base
-    const sequelize = new Sequelize(dbName, userName, password, { host, dialect });
+    const sequelize = new Sequelize(dbName, userName, password, { host, port, dialect });
+
+    try { 
+        sequelize.authenticate();
+        console.log('Connecté à la base de données SQL Server!'); 
+    } catch (error) {   
+        console.error('Impossible de se connecter, erreur suivante :', error); 
+    }
 
     // init models and add them to the expoxted db object
     const DeliverymanSchema = require('./Models/DeliverymanModel')(sequelize);
@@ -33,20 +41,20 @@ async function initialize() {
     console.log("Synchroisation done !");
 }
 
-async function ensureDbExist(dbName) {
-    return new Promise((resolve, reject) => {
-        const conection = new tedious.Connection(dbConfig);
-        conection.connect((err) => {
-            // check if the connection was in error
-            if (err) {
-                console.log("Connection DB Error : " + err);
-                reject(`Connection failed : ${err.message}`);
-                return;
-            }
-            else
-                console.log("SQL Server connected !");
+// async function ensureDbExist(dbName) {
+//     return new Promise((resolve, reject) => {
+//         const conection = new tedious.Connection(dbConfig);
+//         conection.connect((err) => {
+//             // check if the connection was in error
+//             if (err) {
+//                 console.log("Connection DB Error : " + err);
+//                 reject(`Connection failed : ${err.message}`);
+//                 return;
+//             }
+//             else
+//                 console.log("SQL Server connected !");
 
-            resolve();
-        })
-    });
-}
+//             resolve();
+//         })
+//     });
+// }
