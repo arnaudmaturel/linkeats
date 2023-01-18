@@ -63,7 +63,7 @@
                                 <OrderDeliveryWorkComponent/>
                             </div>
                             <div v-else>
-                            not avalaible for your accout
+                                not avalaible for your accout
                             </div>
                         </div>
 
@@ -82,7 +82,7 @@
 
 
                 <!-- CARD EDITOR -->
-                        <div v-else-if="menu.component = 'RestaurantCardEditor'">
+                        <div v-else-if="menu.component == 'RestaurantCardEditor'">
                             <div v-if="userRole=='Restaurant'">
                                 <RestaurantCardEditor/>
                             </div>
@@ -94,6 +94,13 @@
                 <!-- OPEN LAYER DEMO -->
                         <div v-else-if="menu.component == 'OpenLayerDemo'">
                             <opneLayerDemo/>
+                        </div>
+
+
+                <!-- STARS (DEBUG FOR NOW) -->
+                        <div v-else-if="menu.component == 'Stars'">
+                            <!-- <DishEditor :dish="{name : '',price: 0,PicturePaths: '',Description: '', Tags:'tag1;tag2;tag3',Allergens: '',Wheight: 0,}"/> -->
+                            <AddreessEdit :data = "{name: 'teste',cp: '76140',addr: 'CESI Rouen',city : '', lat:0,lon:0}"/>
                         </div>
 
                 <!-- EVERYTHING ELSE -->
@@ -127,12 +134,11 @@ import AddressRestaurant from '@/components/AdressRestaurant.vue';
 import GeneralInfoRestaurant from '@/components/GeneralInfoRestaurant.vue';
 import RestaurantCardEditor from '@/components/RestaurantCardEditor.vue';
 import OrderDeliveryWorkComponent from '@/components/OrderDeliveryWorkComponent.vue';
+import DishEditor from '@/components/DishEditor.vue';
 
 export default {
     name: 'ClientAccount',
-    props: {
-        
-        // userRole: "Client",
+    props: {        
     },
     components: {
         GeneralInfoClient,
@@ -146,11 +152,12 @@ export default {
         AddressRestaurant,
         GeneralInfoRestaurant,
         RestaurantCardEditor,
-        OrderDeliveryWorkComponent
+        OrderDeliveryWorkComponent,
+        DishEditor
     },
     data: () => ({
-         userRole :  "Deliveryman",
-        // userRole :  "Client",
+        // userRole :  "Deliveryman",
+         userRole :  "Client",
         // userRole :  "Restaurant",
         tab: 'Général',
         width: 100,

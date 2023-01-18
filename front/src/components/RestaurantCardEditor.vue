@@ -2,10 +2,10 @@
     <v-card id="form" rounded="5" elevation="0">
         <div id="header">
             <h5 id="title">
-                Liste des adresses
+                Liste des Plats et boissons
             </h5>
             <div>
-                <v-btn rounded="pill" id="btn" elevation="6" icon="mdi-plus-thick" />
+                <v-btn rounded="pill" id="btn" elevation="6" :disabled="currentTab !='Plat'" icon="mdi-plus-thick" @click="dialogD=true"/>
             </div>
         </div>
         <div id="middle"></div>
@@ -24,16 +24,19 @@
                                 <!-- DISHES -->
                                 <v-expansion-panel-title style="width:100%">
                                     <v-row>
-                                        <v-col>
+                                        <v-col class="ma-auto" cols="8">
                                             {{ dish.name }}
                                         </v-col>
 
-                                        <v-col offset="3">
+                                        <v-col class="ma-auto">
                                             {{ dish.price / 100 }}€
                                         </v-col>
 
-                                        <v-col offset="4">
-                                            <v-icon icon="mdi-close-octagon" @click="onDeleteDish(dish)" />
+                                        <v-col class="ma-auto" style="text-align:right">
+                                            <v-btn icon="mdi-pencil" style="background-color:rgb(252, 152, 0); color:white" @click="onEditDish(dish)" />
+                                        </v-col>
+                                        <v-col class="ma-auto" style="text-align:right">
+                                            <v-btn icon="mdi-close-thick" style="background-color:rgb(252, 152, 0); color:white" @click="onDeleteDish(dish)" />
                                         </v-col>
                                     </v-row>
                                 </v-expansion-panel-title>
@@ -41,21 +44,29 @@
                                 <v-expansion-panel-text>
                                     <v-row>
                                         <v-col class="ma-auto" cols="9">
-                                            Description : {{ dish.description }}
+                                            Description : {{ dish.Description }}
                                         </v-col>
 
                                         <v-col class="ma-auto">
-                                            Masse : {{ dish.mass }}
+                                            Masse : {{ dish.Wheight }}g
                                         </v-col>
+                                    </v-row>
+                                    <v-row>
+                                        Tags:
+                                        <v-chip class="ma-2" v-for="tag in dish.Tags.split(';')" :key="tag" id="btn">{{tag}}</v-chip>
+                                    </v-row>
+                                    <v-row>
+                                        Allergens:
+                                        <v-chip class="ma-2" v-for="tag in dish.Allergens.split(';')" :key="tag" id="btn">{{tag}}</v-chip>
                                     </v-row>
                                 </v-expansion-panel-text>
 
                             </v-expansion-panel>
                 </v-expansion-panels>
 
-                <v-expansion-panels v-else style="width:100%">
+                <v-expansion-panels v-else-if="false" style="width:100%">
                             <v-expansion-panel v-for="menu in menus" :key="menu" style="width:100%">
-                                <!-- DISHES -->
+                                <!-- MENUS -->
                                 <v-expansion-panel-title style="width:100%">
                                     <v-row>
                                         <v-col>
@@ -75,7 +86,7 @@
                                 <v-expansion-panel-text>
                                     <v-row>
                                         <v-row class="ma-auto">
-                                            Description : {{ menu.description }}
+                                            Description : {{ menu.Description }}
                                         </v-row>
 
                                         <v-row class="ma-auto">
@@ -90,24 +101,32 @@
                             </v-expansion-panel>
                 </v-expansion-panels>
 
+                <div v-else>Comming soon</div>
+
             </v-card>
         </div>
 
 
 
 
+
+
         <!-- DIALOG -->
-        <v-dialog v-model="dialog">
-            <view-client-loc-order @on-close="dialog = false" />
+        <v-dialog v-model="dialogD" class="ma-auto" width="50vw">
+            <DishEditor maxHeight="80vh" :dish="dishEdit"
+             @on-close="dialogD=false" @on-save="dialogD=false"/>
         </v-dialog>
     </v-card>
 </template>
 
 <script>
-import menus from '@/api/menus';
-
+import DishEditor from './DishEditor.vue';
 
 export default {
+    components:
+    {
+        DishEditor
+    },
     props: {
     },
     data: () => ({
@@ -116,14 +135,17 @@ export default {
             'Plat',
             'Menu'
         ],
+        dishEdit: { name: '', price: 0, PicturePaths: '', Description: '', Tags: '', Allergens: '', Wheight: 500 },
         dialogD: false,
         dialogM: false,
         dishes: [
-            { name: 'Burger', description: 'pain viande pain', price: 1550, mass: 500 },
-            { name: 'Burger2', description: 'pain viande pain', price: 1550, mass: 500 },
-            { name: 'Burger3', description: 'pain viande pain', price: 1550, mass: 500 },
-            { name: 'Burger4', description: 'pain viande pain', price: 1550, mass: 500 },
-            { name: 'Burger5', description: 'pain viande pain', price: 1550, mass: 500 },
+            { name: 'Plat', price: 1550, PicturePaths: '', Description: 'delicious dish', Tags: 'tag1;tag2;tag3', Allergens: 'allergen1;allergen2', Wheight: 500 },
+            { name: 'Plat', price: 1550, PicturePaths: '', Description: 'delicious dish', Tags: 'tag1;tag2;tag3', Allergens: 'allergen1;allergen2', Wheight: 500 },
+            { name: 'Plat', price: 1550, PicturePaths: '', Description: 'delicious dish', Tags: 'tag1;tag2;tag3', Allergens: 'allergen1;allergen2', Wheight: 500 },
+            { name: 'Plat', price: 1550, PicturePaths: '', Description: 'delicious dish', Tags: 'tag1;tag2;tag3', Allergens: 'allergen1;allergen2', Wheight: 500 },
+            { name: 'Plat', price: 1550, PicturePaths: '', Description: 'delicious dish', Tags: 'tag1;tag2;tag3', Allergens: 'allergen1;allergen2', Wheight: 500 },
+            { name: 'Plat', price: 1550, PicturePaths: '', Description: 'delicious dish', Tags: 'tag1;tag2;tag3', Allergens: 'allergen1;allergen2', Wheight: 500 },
+            { name: 'Plat', price: 1550, PicturePaths: '', Description: 'delicious dish', Tags: 'tag1;tag2;tag3', Allergens: 'allergen1;allergen2', Wheight: 500 },
         ],
         menus: [
             { name: 'Menu 1', description:'description du menu', price : 2000, items:[ 'item1', 'item2', 'item3']},
@@ -137,10 +159,18 @@ export default {
     }),
     methods: {
         onAddDish() {
-
+            this.dishes.push(this.dishEdit);
+            dishEdit = { name: '', price: 0, PicturePaths: '', Description: '', Tags: '', Allergens: '', Wheight: 500 }
         },
         onDeleteDish(dish) {
-
+            var i = this.dishes.indexOf(dish);
+            if (i == -1) return;
+            this.dishes.splice(i, 1);
+        },
+        onEditDish(dish)
+        {
+            this.dishEdit = dish;
+            this.dialogD = true;
         }
     },
 

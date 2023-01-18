@@ -17,6 +17,8 @@
     "bootstrap": "^5.2.3",
     "core-js": "^3.8.3",
     "mdi-vue": "^3.0.13",
+    "ol": "^7.2.2",
+    "ol-mapbox-style": "^9.4.0",
     "roboto-fontface": "*",
     "vue": "^3.2.45",
     "vue-confetti-explosion": "^1.0.2",

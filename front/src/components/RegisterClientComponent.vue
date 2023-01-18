@@ -113,6 +113,8 @@
 
 <!--    SCRIPT -->
 <script>
+import { mapGetters, mapMutations, useStore } from "vuex";
+
 export default {
     data: () => ({
         form: false,
@@ -124,21 +126,23 @@ export default {
             ClientFirstName: null,
             ClientLastName:null   
         },
-
         password2: null,
         loading: false,
         tagBorder: 'stdBorder'
     }),
+    computed: mapGetters({
 
+    }),
     methods: {
         onSubmit() {
             if (!this.form) return
             this.$store.dispatch('createClient', newClient)
 
             this.loading = true
-            this.tagBorder = 'loadingBorder'
 
-            setTimeout(() => { this.loading = false; this.tagBorder = 'stdBorder' }, 2000)
+            var c = this.$store.dispatch("createClient");
+
+            console.log('c  : '+c)
         },
         required(v) {
             return !!v || 'Field is required'
