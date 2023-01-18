@@ -8,7 +8,8 @@ const addressSchema = new mongoose.Schema({
     city: String,
     latitude: Number,
     longitude: Number,
-    IDUser: String
+    IDUser: String,
+    UserRole: Number
 });
 
 

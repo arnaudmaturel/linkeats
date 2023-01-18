@@ -8,6 +8,7 @@ module.exports = {
     create,
     update,
     getByUserId,
+    getByUserRole,
     delete: _deleted
 }
 
@@ -24,6 +25,11 @@ async function getById(id){
 //return all the addresses from one User called by its ID
 async function getByUserId(id){
     return await addressModel.find({'IDUser':id}).exec();
+}
+
+//return all the addresses from one User role called by its ID
+async function getByUserRole(userrole){
+    return await addressModel.find({'UserRole':userrole}).exec();
 }
 
 //create a new address and save it in the database

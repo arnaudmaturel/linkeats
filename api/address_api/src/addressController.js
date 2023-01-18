@@ -57,6 +57,18 @@ router.get('/by-user/:id', (req,res) => {
         .catch((err) => res.json(err));
 });
 
+router.get('/by-role/:id', (req,res) => {
+    console.log(req.params.id);
+    const d = addressMng.getByUserRole(req.params.id);
+    d.then((value) => {
+        if (value)
+            res.json(value)
+        else
+            res.send("Nothing founded");
+    })
+        .catch((err) => res.json(err));
+});
+
 
 router.put('/:id',(req,res)=>
 {
