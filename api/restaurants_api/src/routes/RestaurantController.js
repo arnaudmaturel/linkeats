@@ -4,6 +4,17 @@ const router = express.Router();
 
 
 // get info of the restaurant account specified in the id
+router.get('/', (req, res) => {
+    const c = restaurantMng.getAll();
+    c.then((value) => {
+        if (value)
+            res.json(value)
+        else
+            res.send("Nothing found ");
+    })
+        .catch((err) => res.json(err));
+});
+
 router.get('/:id', (req, res) => {
     const c = restaurantMng.getById(req.params.id);
     c.then((value) => {

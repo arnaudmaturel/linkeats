@@ -13,7 +13,6 @@ const dishSchema = new mongoose.Schema({
     IDRestaurant: String
 });
 
-
-const dishesModel = mongoose.model('dishes',dishSchema);
+const dishesModel = mongoose.model('dishes', dishSchema);
 
 module.exports = dishesModel;

@@ -55,10 +55,13 @@
         </v-row>
       </v-col>
     </v-row>
+    {{ dishes }}
   </v-container>
 </template>
 
 <script>
+import {mapGetters} from "vuex";
+
 export default {
   name: "RestaurantMenus",
   data() {
@@ -73,12 +76,15 @@ export default {
     },
     getRestaurant () {
       return this.$store.getters.getRestaurantByName(this.$route.params.restaurant)
-    }
+    },
+    ...mapGetters({
+      dishes: "dishes"
+    })
   },
   created() {
     this.$store.dispatch("getAllMenus")
     this.$store.dispatch("getAllRestaurants")
-    this.$store.dispatch("getAllDishes")
+    this.$store.dispatch("getAllDishes", this.$store.getters.getRestaurantByName(this.$route.params.restaurant)[0].pid)
   },
   methods: {
     add(menu) {

@@ -1,8 +1,8 @@
 import restaurants from '../../api/restaurants'
 
 const state = {
-    allRestaurants: [],
-    restaurantInfo: []
+    restaurants: [],
+    restaurant: {}
 }
 
 const getters = {

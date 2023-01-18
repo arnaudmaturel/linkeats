@@ -59,7 +59,7 @@
               </v-card-text>
 
               <v-card-actions>
-                <router-link :to="{ name: 'restaurant_menus', params: { restaurant: restaurant.title }}" style="text-decoration: none;">
+                <router-link :to="{ name: 'restaurant_menus', params: { restaurant: 1 }}" style="text-decoration: none;">
                   <v-btn variant="elevated" size="default" color="rgb(255, 152, 0)" style="color: white">
                     Order from
                   </v-btn>
@@ -70,6 +70,7 @@
         </v-row>
       </v-col>
     </v-row>
+    {{ allRestaurants }}
   </v-container>
 </template>
 
@@ -79,7 +80,7 @@ import { mapGetters } from "vuex"
 export default {
   name: 'ShopView',
   computed: mapGetters({
-    allRestaurants: "getAllRestaurants"
+    allRestaurants: "restaurants"
   }),
   created() {
     this.$store.dispatch("getAllRestaurants")
