@@ -1,7 +1,7 @@
 //Import dependencies
 const express = require('express');
 const db = require('./db');
-const dishesController = require('./dishController');
+const addressesController = require('./addressController');
 
 //Initialize express
 const app = express();
@@ -9,11 +9,11 @@ const app = express();
 //Read JSON
 app.use(express.json());
 
-app.use('/dishes', dishesController);
+app.use('/addresses', addressesController);
 
 // route 
-app.get('/dishes/status', (req,res) => {
-    console.log('Dishes server is alive');
+app.get('/addresses/status', (req,res) => {
+    console.log('addresses server is alive');
     res.status(200).json({"status":"OK"});
 });
 
