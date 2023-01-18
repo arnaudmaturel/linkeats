@@ -42,8 +42,8 @@ const actions = {
                     })
             })
     },
-    async saveRestaurant ({ state, commit }, args) {
-        return reqHand.put(`/restaurants/${state.restaurant.id}/`, {id: state.restaurant.id}, body = state.restaurant)
+    async saveRestaurant({ state, commit }, args) {
+        return reqHand.put(`/restaurants/${state.restaurant.id}/`, { id: state.restaurant.id }, state.restaurant)
             .then((response) => {
                 response.json()
                     .then((data) => {
@@ -51,8 +51,8 @@ const actions = {
                     })
             })
     },
-    async deleteRestaurant ({ state, commit }, args) {
-        return reqHand.delete(`/restaurants/${args.id}/`, {id: args.id})
+    async deleteRestaurant({ state, commit }, args) {
+        return reqHand.delete(`/restaurants/${args.id}/`, { id: args.id })
             .then((response) => {
                 response.json()
                     .then((data) => {
@@ -70,7 +70,7 @@ const mutations = {
     ['RECEIVE_RESTAURANT'](state, data) {
         state.restaurant = data
     },
-    ['UPDATE_RESTAURANT'] (state, value) {
+    ['UPDATE_RESTAURANT'](state, value) {
         state.restaurant = Object.assign(state.restaurant, value)
     }
 }

@@ -23,7 +23,7 @@ const actions = {
             })
     },
     async createClient({ state, commit }, newClient) {
-        return reqHand.post('/clients/register', body = newClient)
+        return reqHand.post('/clients/register', newClient)
             .then((response) => {
                 response.json()
                     .then((data) => {
@@ -32,8 +32,8 @@ const actions = {
                     })
             })
     },
-    async saveClient ({ state, commit }, args) {
-        return reqHand.put(`/clients/${state.order.id}/`, {id: state.order.id}, body = state.order)
+    async saveClient({ state, commit }, args) {
+        return reqHand.put(`/clients/${state.order.id}/`, { id: state.order.id }, state.order)
             .then((response) => {
                 response.json()
                     .then((data) => {
@@ -41,8 +41,8 @@ const actions = {
                     })
             })
     },
-    async deleteClient ({ state, commit }, args) {
-        return reqHand.delete(`/clients/${args.id}/`, {id: args.id})
+    async deleteClient({ state, commit }, args) {
+        return reqHand.delete(`/clients/${args.id}/`, { id: args.id })
             .then((response) => {
                 response.json()
                     .then((data) => {
@@ -57,7 +57,7 @@ const mutations = {
     ['RECEIVE_CLIENT'](state, data) {
         state.order = data
     },
-    ['UPDATE_CLIENT'] (state, value) {
+    ['UPDATE_CLIENT'](state, value) {
         state.order = Object.assign(state.order, value)
     }
 }

@@ -21,57 +21,57 @@ const getters = {
 const actions = {
   async getAllOrders({ state, commit }, args) {
     return reqHand.get('/orders/', args.filters)
-    .then((response) => {
-      response.json()
-      .then((data) => {
-        commit('RECEIVE_ORDERS', { data })
+      .then((response) => {
+        response.json()
+          .then((data) => {
+            commit('RECEIVE_ORDERS', { data })
+          })
       })
-    })
   },
   async getOrder({ state, commit }, args) {
     return reqHand.get(`/orders/${args.id}/`, { id: args.id })
-    .then((response) => {
-      response.json()
-      .then((data) => {
-        commit('RECEIVE_ORDER', { data })
+      .then((response) => {
+        response.json()
+          .then((data) => {
+            commit('RECEIVE_ORDER', { data })
+          })
       })
-    })
   },
   async createOrder({ state, commit }, newOrder) {
-    return reqHand.post('/orders/',body = newOrder)
-    .then((response) => {
-      response.json()
-      .then((data) => {
-        commit('RECEIVE_ORDER', { data })
+    return reqHand.post('/orders/', newOrder)
+      .then((response) => {
+        response.json()
+          .then((data) => {
+            commit('RECEIVE_ORDER', { data })
+          })
       })
-    })
   },
-  async saveOrder ({ state, commit }, args) {
-    return reqHand.put(`/orders/${state.order.id}/`, {id: state.order.id}, body = state.order)
-    .then((response) => {
-      response.json()
-      .then((data) => {
-        commit('RECEIVE_ORDER', { data })
+  async saveOrder({ state, commit }, args) {
+    return reqHand.put(`/orders/${state.order.id}/`, { id: state.order.id }, state.order)
+      .then((response) => {
+        response.json()
+          .then((data) => {
+            commit('RECEIVE_ORDER', { data })
+          })
       })
-    })
   },
-  async deleteOrder ({ state, commit }, args) {
-    return reqHand.delete(`/orders/${args.id}/`, {id: args.id})
-    .then((response) => {
-      response.json()
-      .then((data) => {
-        commit('RECEIVE_ORDER', { data })
+  async deleteOrder({ state, commit }, args) {
+    return reqHand.delete(`/orders/${args.id}/`, { id: args.id })
+      .then((response) => {
+        response.json()
+          .then((data) => {
+            commit('RECEIVE_ORDER', { data })
+          })
       })
-    })
   },
   async getAllOrderStatuses({ state, commit }, args) {
     return reqHand.get('/orders/statuses/', args.filters)
-    .then((response) => {
-      response.json()
-      .then((data) => {
-        commit('RECEIVE_ORDERS_STATUSES', { data })
+      .then((response) => {
+        response.json()
+          .then((data) => {
+            commit('RECEIVE_ORDERS_STATUSES', { data })
+          })
       })
-    })
   },
 }
 
@@ -84,10 +84,10 @@ const mutations = {
   ['RECEIVE_ORDER'](state, data) {
     state.order = data
   },
-  ['UPDATE_ORDER'] (state, value) {
+  ['UPDATE_ORDER'](state, value) {
     state.order = Object.assign(state.order, value)
   },
-  ['RECEIVE_ORDERS_STATUSES'] (state, value) {
+  ['RECEIVE_ORDERS_STATUSES'](state, value) {
     state.orders_statuses = Object.assign(state.orders_statuses, value)
   }
 }

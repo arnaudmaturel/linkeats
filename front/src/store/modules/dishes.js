@@ -16,7 +16,7 @@ const getters = {
 // actions
 const actions = {
     async getAllDishes({ state, commit }, args) {
-        return reqHand.get('/dishes/'+args)
+        return reqHand.get('/dishes/' + args)
             .then((response) => {
                 response.json()
                     .then((data) => {
@@ -34,7 +34,7 @@ const actions = {
             })
     },
     async createDish({ state, commit }, newOrder) {
-        return reqHand.post('/dishes/',body = newOrder)
+        return reqHand.post('/dishes/', newOrder)
             .then((response) => {
                 response.json()
                     .then((data) => {
@@ -42,8 +42,8 @@ const actions = {
                     })
             })
     },
-    async saveDish ({ state, commit }, args) {
-        return reqHand.put(`/dishes/${state.dish.id}/`, {id: state.dish.id}, body = state.dish)
+    async saveDish({ state, commit }, args) {
+        return reqHand.put(`/dishes/${state.dish.id}/`, { id: state.dish.id }, state.dish)
             .then((response) => {
                 response.json()
                     .then((data) => {
@@ -51,8 +51,8 @@ const actions = {
                     })
             })
     },
-    async deleteDish ({ state, commit }, args) {
-        return reqHand.delete(`/dishes/${args.id}/`, {id: args.id})
+    async deleteDish({ state, commit }, args) {
+        return reqHand.delete(`/dishes/${args.id}/`, { id: args.id })
             .then((response) => {
                 response.json()
                     .then((data) => {
@@ -70,7 +70,7 @@ const mutations = {
     ['RECEIVE_DISH'](state, data) {
         state.dish = data
     },
-    ['UPDATE_DISH'] (state, value) {
+    ['UPDATE_DISH'](state, value) {
         state.dish = Object.assign(state.dish, value)
     }
 }

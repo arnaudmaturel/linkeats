@@ -136,13 +136,13 @@ export default {
     methods: {
         onSubmit() {
             if (!this.form) return
-            this.$store.dispatch('createClient', newClient)
+            this.$store.dispatch('createClient', this.newClient);
 
-            this.loading = true
+            this.loading = true;
 
             var c = this.$store.dispatch("createClient");
 
-            console.log('c  : '+c)
+            console.log('c  : ' + c);
         },
         required(v) {
             return !!v || 'Field is required'

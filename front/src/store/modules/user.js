@@ -12,13 +12,13 @@ const getters = {
 // actions
 const actions = {
   async loginUser({ state, commit }, newClient) {
-    return reqHand.post('/clients/login', body = newClient)
-    .then((response) => {
-      response.json()
-      .then((data) => {
-        commit('RECEIVE_USER', { data })
+    return reqHand.post('/clients/login', newClient)
+      .then((response) => {
+        response.json()
+          .then((data) => {
+            commit('RECEIVE_USER', { data })
+          })
       })
-    })
   },
 }
 

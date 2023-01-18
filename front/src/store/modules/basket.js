@@ -23,7 +23,7 @@ const actions = {
             })
     },
     async createBasket({ state, commit }, newItem) {
-        return reqHand.post('/baskets/',body = newItem)
+        return reqHand.post('/baskets/', newItem)
             .then((response) => {
                 response.json()
                     .then((data) => {
@@ -32,7 +32,7 @@ const actions = {
             })
     },
     async saveBasket({ state, commit }, args) {
-        return reqHand.put(`/baskets/${state.basket.id}/`, {id: state.basket.id}, body = state.basket)
+        return reqHand.put(`/baskets/${state.basket.id}/`, { id: state.basket.id }, state.basket)
             .then((response) => {
                 response.json()
                     .then((data) => {
@@ -41,7 +41,7 @@ const actions = {
             })
     },
     async deleteBasket({ state, commit }, args) {
-        return reqHand.delete(`/baskets/${args.id}/`, {id: args.id})
+        return reqHand.delete(`/baskets/${args.id}/`, { id: args.id })
             .then((response) => {
                 response.json()
                     .then((data) => {
@@ -65,10 +65,10 @@ const mutations = {
     ['RECEIVE_BASKET'](state, data) {
         state.basket = data
     },
-    ['UPDATE_BASKET'] (state, value) {
+    ['UPDATE_BASKET'](state, value) {
         state.basket = Object.assign(state.basket, value)
     },
-    ['RECEIVE_BASKETS_STATUSES'] (state, value) {
+    ['RECEIVE_BASKETS_STATUSES'](state, value) {
         state.orders_statuses = Object.assign(state.orders_statuses, value)
     }
 }

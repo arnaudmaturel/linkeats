@@ -17,11 +17,9 @@ class RequestHandler {
         });
     }
 
-    post(endUrl, params, body) { 
+    post(endUrl, body) {
         // const accessToken = JSON.parse(localStorage.getItem('accesstoken'))
-        return fetch(this.baseUrl + endUrl + '?' + new URLSearchParams(
-            params
-        ), {
+        return fetch(this.baseUrl + endUrl, {
             method: 'POST',
             headers: {
                 // 'Authorization': `Bearer ${accessToken}`,
