@@ -2,9 +2,34 @@ const express = require('express');
 const restaurantMng = require('../Models/RestaurantMng')
 const router = express.Router();
 
+const rolesChecking = require('../utils/role')
+
+// router.get('/:id', (req, res) => {
+//     const c = restaurantMng.getById(req.params.id);
+//     c.then((value) => {
+//         if (value)
+//             res.json(value)
+//         else
+//             res.send("Nothing found ");
+//     })
+//         .catch((err) => res.json(err));
+// });
+
+
+// router.get('/', (req, res) => {
+//     const c = restaurantMng.getAll({}, "RestaurantName, RestaurantIsOpen, RestaurantStars, RestaurantDeliveryRange");
+//     c.then((value) => {
+//         if (value)
+//             res.json(value)
+//         else
+//             res.send("Nothing found ");
+//     })
+//         .catch((err) => res.json(err));
+// });
+
 
 // get info of the restaurant account specified in the id
-router.get('/:id', (req, res) => {
+router.get('/:id/account', (req, res) => {
     const c = restaurantMng.getById(req.params.id);
     c.then((value) => {
         if (value)
@@ -15,6 +40,30 @@ router.get('/:id', (req, res) => {
         .catch((err) => res.json(err));
 });
 
+
+// router.get('/:id', rolesChecking.checkRole([rolesChecking.roles.Visitor, rolesChecking.roles.Client]), (req,res) => {
+//     console.log(req.params.id);
+//     const d = dishMng.getById(req.params.id);
+//     d.then((value) => {
+//         if (value)
+//             res.json(value)
+//         else
+//             res.send("Nothing founded");
+//     })
+//         .catch((err) => res.json(err));
+// });
+
+
+// router.get('/', rolesChecking.checkRole([rolesChecking.roles.Visitor, rolesChecking.roles.Client]), (req,res) => {
+//     const d = dishMng.getAll();
+//     d.then((value) => {
+//         if (value)
+//             res.json(value)
+//         else
+//             res.send("Nothing founded");
+//     })
+//         .catch((err) => res.json(err));
+// });
 
 // create a restaurant account
 router.post('/register', (req, res) => {

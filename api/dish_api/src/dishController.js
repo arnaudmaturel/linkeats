@@ -5,8 +5,9 @@ const express = require('express');
 const dishMng = require('./dishMng');
 const router = express.Router();
 
+const rolesChecking = require('./utils/role')
 
-router.post('/',(req,res)=>
+router.post('/', rolesChecking.checkRole([rolesChecking.roles.Restaurant]),(req,res)=>
 {
     dishMng.create(req.body)
     .then((value)=>{
@@ -20,7 +21,7 @@ router.post('/',(req,res)=>
     });
 });
 
-router.get('/:id', (req,res) => {
+router.get('/:id', rolesChecking.checkRole([rolesChecking.roles.Visitor, rolesChecking.roles.Client]), (req,res) => {
     console.log(req.params.id);
     const d = dishMng.getById(req.params.id);
     d.then((value) => {
@@ -33,7 +34,7 @@ router.get('/:id', (req,res) => {
 });
 
 
-router.get('/', (req,res) => {
+router.get('/', rolesChecking.checkRole([rolesChecking.roles.Visitor, rolesChecking.roles.Client]), (req,res) => {
     const d = dishMng.getAll();
     d.then((value) => {
         if (value)
@@ -45,8 +46,7 @@ router.get('/', (req,res) => {
 });
 
 
-//WIP à mettre dans l'API Restaurant
-router.get('/by-restaurant/:id', (req,res) => {
+router.get('/by-restaurant/:id', rolesChecking.checkRole([rolesChecking.roles.Visitor, rolesChecking.roles.Client]), (req,res) => {
     console.log(req.params.id);
     const d = dishMng.getByRestaurantId(req.params.id);
     d.then((value) => {
@@ -59,7 +59,7 @@ router.get('/by-restaurant/:id', (req,res) => {
 });
 
 
-router.put('/:id',(req,res)=>
+router.put('/:id', rolesChecking.checkRole([rolesChecking.roles.Restaurant]),(req,res)=>
 {
     dishMng.update(req.params.id, req.body)
     .then((value)=>{
@@ -74,7 +74,7 @@ router.put('/:id',(req,res)=>
 });
 
 
-router.delete('/:id', (req,res) => {
+router.delete('/:id', rolesChecking.checkRole([rolesChecking.roles.Restaurant]), (req,res) => {
     console.log(req.params.id);
     dishMng.delete(req.params.id)
     .then((value)=>{

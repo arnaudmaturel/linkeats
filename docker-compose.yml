@@ -66,6 +66,8 @@ services:
     build: ./api/auth_api
     depends_on:
       - mssql
+    volumes: 
+      - ./api/utils:/usr/src/app/src/utils:ro
   order_api:
     container_name: linkeats-order_api
     restart: unless-stopped
@@ -75,18 +77,24 @@ services:
     #   replicas: 6
     depends_on:
       - order_mongodb
+    volumes: 
+      - ./api/utils:/usr/src/app/src/utils:ro
   basket_api:
     container_name: linkeats-basket_api
     restart: unless-stopped
     build: ./api/basket_api
     depends_on:
       - basket_mongodb
+    volumes: 
+      - ./api/utils:/usr/src/app/src/utils:ro
   dish_api:
     container_name: linkeats-dish_api
     restart: unless-stopped
     build: ./api/dish_api
     depends_on:
       - dish_mongodb
+    volumes: 
+      - ./api/utils:/usr/src/app/src/utils:ro
   # user_api:
     # container_name: linkeats-user_api
     # restart: unless-stopped
@@ -99,24 +107,32 @@ services:
     build: ./api/clients_api
     depends_on:
       - mssql
+    volumes: 
+      - ./api/utils:/usr/src/app/src/utils:ro
   restaurants_api:
     container_name: linkeats-restaurants_api
     restart: unless-stopped
     build: ./api/restaurants_api
     depends_on:
       - mssql
+    volumes: 
+      - ./api/utils:/usr/src/app/src/utils:ro
   developpers_api:
     container_name: linkeats-developpers_api
     restart: unless-stopped
     build: ./api/developpers_api
     depends_on:
       - mssql
+    volumes: 
+      - ./api/utils:/usr/src/app/src/utils:ro
   deliverymen_api:
     container_name: linkeats-deliverymen_api
     restart: unless-stopped
     build: ./api/deliverymen_api
     depends_on:
       - mssql
+    volumes: 
+      - ./api/utils:/usr/src/app/src/utils:ro
   nginx:
     container_name: linkeats-nginx
     restart: unless-stopped

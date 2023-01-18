@@ -2,9 +2,10 @@ const express = require('express');
 const clientMng = require('../Models/ClientMng')
 const router = express.Router();
 
+const rolesChecking = require('../utils/role')
 
 // get info of the client account specified in the id
-router.get('/:id', (req, res) => {
+router.get('/:id', rolesChecking.checkRole([rolesChecking.roles.Client]), (req, res) => {
     const c = clientMng.getById(req.params.id);
     c.then((value) => {
         if (value)
@@ -17,7 +18,7 @@ router.get('/:id', (req, res) => {
 
 
 // create a client account
-router.post('/register', (req, res) => {
+router.post('/register', rolesChecking.checkRole([rolesChecking.roles.Visitor]), (req, res) => {
     clientMng.create(req.body)
         .then((value) => {
             console.log("Creation Sucessful!\n");
@@ -31,7 +32,7 @@ router.post('/register', (req, res) => {
 
 
 // update the client information
-router.put('/:id', (req, res) => {
+router.put('/:id', rolesChecking.checkRole([rolesChecking.roles.Client]), (req, res) => {
     clientMng.update(req.params.id, req.body)
         .then((value) => {
             console.log("Update sucess !");
@@ -45,7 +46,7 @@ router.put('/:id', (req, res) => {
 
 
 // deleted the client account (HARD DELETED)
-router.delete('/:id', (req, res) => {
+router.delete('/:id', rolesChecking.checkRole([rolesChecking.roles.Client]), (req, res) => {
     clientMng.delete(req.params.id)
         .then((value) => {
             console.log("Delete Sucess !");

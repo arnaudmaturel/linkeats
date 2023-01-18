@@ -8,6 +8,8 @@ const credentialMng = require("./Models/CredentialsMng");
 
 app.use(express.json())
 
+const rolesChecking = require('./utils/role')
+
 //const db = require('./models/index')
 
 /**
@@ -53,61 +55,29 @@ async function authenticateToken(req, res) {
     })
 }
 
-// WIP À remplacer par les données de la table users ou supprimer
-users = [
-    {
-        "name": "Josh",
-        "password": "$2b$10$QAwniK0df6b6yv4FzALIbutR/vR39Svi3ZkZmhO98v//QzX5cEPz6"
-    }
-]
-
-app.post('/auth/refresh', (req, res) => {
-    const refreshToken = req.body.refreshToken
-    if (refreshToken === undefined) {
-        res.sendStatus(401)
-    }
-
-    if (isRefreshTokenValid(refreshToken)) {
-        jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
-            if (err) {
-                res.sendStatus(403)
-            }
-            const accessToken = generateAccessToken({ name: user.name })
-            res.json({
-                accessToken
-            })
-        })
-    }
-});
-
-
-app.post('/auth/register', async (req, res) => {
+app.get('/auth/visitor_token', async (req, res) => {
     try {
-        // const userCredential = await db.user.findOne({ where: { name: req.body.username } });
-        // if (await db.user.findOne({ where: { name: req.body.username } }) === null) {
-        //     return res.status(404).send('User not existing');
-        // }
-        const userCredential = credentialMng.getByUserName(req.body.username)
-
-        if (!userCredential)
-            res.sendStatus(404, "User not find");
-
-
-        if (await bcrypt.compare(req.body.password, userCredential.password)) {
-            // const accessToken = generateAccessToken({username: userCredential.username, role: userCredential.role});
-            const accessToken = generateAccessToken({ username: userCredential.username });
-            const refreshToken = jwt.sign({ username: userCredential.name }, process.env.REFRESH_TOKEN_SECRET);
-            res.status(200).json({
-                accessToken,
-                refreshToken
-            });
-        } else {
-            res.status(403).send('Not allowed');
-        }
-    } catch {
-        res.sendStatus(500);
+        const accessToken = generateAccessToken({
+            CredentialLogin: "visitor",
+            CredentialAssociatedUserID: "Not defined",
+            CredentialUserRole: rolesChecking.roles.Visitor
+        });
+        console.log("Visitor token generated");
+        res.status(200).json({ accessToken });
+    } catch (error) {
+        console.log("An error occured while generating a visitor token");
+        res.status(500).json({ error: error });
     }
 });
+
+app.get('/auth/user_role/:user_id', async (req, res) => {
+    const user = await credentialMng.getById(req.params.user_id)
+    if (user) {
+        return res.status(200).json({ role: user.CredentialUserRole });
+    } else {
+        return res.status(200).json({ role: 5 });
+    }
+})
 
 /**
  * @api {post} /auth/login Login With Credentials
@@ -144,14 +114,13 @@ app.post('/auth/register', async (req, res) => {
  *     }
  */
 
-app.post('/auth/login', async (req, res) => {
+app.post('/auth/login', rolesChecking.checkRole([rolesChecking.roles.Visitor]) ,async (req, res) => {
     try {
         if (!req.body.username || req.body.username === '' || !req.body.password || req.body.password === '') {
-            console.log("Crendential recieved not valid");
+            console.log("Crendential received not valid");
             return res.status(401).json({ error: 'Missing credentials' });
         }
 
-        // const user = await db.user.findOne({ where: { name: req.body.username } });
         const user = await credentialMng.getByUserName(req.body.username, req.body.userRole)
 
         if (!user) {
@@ -159,26 +128,13 @@ app.post('/auth/login', async (req, res) => {
             return res.status(404).json({ error: 'User not found' });
         }
 
-        // if (await db.user.findOne({ where: { name: req.body.username } }) === null) {
-        //     return res.status(404).json({ error: 'User not found' });
-        // }
-
-        // if (await bcrypt.compare(req.body.password, user.password)) {
-        if (req.body.password == user.CredentialPassword) {
-            // const accessToken = generateAccessToken({username: user.username, role: user.role});
-            const accessToken = generateAccessToken({ username: user.username });
-            const refreshToken = jwt.sign(
-                { username: user.name },
-                process.env.REFRESH_TOKEN_SECRET,
-                {
-                    expiresIn: '30d',
-                    issuer: "linkeats"
-                }
-            );
-            res.status(200).json({
-                accessToken,
-                refreshToken
+        if (await bcrypt.compare(req.body.password, user.CredentialPassword)) {
+            const accessToken = generateAccessToken({
+                CredentialLogin: user.CredentialLogin,
+                CredentialAssociatedUserID: user.CredentialAssociatedUserID,
+                CredentialUserRole: user.CredentialUserRole
             });
+            res.status(200).json({ accessToken });
             console.log(user.CredentialID + " aka " + user.CredentialLogin + " Crendential Successful !");
         } else {
             console.log(user.CredentialID + " aka " + user.CredentialLogin + " Crendential Incorrect !");
@@ -191,23 +147,8 @@ app.post('/auth/login', async (req, res) => {
 });
 
 
-app.delete('/auth/logout', (req, res) => {
-    popRefreshToken(req.body.token)
-    res.sendStatus(204)
-})
-
 function generateAccessToken(user) {
     return accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1d' })
-}
-
-function isRefreshTokenValid(refreshToken) {
-    // WIP À éditer
-    return true
-}
-
-function popRefreshToken(refreshToken) {
-    // WIP À éditer
-    return true
 }
 
 app.listen(3000);

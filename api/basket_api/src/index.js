@@ -9,6 +9,9 @@ const app = express();
 //Read JSON
 app.use(express.json());
 
+const rolesChecking = require('./utils/role')
+
+app.use(rolesChecking.checkRole([rolesChecking.roles.Visitor, rolesChecking.roles.Client]))
 
 // route 
 app.get('/baskets/status', (req,res) => {

@@ -10,8 +10,8 @@ module.exports = {
     delete: _deleted
 }
 
-async function getAll() {
-    return await db.Client.findAll();
+async function getAll(filters, filteredColumns) {
+    return await db.Restaurant.findAll(filters, filteredColumns);
 }
 
 // get the restuant by the id 

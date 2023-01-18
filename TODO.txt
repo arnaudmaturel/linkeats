@@ -2,8 +2,6 @@ Mettre un try and catch dans chaque route des apis
 
 Faire de la doc sur chaque route
 
-Lier aux bases chaque route
-
 Relire et mettre au propre les fichiers de Docker (compose et file)
 
 Voir si il faut mettre la route de la doc de l'api dans le routage de nginx + avec auth
@@ -11,8 +9,6 @@ Voir si il faut mettre la route de la doc de l'api dans le routage de nginx + av
 Rajouter le checking de role sur les routes
 
 Ne mettre que les index.js pour apidoc
-
-Mettre le dossier de sortie à un autre endroit pour apidoc (besoin de regénérer)
 
 Mettre au propre le fichier de conf de nginx
 
@@ -24,12 +20,28 @@ Renvoyer des jsons au format {error: $error} dans le cas d'erreurs dans les apis
 
 Regarder httponly
 
-Connecter l'api au front
-
-Mettre des ; partout
+Mettre des ; partout    
 
 Mettre au propre les try and catch de l'api order
 
 Installer l'extension Better Comments
 
-Réparer le conteneur pour apidoc
+Finir le checking des rôles côté front
+
+Mettre en place bcrypt côté front et auth (pour la comparaison)
+
+Parler à antoine pour l'enum des status de commandes (valeurs possiblement décalées)
+
+Regarder httponly et secure et peut être remplacer le localstorage par des cookies
+
+Mettre en place un login pour la génération du token pour visiteurs
+
+Faire une prérequête dans le beforeeach pour demander le rôle (pour l'accessibilité)
+
+Générer un accessToken dans chaque register ou ramener à la page de login
+
+Remettre le fichier de roles
+
+Rajouter le checking des rôles sur l'api des restau
+
+À retourner des restaus: nom, addresse, position, idrestau

@@ -2,9 +2,10 @@ const express = require('express');
 const deliverimanMng = require('../Models/DeliverymanMng')
 const router = express.Router();
 
+const rolesChecking = require('../utils/role')
 
 // get info of the deliveryman account specified in the id
-router.get('/:id', (req, res) => {
+router.get('/:id', rolesChecking.checkRole([rolesChecking.roles.Deliveryman]), (req, res) => {
     const c = deliverimanMng.getById(req.params.id);
     c.then((value) => {
         if (value)
@@ -17,11 +18,11 @@ router.get('/:id', (req, res) => {
 
 
 // create a deliveryman account
-router.post('/register', (req, res) => {
+router.post('/register', rolesChecking.checkRole([rolesChecking.roles.Visitor]), (req, res) => {
     deliverimanMng.create(req.body)
-        .then((value) => {
+        .then(() => {
             console.log("Creation Sucessful! Welcome of deliverymen account \n");
-            res.status(200).send(value);
+            res.status(200).json({accessToken});
         })
         .catch((err) => {
             console.log("Error Creation : " + err.message);
@@ -31,7 +32,7 @@ router.post('/register', (req, res) => {
 
 
 // update the deliveryman information
-router.put('/:id', (req, res) => {
+router.put('/:id', rolesChecking.checkRole([rolesChecking.roles.Deliveryman]), (req, res) => {
     deliverimanMng.update(req.params.id, req.body)
         .then((value) => {
             console.log("Update sucess !");
@@ -45,7 +46,7 @@ router.put('/:id', (req, res) => {
 
 
 // deleted the deliveryman account (HARD DELETED)
-router.delete('/:id', (req, res) => {
+router.delete('/:id', rolesChecking.checkRole([rolesChecking.roles.Deliveryman]), (req, res) => {
     deliverimanMng.delete(req.params.id)
         .then((value) => {
             console.log("Delete Sucess !");

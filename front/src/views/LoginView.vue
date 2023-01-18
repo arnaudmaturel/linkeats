@@ -6,8 +6,7 @@
 </template>
 
 <script>
-import FlipCard from '@/components/FlipCard.vue'
-import FooterComponent from '../components/FooterComponent.vue'
+import FlipCard from '@/components/FlipLogSignClient.vue'
 import LoginComponent from '../components/LoginComponent.vue'
 import RegisterComponent from '../components/RegisterComponent.vue'
 
@@ -17,6 +16,7 @@ export default {
     setup() {
 
     },
+    
 }
 </script>
 
