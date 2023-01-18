@@ -10,7 +10,8 @@
                         </div>
                     </div>
             <div id="middle"></div>
-            <progress-a-l-e/>
+            <progress-a-l-e v-if="showProgressBar" :valueP="progress"/>
+            
             <div id="middle"></div>
             <div id="maps">
                     <ol-map :loadTilesWhileAnimating="true" :loadTilesWhileInteracting="true" style="width:100%;height:100%" ref="map">
@@ -106,12 +107,13 @@ export default {
         this.$refs.view.fit([1.05, 49.42, 1.05, 49.42], { maxZoom: 14 })
     },
     data: () => ({
+        progress : 0,
     }),
     props:
     {
-        view : null,
-        locHome:null  
-
+        showProgressBar: false,
+        progress:Number,
+        locHome:null
     },
     methods: { 
     },
@@ -123,9 +125,6 @@ export default {
     width: 100%;
     height: 100%;
     padding: 10px;
-    /* padding: 5%;
-    padding-top: 2%; */
-    /* border: solid 1px red; */
 }
 
 #btn {

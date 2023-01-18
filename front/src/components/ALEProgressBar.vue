@@ -69,24 +69,14 @@ export default {
         
     },
     props: {
+        valueP : 50,
     },
     data: () => ({
-        valueP : 50,
     }),
     mounted() {
-        console.log("monted");
-        this.timerFunction();
     },
     methods:
     {
-        async timerFunction()
-        {
-            this.valueP = 0;
-            for (let i = 0; i < 100; i++) {
-                this.valueP++;
-                await new Promise(r => setTimeout(r, 1000));
-            }
-        }
     }
 }
 </script>
