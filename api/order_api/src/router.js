@@ -15,9 +15,7 @@ router.get('/', (req, res) => {
         db.order.OrderModel.find()
             .then((orders)=>{
                 res.status(200).send(orders);
-            }).catch((err)=>{
-                res.status(404).json({error:'Order not existing'});
-            });
+            })
     } catch (error) {
         res.status(500).json({error: error});
     }

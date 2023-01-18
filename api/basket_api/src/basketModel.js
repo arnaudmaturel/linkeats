@@ -1,15 +1,18 @@
 // definition du model
 const mongoose = require('mongoose');
-const GUID = require('mongoose-guid')(mongoose);
 
 const basketSchema = new mongoose.Schema({
     IDClient: String,
-    dishes: [
-        {
+    dishesNumber: Number,
+    isPaid: Boolean,
+    totalPrice: Number,
+    dishes: { 
+        dishName: {
             id: String,
-            quantity: Number
+            quantity: Number,
+            price: Number
         }
-    ]
+    }
 });
 
 

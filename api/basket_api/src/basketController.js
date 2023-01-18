@@ -44,8 +44,6 @@ router.get('/', (req,res) => {
         .catch((err) => res.json(err));
 });
 
-
-//WIP à mettre dans l'API Restaurant
 router.get('/by-client/:id', (req,res) => {
     console.log(req.params.id);
     const d = basketMng.getByClientId(req.params.id);

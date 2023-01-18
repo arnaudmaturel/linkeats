@@ -67,11 +67,15 @@
 
 <!--    SCRIPT -->
 <script>
+import bcrypt from 'bcryptjs';
+
+
 export default {
     data: () => ({
         form: false,
         login: null,
         password: null,
+        CredentialPassword: null,
         loading: false,
         tagBorder: 'stdBorder',
         userRole: 1,
@@ -83,6 +87,9 @@ export default {
 
             this.loading = true
             this.tagBorder = 'loadingBorder'
+
+            // this.CredentialPassword = await bcrypt.hash(this.password, 10);
+
 
             setTimeout(() => { this.loading = false; this.tagBorder = 'stdBorder' }, 2000)
         },

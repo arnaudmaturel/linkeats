@@ -10,8 +10,8 @@ module.exports = {
     delete: _deleted
 }
 
-async function getAll() {
-    return await getRestaurants();
+async function getAll(filters, filteredColumns) {
+    return await db.Restaurant.findAll(filters, filteredColumns);
 }
 
 // get the restuant by the id 
@@ -36,11 +36,11 @@ async function create(params) {
         newCredential.CredentialUserRole = 2;
         newResto.UserCredentialID = newCredential.CredentialID;
         newCredential.CredentialAssociatedUserID = newResto.UserID;
-    
+
         // save the new restaurant in database
         await newResto.save();
         await newCredential.save();
-    
+
         return newResto.UserID;
     } catch (error) {
         throw error;
