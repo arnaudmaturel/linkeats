@@ -44,8 +44,9 @@ export default {
         }
     },
     created() {
-        this.$store.dispatch("getAllMenus"),
-        this.$store.dispatch("getAllRestaurants")
+      this.$store.dispatch("getAllMenus")
+      this.$store.dispatch("getAllRestaurants")
+      this.$store.dispatch("getDish", this.$route.params.menu)
     }
 }
 </script>

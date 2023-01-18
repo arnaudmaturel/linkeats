@@ -47,7 +47,7 @@ router.get('/', (req,res) => {
 
 //WIP à mettre dans l'API Restaurant
 router.get('/by-restaurant/:id', (req,res) => {
-    console.log(req.params.id);
+    console.log(req.params.id)
     const d = dishMng.getByRestaurantId(req.params.id);
     d.then((value) => {
         if (value)

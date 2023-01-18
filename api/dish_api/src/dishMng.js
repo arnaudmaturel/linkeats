@@ -23,7 +23,7 @@ async function getById(id){
 
 //return all the dishes from one restaurant called by its ID
 async function getByRestaurantId(id){
-    return await dishModel.find({'IDRestaurant':id}).exec();
+    return await dishModel.find({IDRestaurant: id}).exec();
 }
 
 //create a new dish and save it in the database
@@ -38,16 +38,16 @@ async function create(param){
 //update the parameters of a dish
 async function update(id, param){
     console.log(param);
-    return await dishModel.findOneAndUpdate({'_id':id}, param,{ new: true });
+    return await dishModel.findOneAndUpdate({_id:id}, param,{ new: true });
 }
 
 //delete a dish by its ID
 async function _deleted(id){
-    return await dishModel.findOneAndDelete({'_id':id}).exec();
+    return await dishModel.findOneAndDelete({_id:id}).exec();
 }
 
 
 //Utility
 async function getDishes(id){
-    return await dishModel.findOne({'_id':id}).exec();
+    return await dishModel.findOne({_id:id}).exec();
 }

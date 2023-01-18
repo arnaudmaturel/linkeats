@@ -12,7 +12,7 @@
         <div id="middle"></div>
         <div id="img">
             <div id="infPart">
-                <v-form v-model="form" @submit.prevent="onSubmit" >
+                <v-form v-model="form" @submit.prevent="onSubmit(newDeliver)" >
 
                 <v-row>
                     <v-col cols="6">
@@ -73,7 +73,7 @@
                     </v-col>
                 </v-row>
 
-                <div style="justify-content=center; text-align: center;">
+                <div style="justify-content: center; text-align: center;">
                     <v-btn id="btn" size="large" type="submit" :disabled="!form" rounded="pill"
                         :ripple="{ class: 'text-orange', center: true }">
                         S'inscrire
@@ -84,7 +84,7 @@
 
             <div id="middle"></div>
             <div id="signUpPart">
-                <div style="text-align=center;">
+                <div style="text-align: center;">
                     <router-link to="login">
                         <a @click="$emit('sign-in')">Connexion</a>
                     </router-link>
@@ -95,12 +95,6 @@
     </v-card>
 </v-container>
 </template>
-
-
-
-
-
-
 
 <!--    SCRIPT -->
 <script>
@@ -113,8 +107,8 @@ export default {
             CredentialLogin: null,
             CredentialPassword: null,
 
-            DeliverymanFirstName: null,
-            DeliverymanLastName: null,
+            DeliverymanFirstName: "test",
+            DeliverymanLastName: "test",
             DeliverymanIBAN: null,
         },
 
@@ -124,9 +118,10 @@ export default {
     }),
 
     methods: {
-        onSubmit() {
+        onSubmit(newDeliver) {
             if (!this.form) return
-            this.$store.dispatch('createClient', newClient)
+
+            this.$store.dispatch('createDelivery', newDeliver)
 
             this.loading = true
             this.tagBorder = 'loadingBorder'
@@ -142,8 +137,6 @@ export default {
     },
 }
 </script>
-
-
 
 <!--      STYLE -->
 <style scoped>

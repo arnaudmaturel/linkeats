@@ -16,7 +16,7 @@ const getters = {
 // actions
 const actions = {
     async getAllDishes({ state, commit }, args) {
-        return reqHand.get('/dishes/', args.filters)
+        return reqHand.get('/dishes/'+args)
             .then((response) => {
                 response.json()
                     .then((data) => {

@@ -11,7 +11,7 @@ module.exports = {
 }
 
 async function getAll() {
-    return await db.Client.findAll();
+    return await getRestaurants();
 }
 
 // get the restuant by the id 
@@ -69,4 +69,7 @@ async function _deleted(id) {
 // utility to get restaurant
 async function getRestaurant(id) {
     return await db.Restaurant.findOne({ where: { UserID: id } });
+}
+async function getRestaurants() {
+    return await db.Restaurant.find();
 }

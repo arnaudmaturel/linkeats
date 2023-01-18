@@ -12,7 +12,7 @@
         <div id="middle"></div>
         <div id="img">
             <div id="infPart">
-                <v-form v-model="form" @submit.prevent="onSubmit" >
+                <v-form v-model="form" @submit.prevent="onSubmit(newResto)" >
 
                 <v-row>
                     <v-col cols="6">
@@ -99,7 +99,7 @@
                     </v-col>
                 </v-row>
 
-                <div style="justify-content=center; text-align: center;">
+                <div style="justify-content: center; text-align: center;">
                     <v-btn id="btn" size="large" type="submit" :disabled="!form" rounded="pill"
                         :ripple="{ class: 'text-orange', center: true }">
                         S'inscrire
@@ -110,7 +110,7 @@
 
             <div id="middle"></div>
             <div id="signUpPart">
-                <div style="text-align=center;">
+                <div style="text-align: center;">
                     <router-link to="login">
                         <a @click="$emit('sign-in')">Connexion</a>
                     </router-link>
@@ -121,12 +121,6 @@
     </v-card>
 </v-container>
 </template>
-
-
-
-
-
-
 
 <!--    SCRIPT -->
 <script>
@@ -151,21 +145,22 @@ export default {
     }),
 
     methods: {
-        onSubmit() {
-            if (!this.form) return
-            this.$store.dispatch('createClient', newClient)
+      onSubmit(newResto) {
+        if (!this.form) return
+        //this.$store.dispatch('createClient', newClient)
+        this.$store.dispatch("createRestaurant", newResto)
 
-            this.loading = true
-            this.tagBorder = 'loadingBorder'
+        this.loading = true
+        this.tagBorder = 'loadingBorder'
 
-            setTimeout(() => { this.loading = false; this.tagBorder = 'stdBorder' }, 2000)
-        },
-        required(v) {
-            return !!v || 'Field is required'
-        },
-        onLogIn() {
-            this.$emit('on-login-in');
-        }
+        setTimeout(() => { this.loading = false; this.tagBorder = 'stdBorder' }, 2000)
+      },
+      required(v) {
+        return !!v || 'Field is required'
+      },
+      onLogIn() {
+        this.$emit('on-login-in');
+      }
     },
 }
 </script>
