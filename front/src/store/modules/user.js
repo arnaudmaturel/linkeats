@@ -27,11 +27,9 @@ const actions = {
 // mutations
 const mutations = {
   ['RECEIVE_USER'](state, data) {
-    // console.log("newToken :", data.data.accessToken);
-    // console.log("newCrendential :", data.data.accessToken);
     state.credential = data.credential;
     localStorage.setItem("accessToken", data.data.accessToken);
-    localStorage.setItem("userId", data.data.credential.CredentialAssociatedUserID);
+    localStorage.setItem("userId", data.data.credential.CredentialID);
     localStorage.setItem("userRole", data.data.credential.CredentialUserRole);
   },
 }

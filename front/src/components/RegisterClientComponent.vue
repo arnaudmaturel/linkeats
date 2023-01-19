@@ -146,13 +146,13 @@ export default {
                 userRole: 1,
             };
 
-            await this.$store.dispatch('createClient', this.newClient);
+            this.$store.dispatch('createClient', this.newClient)
+                .then(() => {
+                    console.log('login', login);
+                    this.$store.dispatch('loginUser', login)
+                        .then(() => { this.$router.push({ name: 'home' }); })
+                 })
 
-            console.log('login', login);
-            await this.$store.dispatch('loginUser', login);
-
-            this.$router.push({ name: 'home' });
- 
             //this.loading = true;
 
            // this.$store.dispatch("createClient");

@@ -24,13 +24,16 @@ const actions = {
   },
 
 
-  async createClient({ state, commit }, newClient) {
+  createClient({ state, commit }, newClient) {
     reqHand.post('/clients/register', newClient)
-      .then((response) => response.text())
-      .then((data) => {
-        console.log("response :", data)
-        //commit('RECEIVE_CLIENT', { data: data.user })
+      .then((response) => {
+        console.log("response :", response)
+        response.text().then((data) => {
+          console.log("response :", data)
+          //commit('RECEIVE_CLIENT', { data: data.user })
+        })
       })
+
   },
 
 

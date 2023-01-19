@@ -29,7 +29,7 @@ class RequestHandler {
             body: JSON.stringify(body)
         };
 
-        return await fetch(this.baseUrl + endUrl, reqOptions);
+        return await fetch(this.baseUrl + endUrl, reqOptions)
     }
 
     put(endUrl, params, body) {
