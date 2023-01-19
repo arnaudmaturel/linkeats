@@ -79,6 +79,8 @@ app.get('/auth/user_role/:user_id', async (req, res) => {
     }
 })
 
+app.get('/auth/status/', (req, res) => { res.sendStatus(200); })
+
 /**
  * @api {post} /auth/login Login With Credentials
  * @apiName PostLogin
@@ -114,7 +116,7 @@ app.get('/auth/user_role/:user_id', async (req, res) => {
  *     }
  */
 
-app.post('/auth/login', rolesChecking.checkRole([rolesChecking.roles.Visitor]) ,async (req, res) => {
+app.post('/auth/login', rolesChecking.checkRole([rolesChecking.roles.Visitor]), async (req, res) => {
     try {
         if (!req.body.username || req.body.username === '' || !req.body.password || req.body.password === '') {
             console.log("Crendential received not valid");

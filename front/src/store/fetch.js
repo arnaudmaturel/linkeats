@@ -18,11 +18,11 @@ class RequestHandler {
     }
 
     post(endUrl, body) {
-        // const accessToken = JSON.parse(localStorage.getItem('accesstoken'))
+        //const accessToken = JSON.parse(localStorage.getItem('accesstoken'))
         return fetch(this.baseUrl + endUrl, {
             method: 'POST',
             headers: {
-                // 'Authorization': `Bearer ${accessToken}`,
+                //'Authorization': `Bearer ${accessToken}`,
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },

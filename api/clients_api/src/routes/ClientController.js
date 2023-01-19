@@ -2,19 +2,9 @@ const express = require('express');
 const clientMng = require('../Models/ClientMng')
 const router = express.Router();
 
-const rolesChecking = require('../utils/role')
+const rolesChecking = require('../utils2/role')
 
-// get info of the client account specified in the id
-router.get('/:id', rolesChecking.checkRole([rolesChecking.roles.Client]), (req, res) => {
-    const c = clientMng.getById(req.params.id);
-    c.then((value) => {
-        if (value)
-            res.json(value)
-        else
-            res.send("Nothing found ");
-    })
-        .catch((err) => res.json(err));
-});
+
 
 
 // create a client account
@@ -56,6 +46,19 @@ router.delete('/:id', rolesChecking.checkRole([rolesChecking.roles.Client]), (re
             console.log("Error deleting : " + err.message);
             res.status(500).send();
         });
+});
+
+
+// get info of the client account specified in the id
+router.get('/:id', rolesChecking.checkRole([rolesChecking.roles.Client]), (req, res) => {
+    const c = clientMng.getById(req.params.id);
+    c.then((value) => {
+        if (value)
+            res.json(value)
+        else
+            res.send("Nothing found ");
+    })
+        .catch((err) => res.json(err));
 });
 
 
