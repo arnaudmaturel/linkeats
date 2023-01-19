@@ -6,8 +6,6 @@
       </div>
       <div style="padding-bottom:150px">
         <router-view/>
-      </div>
-      <div style="width: 100%;">
         <footer-component style="position: absolute; bottom: 0;"/>
       </div>
     </v-main>
