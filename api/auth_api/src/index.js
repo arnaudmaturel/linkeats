@@ -79,6 +79,21 @@ app.get('/auth/user_role/:user_id', async (req, res) => {
     }
 })
 
+app.get('/auth/user_credential/:user_id', async (req, res) => {
+    const user = await credentialMng.getById(req.params.user_id)
+    if (user) {
+        return res.status(200).json({
+            CredentialLogin: user.CredentialLogin,
+            CredentialEmail: user.CredentialEmail,
+            CredentialLogin: user.CredentialLogin,
+            CredentialAssociatedUserID: user.CredentialAssociatedUserID,
+        });
+    } else {
+        return res.status(404).json({ error: "User not found" });
+    }
+})
+
+
 app.get('/auth/status/', (req, res) => { res.sendStatus(200); })
 
 /**
@@ -132,10 +147,12 @@ app.post('/auth/login', rolesChecking.checkRole([rolesChecking.roles.Visitor]), 
 
         if (await bcrypt.compare(req.body.password, user.CredentialPassword)) {
             // if (req.body.password == user.CredentialPassword) {
+
             const credential = {
                 CredentialLogin: user.CredentialLogin,
                 CredentialID: user.CredentialID,
-                CredentialUserRole: user.CredentialUserRole
+                CredentialUserRole: user.CredentialUserRole,
+                CredentialAssociatedUserID: user.CredentialAssociatedUserID,
             }
 
             const accessToken = generateAccessToken(credential);

@@ -22,15 +22,7 @@ const actions = {
           })
       })
   },
-  async getCredential({ state, commit }, args) {
-    return reqHand.get(`/clients/${args.id}/`, { id: args.id })
-      .then((response) => {
-        response.json()
-          .then((data) => {
-            commit('RECEIVE_CLIENT', { data })
-          })
-      })
-  },
+
 }
 
 // mutations
@@ -43,8 +35,9 @@ const mutations = {
     console.log("UserStore.credential : ", state.credential);
 
     localStorage.setItem("accessToken", data.data.accessToken);
-    localStorage.setItem("userId", data.data.credential.CredentialID);
+    localStorage.setItem("credentialId", data.data.credential.CredentialID);
     localStorage.setItem("userRole", data.data.credential.CredentialUserRole);
+    localStorage.setItem("userId", data.data.credential.CredentialAssociatedUserID);
   },
 }
 

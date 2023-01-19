@@ -67,8 +67,6 @@
 
 <!--    SCRIPT -->
 <script>
-import bcrypt from 'bcryptjs';
-
 
 export default {
     data: () => ({
@@ -94,7 +92,7 @@ export default {
             // console.log('login', login);
             await this.$store.dispatch('loginUser', login);
 
-            if (this.$store.state.credential)
+            if (localStorage.getItem('userRole')!='5')
             {
                 this.$router.push({ name:'account'})
             }

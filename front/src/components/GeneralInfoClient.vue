@@ -25,7 +25,7 @@
 
         <v-row>
             <v-col offset="9">
-                <v-btn id="btnSave" rounded="pill" :ripple="{ class: 'text-orange', center:true }">Sauvegarder</v-btn>
+                <v-btn id="btnSave" rounded="pill" :ripple="{ class: 'text-orange', center:true }" @click="onSubmit()">Sauvegarder</v-btn>
             </v-col>
         </v-row>
     </v-row>
@@ -36,15 +36,51 @@
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
+const timer = ms => new Promise(res => setTimeout(res, ms));
 
 export default {
+    computed: {
+        // ...mapState({
+        //     firstName: (state) => state.client.client.ClientFirstName,
+        //     lastName: (state) => state.client.client.ClientLastName
+        // })
+    },
     name: 'GeneralInfoClient',
     data: () => ({
-        firstName: null,
-        lastName: null,
+         firstName: null,
+         lastName: null,
         loading: false
     }),
-    
+    async created()
+    {
+
+        await this.$store.dispatch('getClient', localStorage.getItem('userId'));
+        await timer(1000);
+        this.firstName = this.$store.state.client.client.ClientFirstName;
+        this.lastName = this.$store.state.client.client.ClientLastName;
+        console.log('client xp :',this.$store.state.client);
+    },
+    methods: {       
+    async onSubmit()
+    {
+        console.log('onSubmit');
+
+        const newGeneralClientInfo = {
+            ClientFirstName: this.firstName,
+            ClientLastName: this.lastName,
+        };
+
+        this.$store.commit('UPDATE_CLIENT', newGeneralClientInfo)
+
+        console.log('client firstname :', this.$store.state.client.client.ClientFirstName);
+
+
+        // "ClientLastName": "e",
+        // "ClientFirstName": "e",
+            await this.$store.dispatch('saveClient');
+        }
+    }
 }
 </script>
 

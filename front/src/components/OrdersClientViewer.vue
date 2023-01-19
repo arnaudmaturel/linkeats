@@ -163,17 +163,12 @@ export default {
         bbox: null,
     }),
     methods: {
-
-
         getProgressOrder() {
             let output = [];
             orders.forEach(order => {
                 if (order.state == 'En cours') output.push(order);
             });
             return output;
-        },
-        onScroll() {
-            this.scrollInvoked++
         },
         onReport(orderN) {
             text = 'Nous avons pris en considération votre réclamation pour la commande ' + orderN;

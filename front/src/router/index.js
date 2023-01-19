@@ -166,7 +166,7 @@ router.beforeEach((to, from) => {
     });
   }
 
-  const userId = localStorage.getItem("userId") || 'undefined'
+  const userId = localStorage.getItem("credentialId") || 'undefined'
 
   fetch(`http://localhost:80/auth/user_role/${userId}/`, {
     method: 'GET',

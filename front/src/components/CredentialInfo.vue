@@ -13,7 +13,7 @@
                 <v-row>
                     <v-col cols="5">
                         <h6>Login</h6>
-                        <v-text-field v-model="firstName" :readonly="loading" clearable
+                        <v-text-field v-model="login" :readonly="loading" clearable
                             placeholder="Entrez votre login" variant="outlined" color="rgb(255, 152, 0)">
                         </v-text-field>
                     </v-col>
@@ -24,14 +24,14 @@
                 <v-row>
                     <v-col cols="5">
                         <h6>Téléphone</h6>
-                        <v-text-field v-model="firstName" :readonly="loading" clearable
+                        <v-text-field v-model="phone" :readonly="loading" clearable
                             placeholder="Entrez votre numéro de téléphone" variant="outlined" color="rgb(255, 152, 0)">
                         </v-text-field>
                     </v-col>
 
                    <v-col cols="5" offset="2">
                        <h6>Mail</h6>
-                       <v-text-field v-model="lastName" :readonly="loading" clearable placeholder="Entrez votre nom" variant="outlined"
+                       <v-text-field v-model="mail" type="email" :readonly="loading" clearable placeholder="Entrez votre nom" variant="outlined"
                            color="rgb(255, 152, 0)">
                        </v-text-field>
                    </v-col>
@@ -40,13 +40,13 @@
                 <v-row>
                     <v-col cols="5">
                         <h6>Mot de passe</h6>
-                        <v-text-field v-model="lastName" :readonly="loading" clearable placeholder="Entrez votre nouveau mot de passe"
+                        <v-text-field v-model="password" :readonly="loading" clearable placeholder="Entrez votre nouveau mot de passe"
                             variant="outlined" color="rgb(255, 152, 0)">
                         </v-text-field>
                     </v-col>
                     <v-col cols="5" offset="2">
                         <h6>Confirmez le mot de passe</h6>
-                        <v-text-field v-model="lastName" :readonly="loading" clearable placeholder="confimer votre nouveau mot de passe"
+                        <v-text-field v-model="password2" :readonly="loading" clearable placeholder="confimer votre nouveau mot de passe"
                             variant="outlined" color="rgb(255, 152, 0)">
                         </v-text-field>
                     </v-col>
@@ -54,7 +54,7 @@
 
                 <v-row>
                     <v-col offset="9">
-                        <v-btn id="btnSave" rounded="pill" :ripple="{ class: 'text-orange', center: true }">Sauvegarder</v-btn>
+                        <v-btn id="btnSave" rounded="pill" :ripple="{ class: 'text-orange', center: true }" @click="onSubmit">Sauvegarder</v-btn>
                     </v-col>
                 </v-row>
             </div>
@@ -69,11 +69,21 @@ export default {
     name: 'CredentialInfo',
     data: () => ({
         password: null,
+        password2: null,
         login: null,
         phone: null,
         mail: null,
         loading: false
     }),
+    created() {
+        
+    },
+    methods: {
+        async onSubmit()
+        {
+            // TO DO
+        }
+    }
 }
 </script>
 

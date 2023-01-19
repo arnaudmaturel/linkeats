@@ -110,16 +110,6 @@ export default {
         }
     },
     mounted() {
-        // console.log("monted");
-
-
-        // var list = [];
-        // list.push(positionStart);
-        // list.push(positionEnd);
-        // console.log(list);
-        // this.$refs.view.fit(list, { maxZoom: 14 })
-
-        //this.$refs.view.fit([1.05, 49.42, 1.05, 49.42], { maxZoom: 14 })
     },
     data: () => ({
     }),

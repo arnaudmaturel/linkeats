@@ -14,11 +14,11 @@ const getters = {
 // actions
 const actions = {
   async getClient({ state, commit }, args) {
-    return reqHand.get(`/clients/${args.id}/`, { id: args.id })
+    return reqHand.get(`/clients/${args}/`, { id: args })
       .then((response) => {
         response.json()
           .then((data) => {
-            commit('RECEIVE_CLIENT', { data })
+            commit('RECEIVE_CLIENT', data)
           })
       })
   },
@@ -39,11 +39,12 @@ const actions = {
 
 
   async saveClient({ state, commit }, args) {
-    return reqHand.put(`/clients/${state.client.id}/`, { id: state.client.id }, state.client)
+    console.log("state.client", state.client);
+    return reqHand.put(`/clients/${state.client.UserID}/`, { id: state.client.UserID }, state.client)
       .then((response) => {
-        response.json()
+        response.text()
           .then((data) => {
-            commit('RECEIVE_CLIENT', { data })
+            commit('RECEIVE_CLIENT', data)
           })
       })
   },
@@ -52,7 +53,7 @@ const actions = {
       .then((response) => {
         response.json()
           .then((data) => {
-            commit('RECEIVE_CLIENT', { data })
+            commit('RECEIVE_CLIENT', data)
           })
       })
   },
@@ -64,7 +65,8 @@ const mutations = {
     state.client = data
   },
   ['UPDATE_CLIENT'](state, value) {
-    state.client = Object.assign(state.client, value)
+    //console.log('client:', state.client);
+    Object.assign(state.client, value)
   }
 }
 
