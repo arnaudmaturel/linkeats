@@ -7,7 +7,7 @@
       <div style="padding-bottom:150px">
         <router-view/>
       </div>
-      <div style="position: static; margin-top: 1cm; margin-bottom: 0px; width: 100%;">
+      <div style="width: 100%;">
         <footer-component style="position: absolute; bottom: 0;"/>
       </div>
     </v-main>
@@ -23,12 +23,14 @@ export default {
   components: {
     SideBar,
     FooterComponent
+  },
+  created() {
+    this.$store.dispatch("createVisitor")
   }
 }
 </script>
 
-<style
-    FooterComponent>
+<style>
 #app{
   background-color: #F9FAFA;
   /* background-image: linear-gradient(to bottom, rgb(39,71,110) 75%,rgb(0,105,146)); */
