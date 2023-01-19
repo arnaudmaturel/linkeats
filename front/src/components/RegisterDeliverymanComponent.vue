@@ -23,6 +23,25 @@
                         </v-text-field>
                     </v-col>
                     </v-row>
+
+                    <v-row>
+                        <v-col>
+                    
+                            <h6>Nom</h6>
+                            <v-text-field v-model="newDeliver.DeliverymanLastName" :readonly="loading" clearable
+                                placeholder="Saisissez votre mot de passe" :rules="[required]" class="mb-2" variant="outlined"
+                                color="rgb(255, 152, 0)" type="text">
+                            </v-text-field>
+                        </v-col>
+                        <v-col>
+                    
+                            <h6>Prénom</h6>
+                            <v-text-field v-model="newDeliver.DeliverymanFirstName" :readonly="loading" clearable placeholder="confimer votre mot de passe"
+                                :rules="[required]" class="mb-2" variant="outlined" color="rgb(255, 152, 0)" type="text">
+                            </v-text-field>
+                        </v-col>
+                    </v-row>
+                    
                     
                 
                 <v-row>
@@ -107,8 +126,8 @@ export default {
             CredentialLogin: null,
             CredentialPassword: null,
 
-            DeliverymanFirstName: "test",
-            DeliverymanLastName: "test",
+            DeliverymanFirstName: null,
+            DeliverymanLastName: null,
             DeliverymanIBAN: null,
         },
 
