@@ -145,6 +145,7 @@ export default {
     },
     logout () {
       localStorage.removeItem('accessToken')
+    },
     isLogged()
     {
       return localStorage.getItem('userRole')  && localStorage.getItem('userRole') != '5'
