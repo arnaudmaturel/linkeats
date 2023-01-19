@@ -38,11 +38,22 @@
 
     <v-menu>
       <template v-slot:activator="{ props }">
-        <router-link :to="{name:'login'}" style="text-decoration: none">
-          <v-btn icon v-bind="props" size="x-large" color="warning" style="background-color: white; margin-left: 20px;" value="Account">
-            <v-icon>mdi-account</v-icon>
-          </v-btn>
-        </router-link>
+        <div v-if="isLogged()">
+          <router-link  :to="{name:'account'}" style="text-decoration: none">
+            <v-btn icon v-bind="props" size="x-large" color="warning" style="background-color: white; margin-left: 20px;"
+              value="Account">
+              <v-icon>mdi-account</v-icon>
+            </v-btn>
+          </router-link>
+
+        </div>
+        <div v-else>
+          <router-link  :to="{name:'login'}" style="text-decoration: none">
+            <v-btn icon v-bind="props" size="x-large" color="warning" style="background-color: white; margin-left: 20px;" value="Account">
+              <v-icon>mdi-account</v-icon>
+            </v-btn>
+          </router-link>
+        </div>
       </template>
 
       <!--<v-list density="compact">
@@ -134,6 +145,9 @@ export default {
     },
     logout () {
       localStorage.removeItem('accessToken')
+    isLogged()
+    {
+      return localStorage.getItem('userRole')  && localStorage.getItem('userRole') != '5'
     }
   }
 }
