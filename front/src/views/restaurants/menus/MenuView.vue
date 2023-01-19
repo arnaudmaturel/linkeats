@@ -1,31 +1,24 @@
 <template>
     <v-container>
         <v-col>
-            <v-row>
-                <v-card
-                class="mx-auto"
-                width="50%"
-                v-for="(info, index) in menu" :key="index"
-                >
-                    <v-img
-                    class="align-end text-white" height="200" :src="info.image" cover></v-img>
+            <v-row v-for="plate in dish.data">
+                <v-card class="mx-auto" width="50%">
+                    <!--<v-img class="align-end text-white" height="200" :src="dish.data.PicturePaths" cover></v-img>-->
 
-                    <v-card-title>{{ info.title }}</v-card-title>
+                    <v-card-title>{{ plate.name }}</v-card-title>
 
                     <v-card-subtitle class="pt-4">
                         Allergies
                     </v-card-subtitle>
                 
                     <v-card-text>
-                        <div>Whitehaven Beach</div>
-                
-                        <div>Whitsunday Island, Whitsunday Islands</div>
+                        {{ plate.Allergens }}
                     </v-card-text>
                 
-                    <v-card-actions v-for="restaurant in getRestaurant">
-                        <v-btn  variant="elevated" size="default" color="rgb(255, 152, 0)" style="color: white" :to="{ name: 'restaurant_menus', params: { restaurant: restaurant.title } }">
+                    <v-card-actions>
+                        <!--<v-btn  variant="elevated" size="default" color="rgb(255, 152, 0)" style="color: white" :to="{ name: 'restaurant_menus', params: { restaurant: restaurant.data.RestaurantName } }">
                             Back
-                        </v-btn>
+                        </v-btn>-->
                     </v-card-actions>
                 </v-card>
             </v-row>
@@ -34,18 +27,17 @@
 </template>
 
 <script>
+import {mapGetters} from "vuex";
+
 export default {
-    computed: {
-        menu () {
-            return this.$store.getters.getMenu(this.$route.params.menu)
-        },
-        getRestaurant () {
-            return this.$store.getters.getRestaurantByName(this.$route.params.restaurant)
-        }
-    },
-    created() {
-      this.$store.dispatch("getAllMenus")
-      this.$store.dispatch("getAllRestaurants")
+  computed: {
+    ...mapGetters({
+      dish: "dish",
+      restaurant: "restaurants"
+    })
+  },
+  created() {
+      this.$store.dispatch("getRestaurant", this.$route.params.restaurant)
       this.$store.dispatch("getDish", this.$route.params.menu)
     }
 }

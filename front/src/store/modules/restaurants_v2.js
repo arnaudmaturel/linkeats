@@ -25,7 +25,7 @@ const actions = {
             })
     },
     async getRestaurant({ state, commit }, args) {
-        return reqHand.get(`/restaurants/${args.id}/`, { id: args.id })
+        return reqHand.get('/restaurants/' + args, { id: args.id })
             .then((response) => {
                 response.json()
                     .then((data) => {

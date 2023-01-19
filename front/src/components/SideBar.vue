@@ -77,7 +77,7 @@
       </v-list> -->
     </v-menu>
 
-    <v-btn icon size="x-large" color="warning" style="background-color: white; margin-left: 20px;" @click="logout()" v-if="role !== 5">
+    <v-btn icon size="x-large" color="warning" style="background-color: white; margin-left: 20px;" @click="logout()" v-if="role !== 5" :to="{ name: 'home' }">
       <v-icon>mdi-logout</v-icon>
     </v-btn>
   </v-app-bar>
@@ -144,8 +144,9 @@ export default {
       }, 2000)
     },
     logout () {
-      localStorage.clear();
       this.$router.push({ name: 'home' });
+      localStorage.removeItem('accessToken')
+      localStorage.removeItem('userRole')
     },
     isLogged()
     {
