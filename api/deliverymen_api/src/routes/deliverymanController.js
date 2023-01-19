@@ -20,9 +20,9 @@ router.get('/:id', rolesChecking.checkRole([rolesChecking.roles.Deliveryman]), (
 // create a deliveryman account
 router.post('/register', rolesChecking.checkRole([rolesChecking.roles.Visitor]), (req, res) => {
     deliverimanMng.create(req.body)
-        .then(() => {
+        .then((value) => {
             console.log("Creation Sucessful! Welcome of deliverymen account \n");
-            res.status(200).json({accessToken});
+            res.status(200).json({ value });
         })
         .catch((err) => {
             console.log("Error Creation : " + err.message);

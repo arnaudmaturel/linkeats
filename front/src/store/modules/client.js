@@ -39,7 +39,7 @@ const actions = {
 
 
   async saveClient({ state, commit }, args) {
-    return reqHand.put(`/clients/${state.order.id}/`, { id: state.order.id }, state.order)
+    return reqHand.put(`/clients/${state.client.id}/`, { id: state.client.id }, state.client)
       .then((response) => {
         response.json()
           .then((data) => {
@@ -61,10 +61,10 @@ const actions = {
 // mutations
 const mutations = {
   ['RECEIVE_CLIENT'](state, data) {
-    state.order = data
+    state.client = data
   },
   ['UPDATE_CLIENT'](state, value) {
-    state.order = Object.assign(state.order, value)
+    state.client = Object.assign(state.client, value)
   }
 }
 

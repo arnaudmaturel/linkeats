@@ -2,7 +2,7 @@
   <div v-bind:class="flipped ? 'flip-container flipped': 'flip-container'">
     <div class="flipper">
         <login-component :userRole="1" titleUser="Client" class="front" @sign-up="flipped = true"></login-component>
-        <register-component titleUser="Client"  class="back" @sign-in="flipped=false"></register-component>
+        <register-component titleUser="Client" user-role="1" class="back" @sign-in="flipped=false"></register-component>
     </div>
   </div>
 </template>

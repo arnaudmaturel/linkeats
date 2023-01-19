@@ -117,6 +117,9 @@
 
 <!--    SCRIPT -->
 <script>
+import bcrypt from "bcryptjs/dist/bcrypt";
+import { mapGetters, mapMutations, useStore } from "vuex";
+
 export default {
     data: () => ({
         form: false,
@@ -137,15 +140,24 @@ export default {
     }),
 
     methods: {
-        onSubmit(newDeliver) {
+        async onSubmit(newDeliver) {
             if (!this.form) return
 
-            this.$store.dispatch('createDelivery', newDeliver)
+            const hashedPwd = await bcrypt.hash(this.newDeliver.CredentialPassword, 10);
+            const login =
+            {
+                username: this.newDeliver.CredentialLogin,
+                password: hashedPwd,
+                userRole: 3,
+            };
 
-            this.loading = true
-            this.tagBorder = 'loadingBorder'
+            this.$store.dispatch('createDeliveryman', this.newDeliver)
+                .then(() => {
+                    console.log('login', login);
+                    this.$store.dispatch('loginUser', login)
+                        .then(() => { this.$router.push({ name: 'home' }); })
+                })
 
-            setTimeout(() => { this.loading = false; this.tagBorder = 'stdBorder' }, 2000)
         },
         required(v) {
             return !!v || 'Field is required'

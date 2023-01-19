@@ -9,6 +9,7 @@ import dishes from './modules/dishes'
 import basket from './modules/basket'
 import client from './modules/client'
 import delivery from './modules/delivery'
+import deliveryman from './modules/deliveryman'
 
 export default createStore({
   state: {
@@ -28,6 +29,7 @@ export default createStore({
     dishes,
     basket,
     client,
-    delivery
+    delivery,
+    deliveryman,
   }
 });

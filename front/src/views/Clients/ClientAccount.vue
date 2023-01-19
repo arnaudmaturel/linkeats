@@ -155,10 +155,30 @@ export default {
         OrderDeliveryWorkComponent,
         DishEditor
     },
+    mounted()
+    {
+        switch (localStorage.getItem('userRole'))
+        {
+            case "1":
+                this.userRole = "Client"
+                break;
+            case "2":
+                this.userRole = "Restaurant";
+                break;
+            case "3":
+                this.userRole = "Deliveryman";
+                break;
+            case "4":
+                this.userRole = "Developper";
+                break;
+            case "5":
+                this.userRole = 'Visitor';
+                break;
+        }
+
+    },
     data: () => ({
-        // userRole :  "Deliveryman",
-         userRole :  "Client",
-        // userRole :  "Restaurant",
+        userRole : '',
         tab: 'Général',
         width: 100,
         menus: [

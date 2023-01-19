@@ -143,7 +143,7 @@ export default {
             {
                 username: this.newClient.CredentialLogin,
                 password: hashedPwd,
-                userRole: 1,
+                userRole: this.userRole,
             };
 
             this.$store.dispatch('createClient', this.newClient)
@@ -166,7 +166,8 @@ export default {
         }
     },
     props:{
-        titleUser:String,
+        titleUser: String,
+        userRole:Number
     }
 }
 </script>
