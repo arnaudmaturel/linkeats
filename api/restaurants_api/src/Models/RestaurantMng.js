@@ -7,16 +7,21 @@ module.exports = {
     getById,
     create,
     update,
-    delete: _deleted
+    delete: _deleted,
+    getByIdFiltered
 }
 
-async function getAll(filters, filteredColumns) {
+async function getAll(filters = {}, filteredColumns = '') {
     return await db.Restaurant.findAll(filters, filteredColumns);
 }
 
 // get the restuant by the id 
 async function getById(id) {
     return await getRestaurant(id);
+}
+
+async function getByIdFiltered(id, filteredColumns) {
+    return await getRestaurantFiltered(id, filteredColumns);
 }
 
 // create a restaurant
@@ -70,6 +75,7 @@ async function _deleted(id) {
 async function getRestaurant(id) {
     return await db.Restaurant.findOne({ where: { UserID: id } });
 }
-async function getRestaurants() {
-    return await db.Restaurant.find();
+
+async function getRestaurantFiltered(id, filteredColumns) {
+    return await db.Restaurant.findOne({ where: { UserID: id } }, filteredColumns);
 }
