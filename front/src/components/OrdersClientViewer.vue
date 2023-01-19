@@ -195,9 +195,6 @@ export default {
                 this.progressValue++;
                 this.locDeliver = this.lerp(this.locStart, this.locEnd, this.progressValue / 100);
                 await timer(1000);
-
-                console.log(this.progressValue);
-
             }
         },
         lerp(locA, locB, time) {

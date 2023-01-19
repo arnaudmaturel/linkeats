@@ -148,6 +148,7 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
 })
+// console.log("Router.localStorage(userID)1", localStorage.getItem('userId'));
 
 router.beforeEach((to, from) => {
   if (localStorage.getItem("accessToken") === null) {
@@ -186,5 +187,6 @@ router.beforeEach((to, from) => {
   // explicitly return false to cancel the navigation
   // return false
 })
+// console.log("Router.localStorage(userID)2", localStorage.getItem('userId'));
 
 export default router

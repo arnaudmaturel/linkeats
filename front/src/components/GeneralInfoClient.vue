@@ -44,6 +44,7 @@ export default {
         lastName: null,
         loading: false
     }),
+    
 }
 </script>
 

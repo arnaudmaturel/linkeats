@@ -43,9 +43,9 @@ const actions = {
             })
     },
     async createRestaurant({ state, commit }, newRestaurant) {
-        return reqHand.post('/restaurants/register', {}, newRestaurant)
+        return reqHand.post('/restaurants/register', newRestaurant)
             .then((response) => {
-                response.json()
+                response.text()
                     .then((data) => {
                         commit('RECEIVE_RESTAURANT', { data })
                     })

@@ -25,7 +25,7 @@ const actions = {
 
 
   createClient({ state, commit }, newClient) {
-    reqHand.post('/clients/register', newClient)
+    return reqHand.post('/clients/register', newClient)
       .then((response) => {
         console.log("response :", response)
         response.text().then((data) => {

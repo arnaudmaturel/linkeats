@@ -132,13 +132,15 @@ app.post('/auth/login', rolesChecking.checkRole([rolesChecking.roles.Visitor]), 
 
         if (await bcrypt.compare(req.body.password, user.CredentialPassword)) {
             // if (req.body.password == user.CredentialPassword) {
-            const accessToken = generateAccessToken({
+            const credential = {
                 CredentialLogin: user.CredentialLogin,
                 CredentialID: user.CredentialID,
                 CredentialUserRole: user.CredentialUserRole
-            });
+            }
 
-            res.status(200).json({ accessToken, credential: user });
+            const accessToken = generateAccessToken(credential);
+
+            res.status(200).json({ accessToken, credential: credential });
             console.log(user.CredentialID + " aka " + user.CredentialLogin + " Crendential Successful !");
         } else {
             console.log(user.CredentialID + " aka " + user.CredentialLogin + " Crendential Incorrect !");

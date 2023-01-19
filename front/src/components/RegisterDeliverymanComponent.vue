@@ -143,11 +143,12 @@ export default {
         async onSubmit(newDeliver) {
             if (!this.form) return
 
-            const hashedPwd = await bcrypt.hash(this.newDeliver.CredentialPassword, 10);
+            //const hashedPwd = await bcrypt.hash(this.newDeliver.CredentialPassword, 10);
             const login =
             {
                 username: this.newDeliver.CredentialLogin,
-                password: hashedPwd,
+                // password: hashedPwd,
+                password: this.newDeliver.CredentialPassword,
                 userRole: 3,
             };
 

@@ -122,6 +122,8 @@
 <script lang="js">
 
 // Components
+
+// ALE
 import GeneralInfoClient from '@/components/GeneralInfoClient.vue'
 import CredentialInfo from '@/components/CredentialInfo.vue';
 import OrderVue from '@/components/OrdersClientViewer.vue'
@@ -129,16 +131,23 @@ import viewClientLocOrder from '@/components/MapViewer.vue'
 import opneLayerDemo from '@/components/OpenLayerDemo.vue'
 import AdressViewerClient from '@/components/AdressViewerClient.vue';
 import AddreessEdit from '@/components/AddreessEdit.vue';
+
+// ALIM
 import OrdersRestaurantViewer from '@/components/OrdersRestaurantViewer.vue';
 import AddressRestaurant from '@/components/AdressRestaurant.vue';
 import GeneralInfoRestaurant from '@/components/GeneralInfoRestaurant.vue';
 import RestaurantCardEditor from '@/components/RestaurantCardEditor.vue';
 import OrderDeliveryWorkComponent from '@/components/OrderDeliveryWorkComponent.vue';
 import DishEditor from '@/components/DishEditor.vue';
-import { timeouts } from 'retry';
+
+import { mapGetters, mapMutations, useStore, mapState } from "vuex";
+
 
 export default {
     name: 'ClientAccount',
+    // computed: mapState({
+    //     credential: state => state.credential
+    // }),
     props: {        
     },
     components: {
@@ -156,12 +165,12 @@ export default {
         OrderDeliveryWorkComponent,
         DishEditor
     },
-    mounted()
+    created()
     {
         switch (localStorage.getItem('userRole'))
         {
             case "1":
-                this.userRole = "Client"
+                this.userRole = "Client";
                 break;
             case "2":
                 this.userRole = "Restaurant";

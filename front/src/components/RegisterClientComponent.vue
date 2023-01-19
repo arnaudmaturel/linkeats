@@ -138,11 +138,12 @@ export default {
         async onSubmit() {
             if (!this.form) return
 
-            const hashedPwd = await bcrypt.hash(this.newClient.CredentialPassword, 10);
+            //const hashedPwd = await bcrypt.hash(this.newClient.CredentialPassword, 10);
             const login =
             {
                 username: this.newClient.CredentialLogin,
-                password: hashedPwd,
+                // password: hashedPwd,
+                password: this.newClient.CredentialPassword,
                 userRole: this.userRole,
             };
 
@@ -150,7 +151,10 @@ export default {
                 .then(() => {
                     console.log('login', login);
                     this.$store.dispatch('loginUser', login)
-                        .then(() => { this.$router.push({ name: 'home' }); })
+                        .then(() => {
+                            this.$router.push({ name: 'home' });
+                        })
+                        console.log('Jello')
                  })
 
             //this.loading = true;

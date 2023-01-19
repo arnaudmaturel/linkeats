@@ -144,7 +144,8 @@ export default {
       }, 2000)
     },
     logout () {
-      localStorage.removeItem('accessToken')
+      localStorage.clear();
+      this.$router.push({ name: 'home' });
     },
     isLogged()
     {

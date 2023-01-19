@@ -91,8 +91,13 @@ export default {
                 userRole: this.userRole,
             };
 
-            console.log('login', login);
+            // console.log('login', login);
             await this.$store.dispatch('loginUser', login);
+
+            if (this.$store.state.credential)
+            {
+                this.$router.push({ name:'account'})
+            }
         },
         required(v) {
             return !!v || 'Field is required'
