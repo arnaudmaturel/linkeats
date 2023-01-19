@@ -25,11 +25,11 @@
                                     </v-col>
 
                                     <v-col offset="3">
-                                        <v-btn rounded="pill" icon="mdi-home-edit" @click="onEditAddr(address)"/>
+                                        <v-btn rounded="pill" id="btn" icon="mdi-home-edit" @click="onEditAddr(address)"/>
                                     </v-col>
 
                                     <v-col >
-                                        <v-btn rounded="pill" icon="mdi-home-remove"  @click="onRemoveAddr(address)" />
+                                        <v-btn rounded="pill" id="btn" icon="mdi-home-remove"  @click="onRemoveAddr(address)" />
                                     </v-col>
                                 </v-row>
                             </v-expansion-panel-title>
@@ -54,9 +54,9 @@
                                             </v-col>
                                         </v-row> -->
                                     </v-col>
-                                    <v-col>
+                                    <!-- <v-col>
                                         <v-btn icon="mdi-map-clock" />
-                                    </v-col>
+                                    </v-col> -->
                                 </v-row>
                             </v-expansion-panel-text>
 
@@ -151,7 +151,8 @@ export default {
             // this.dataEdit.addr = addr.address;
 
             this.dialogAddr = true;
-        }
+        },
+
     },
 
 }

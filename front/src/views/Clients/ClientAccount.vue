@@ -125,7 +125,7 @@
 import GeneralInfoClient from '@/components/GeneralInfoClient.vue'
 import CredentialInfo from '@/components/CredentialInfo.vue';
 import OrderVue from '@/components/OrdersClientViewer.vue'
-import viewClientLocOrder from '@/components/viewClientLocOrder.vue'
+import viewClientLocOrder from '@/components/MapViewer.vue'
 import opneLayerDemo from '@/components/OpenLayerDemo.vue'
 import AdressViewerClient from '@/components/AdressViewerClient.vue';
 import AddreessEdit from '@/components/AddreessEdit.vue';
@@ -135,6 +135,7 @@ import GeneralInfoRestaurant from '@/components/GeneralInfoRestaurant.vue';
 import RestaurantCardEditor from '@/components/RestaurantCardEditor.vue';
 import OrderDeliveryWorkComponent from '@/components/OrderDeliveryWorkComponent.vue';
 import DishEditor from '@/components/DishEditor.vue';
+import { timeouts } from 'retry';
 
 export default {
     name: 'ClientAccount',
@@ -193,7 +194,7 @@ export default {
     }),
     setCurrentTab(value) {
         activTitle = value;
-    }
+    },
 }
 </script>
 

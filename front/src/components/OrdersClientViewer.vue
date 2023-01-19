@@ -46,7 +46,7 @@
                                         </div>
                                     </v-col>
                                     <v-col offset="1">
-                                        <v-btn icon="mdi-map-clock" @click="dialog=true"/>
+                                        <v-btn icon="mdi-map-clock" @click="startOrderDelivery"/>
                                     </v-col>
                                 </v-row>
                             </v-expansion-panel-text>
@@ -103,17 +103,25 @@
         
         <!-- DIALOG -->
         <v-dialog v-model="dialog">
-            <view-client-loc-order @on-close="dialog=false"/>
+            <MapViewer @on-close="dialog=false" :showProgressBar="true"
+             :progress="progressValue"
+             :positionStart="locStart" 
+             :positionEnd="locEnd" 
+             :positionDeliveryman="locDeliver"/>
         </v-dialog>
     </v-card>
 </template>
 
 <script>
 import EndOrderCompoent from './endOrder.vue';
-import ViewClientLocOrder from './viewClientLocOrder.vue';
+import MapViewer from './MapProgresOrderViewer.vue';
+
+const timer = ms => new Promise(res => setTimeout(res, ms));
+
+
 
 export default {
-    components: { EndOrderCompoent, ViewClientLocOrder },
+    components: { EndOrderCompoent, MapViewer },
     props: {
     },
     data: () => ({
@@ -148,8 +156,14 @@ export default {
         text: 'Nous avons pris en considération votre réclamation',
         timeout: 3000,
         idOdrer: -1,
+        progressValue: 0,
+        locStart : null,
+        locEnd : null,
+        locDeliver: null,
+        bbox: null,
     }),
     methods: {
+
 
         getProgressOrder() {
             let output = [];
@@ -169,6 +183,30 @@ export default {
             text = 'Voulez vous annulez la commande ' + orderN;
             snackbar = true;
         },
+        async startOrderDelivery() {
+            this.locEnd = [1.075156398367302, 49.38240286389411];
+            this.locStart = [ 1.0700076823176903, 49.41908420837877];
+            this.bbox = [this.locStart[1], this.locStart[0], this.locStart[1], this.locStart[0]]
+            this.dialog = true;
+            this.progressValue = 0;
+            for (let i = 0; i < 100; i++) {
+                if (!this.dialog)
+                    return;
+                this.progressValue++;
+                this.locDeliver = this.lerp(this.locStart, this.locEnd, this.progressValue / 100);
+                await timer(1000);
+
+                console.log(this.progressValue);
+
+            }
+        },
+        lerp(locA, locB, time) {
+            const range0 = locB[0] - locA[0];
+            const range1 = locB[1] - locA[1];
+
+            return [locA[0] + range0*time,locA[1]+range1*time]
+
+        }
     },
 
 }
