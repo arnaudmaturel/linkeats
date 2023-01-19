@@ -176,7 +176,8 @@ router.beforeEach((to, from) => {
     // params: params
   }).then((response) => {
     response.json().then((data) => {
-      const userRole = 5
+      const userRole = data.userRole;
+      localStorage.setItem("userRole", userRole)
       if (!to.meta.roles.includes(userRole)) {
         router.replace({ name: 'home' })
       }

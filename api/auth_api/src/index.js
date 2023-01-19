@@ -73,9 +73,9 @@ app.get('/auth/visitor_token', async (req, res) => {
 app.get('/auth/user_role/:user_id', async (req, res) => {
     const user = await credentialMng.getById(req.params.user_id)
     if (user) {
-        return res.status(200).json({ role: user.CredentialUserRole });
+        return res.status(200).json({ userRole: user.CredentialUserRole });
     } else {
-        return res.status(200).json({ role: 5 });
+        return res.status(200).json({ userRole: 5 });
     }
 })
 
@@ -131,12 +131,14 @@ app.post('/auth/login', rolesChecking.checkRole([rolesChecking.roles.Visitor]), 
         }
 
         if (await bcrypt.compare(req.body.password, user.CredentialPassword)) {
+            // if (req.body.password == user.CredentialPassword) {
             const accessToken = generateAccessToken({
                 CredentialLogin: user.CredentialLogin,
-                CredentialAssociatedUserID: user.CredentialAssociatedUserID,
+                CredentialID: user.CredentialID,
                 CredentialUserRole: user.CredentialUserRole
             });
-            res.status(200).json({ accessToken });
+
+            res.status(200).json({ accessToken, credential: user });
             console.log(user.CredentialID + " aka " + user.CredentialLogin + " Crendential Successful !");
         } else {
             console.log(user.CredentialID + " aka " + user.CredentialLogin + " Crendential Incorrect !");

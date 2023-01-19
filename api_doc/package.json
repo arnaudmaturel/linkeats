@@ -8,7 +8,8 @@
   },
   "dependencies": {
     "apidoc": "^0.53.1",
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "jsonwebtoken": "^8.5.1"
   },
   "author": "",
   "license": "MIT"

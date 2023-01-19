@@ -78,27 +78,29 @@ export default {
         CredentialPassword: null,
         loading: false,
         tagBorder: 'stdBorder',
-        userRole: 1,
     }),
 
     methods: {
-        onSubmit() {
+        async onSubmit() {
             if (!this.form) return
+            
+            const login =
+            {
+                username: this.login,
+                password: this.password,
+                userRole: this.userRole,
+            };
 
-            this.loading = true
-            this.tagBorder = 'loadingBorder'
-
-            // this.CredentialPassword = await bcrypt.hash(this.password, 10);
-
-
-            setTimeout(() => { this.loading = false; this.tagBorder = 'stdBorder' }, 2000)
+            console.log('login', login);
+            await this.$store.dispatch('loginUser', login);
         },
         required(v) {
             return !!v || 'Field is required'
         }
     },
     props: {
-        titleUser: String
+        titleUser: String,
+        userRole: Number,
     }
 }
 </script>

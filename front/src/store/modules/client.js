@@ -22,16 +22,19 @@ const actions = {
           })
       })
   },
+
+
   async createClient({ state, commit }, newClient) {
-    return reqHand.post('/clients/register', newClient)
-      .then((response) => {
-        response.json()
-          .then((data) => {
-            localStorage.setItem("accessToken", data.accessToken)
-            commit('RECEIVE_CLIENT', { data: data.user })
-          })
+    reqHand.post('/clients/register', newClient)
+      .then((response) => response.text())
+      .then((data) => {
+        console.log("response :", data)
+        //commit('RECEIVE_CLIENT', { data: data.user })
       })
   },
+
+
+
   async saveClient({ state, commit }, args) {
     return reqHand.put(`/clients/${state.order.id}/`, { id: state.order.id }, state.order)
       .then((response) => {

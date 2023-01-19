@@ -4,7 +4,7 @@ class RequestHandler {
     }
 
     get(endUrl, params) {
-        const accessToken = JSON.parse(localStorage.getItem('accesstoken'))
+        const accessToken = localStorage.getItem('accessToken')
         return fetch(this.baseUrl + endUrl + '?' + new URLSearchParams(
             params
         ), {
@@ -17,9 +17,9 @@ class RequestHandler {
         });
     }
 
-    post(endUrl, body) {
-        const accessToken = JSON.parse(localStorage.getItem('accesstoken'))
-        return fetch(this.baseUrl + endUrl, {
+    async post(endUrl, body) {
+        const accessToken = localStorage.getItem('accessToken')
+        const reqOptions = {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${accessToken}`,
@@ -27,11 +27,13 @@ class RequestHandler {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(body)
-        });
+        };
+
+        return await fetch(this.baseUrl + endUrl, reqOptions);
     }
 
     put(endUrl, params, body) {
-        const accessToken = JSON.parse(localStorage.getItem('accesstoken'))
+        const accessToken = localStorage.getItem('accessToken')
         return fetch(this.baseUrl + endUrl + '?' + new URLSearchParams(
             params
         ), {
@@ -46,7 +48,7 @@ class RequestHandler {
     }
 
     delete(endUrl, params) {
-        const accessToken = JSON.parse(localStorage.getItem('accesstoken'))
+        const accessToken = localStorage.getItem('accessToken')
         return fetch(this.baseUrl + endUrl + '?' + new URLSearchParams(
             params
         ), {
