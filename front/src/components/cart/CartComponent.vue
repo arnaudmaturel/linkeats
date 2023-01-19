@@ -16,14 +16,14 @@
                       <v-row>
                         <v-col cols="6">
                           <b>
-                            {{ item.title }} X{{ item.quantity }}
+                            {{ item.plate }} X{{ item.dishName.quantity }}
                           </b>
                         </v-col>
                         <v-col cols="4">
-                          {{ (((item.price.toFixed(2))/100) * item.quantity).toFixed(2) }} €
+                          {{ (((item.dishName.price.toFixed(2))/100) * item.dishName.quantity).toFixed(2) }} €
                         </v-col>
                         <v-col cols="2">
-                          <v-icon @click="del(item)" size="small">mdi-delete</v-icon>
+                          <v-icon @click="del(item.dishName)" size="small">mdi-delete</v-icon>
                         </v-col>
                       </v-row>
                     </v-card-item>
@@ -57,10 +57,10 @@ export default {
   methods: {
     del(menu) {
       let item = {
-        pid: menu.pid,
-        title: menu.title,
-        price: menu.price,
-        tags: menu.tags
+        dishName: {
+          id: menu.id,
+          price: menu.price
+        }
       }
       this.$store.commit("delItem", item);
       this.$store.commit("setCount")

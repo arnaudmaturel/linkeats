@@ -21,22 +21,24 @@ const getters = {
 
 const mutations = {
     addItem(state, newItem) {
-        let isItemFound = state.cartItems.findIndex(i => i.pid === newItem.pid)
+        let isItemFound = state.cartItems.findIndex(i => i.dishName.id === newItem.dishName.id)
         let cart = []
+        console.log(newItem)
 
         if(localStorage.getItem('cart')) {
             cart = JSON.parse(localStorage.getItem('cart'))
 
-            let index = cart.findIndex(i => i.pid === newItem.pid)
+            let index = cart.findIndex(i => i.dishName.id === newItem.dishName.id)
             if (index > -1) {
-                cart[index].quantity++
+                if (isItemFound > -1)
+                    cart[index].dishName.quantity++
             }
         }
         // IF EXIST ADD +1 QTY ELSE ADD NEW ITEM WITH 1 QTY
         if (isItemFound > -1) {
-            state.cartItems[isItemFound].quantity++;
+            state.cartItems[isItemFound].dishName.quantity++;
         } else {
-            newItem.quantity = 1;
+            newItem.dishName.quantity = 1;
             state.cartItems.push(newItem);
             cart.push(newItem)
         }
@@ -45,25 +47,25 @@ const mutations = {
     },
     delItem(state, item) {
         let cart = []
-        let isItemFound = state.cartItems.findIndex(i => i.pid === item.pid)
+        let isItemFound = state.cartItems.findIndex(i => i.dishName.id === item.dishName.id)
 
         if(localStorage.getItem('cart')) {
             cart = JSON.parse(localStorage.getItem('cart'))
-            
-            let index = cart.findIndex(i => i.pid === item.pid)
-            if (index > -1) {
-                cart[index].quantity--
 
-                if (cart[index].quantity < 1) {
+            let index = cart.findIndex(i => i.dishName.id === item.dishName.id)
+            if (index > -1) {
+                cart[index].dishName.quantity--
+
+                if (cart[index].dishName.quantity < 1) {
                     cart.splice(index, 1)
                 }
             }
         }
         // IF EXIST ADD -1 QTY ELSE DEL ITEM
         if (isItemFound > -1) {
-            state.cartItems[isItemFound].quantity--
+            state.cartItems[isItemFound].dishName.quantity--
 
-            if (state.cartItems[isItemFound].quantity < 1) {
+            if (state.cartItems[isItemFound].dishName.quantity < 1) {
                 state.cartItems.splice(isItemFound, 1)
             }
         }
@@ -78,7 +80,7 @@ const mutations = {
             objSum = JSON.parse(localStorage.getItem('cart'))
 
             objSum.forEach(element => {
-                sum += element.quantity
+                sum += element.dishName.quantity
             });
         }
         state.cartCount = sum
@@ -91,7 +93,7 @@ const mutations = {
             objSum = JSON.parse(localStorage.getItem('cart'))
 
             objSum.forEach(element => {
-                sum += element.price * element.quantity
+                sum += element.dishName.price * element.dishName.quantity
             });
         }
         state.cartTotal = sum

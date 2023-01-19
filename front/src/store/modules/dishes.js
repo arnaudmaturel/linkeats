@@ -16,7 +16,7 @@ const getters = {
 // actions
 const actions = {
     async getAllDishes({ state, commit }, args) {
-        return reqHand.get('/dishes/' + args)
+        return reqHand.get('/dishes/by-restaurant/' + args)
             .then((response) => {
                 response.json()
                     .then((data) => {
@@ -25,7 +25,7 @@ const actions = {
             })
     },
     async getDish({ state, commit }, args) {
-        return reqHand.get(`/dishes/${args.id}/`, { id: args.id })
+        return reqHand.get('/dishes/' + args, { id: args.id })
             .then((response) => {
                 response.json()
                     .then((data) => {

@@ -30,6 +30,6 @@ export default createStore({
     basket,
     client,
     delivery,
-    deliveryman,
+    deliveryman
   }
 });

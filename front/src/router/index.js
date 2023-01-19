@@ -44,7 +44,8 @@ const routes = [
     component: RestaurantMenusView,
     meta: {
       roles: [1, 5]
-    }
+    },
+    props: true
   },
   {
     path: '/restaurants/:restaurant/:menu',
@@ -52,7 +53,8 @@ const routes = [
     component: MenuView,
     meta: {
       roles: [1, 5]
-    }
+    },
+    props: true
   },
   /*{
     path: '/restaurants/:restaurant/:plate',
