@@ -25,7 +25,7 @@ export default {
     FooterComponent
   },
   created() {
-    this.$store.dispatch("createVisitor")
+    //this.$store.dispatch("createVisitor")
   }
 }
 </script>
