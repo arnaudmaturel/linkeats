@@ -182,7 +182,7 @@ router.beforeEach((to, from) => {
       const userRole = data.userRole;
       localStorage.setItem("userRole", userRole)
       if (!to.meta.roles.includes(userRole)) {
-        router.replace({ name: 'home' })
+        return { name: 'home' , replace: true }
       }
     })
   });

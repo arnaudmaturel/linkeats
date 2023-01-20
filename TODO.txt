@@ -36,8 +36,6 @@ Regarder httponly et secure et peut être remplacer le localstorage par des cook
 
 Mettre en place un login pour la génération du token pour visiteurs
 
-Faire une prérequête dans le beforeeach pour demander le rôle (pour l'accessibilité)
-
 Générer un accessToken dans chaque register ou ramener à la page de login
 
 Remettre le fichier de roles
