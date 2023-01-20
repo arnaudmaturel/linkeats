@@ -1,16 +1,16 @@
 <template>
-  <v-app-bar height="120" style="background-color: #27476E;" elevation="0">
-    <v-app-bar-nav-icon size="x-large" @click.stop="mainMenu = !mainMenu" style="color: orange; background-color: white;"></v-app-bar-nav-icon>
+  <v-app-bar height="90" style="background-color: #27476E;" elevation="0">
+    <v-app-bar-nav-icon size="x-large" @click.stop="mainMenu = !mainMenu" style="color: orange;"></v-app-bar-nav-icon>
 
-    <v-toolbar-title>
+    <v-app-bar-title>
       <b style="font-family: MV Boli; font-size: 36px;">
-        <router-link :to="{ name: 'home' }" style="text-decoration: none; color: orange;">
+        <router-link :to="{ name: 'home' }" style="text-decoration: none; color: white;">
           LinkEats!
         </router-link>
       </b>
-    </v-toolbar-title>
+    </v-app-bar-title>
 
-    <v-card width="400" style="background-color: #27476E;" variant="plain">
+    <!--<v-card width="400" style="background-color: #27476E;" variant="plain">
       <v-card-text>
         <v-text-field density="compact" variant="solo" label="Your address" append-inner-icon="mdi-map-marker" single-line hide-details></v-text-field>
       </v-card-text>
@@ -20,14 +20,14 @@
       <v-card-text>
         <v-text-field :loading="loading" density="compact" variant="solo" label="Search menu" append-inner-icon="mdi-magnify" single-line hide-details @click:append-inner="onClick"></v-text-field>
       </v-card-text>
-    </v-card>
+    </v-card>-->
 
     <v-spacer></v-spacer>
 
     <v-menu v-model="cartMenu" :close-on-content-click="false">
       <template v-slot:activator="{ props }">
         <v-badge color="error" :content=cartCount>
-          <v-btn v-bind="props" icon color="warning" size="x-large" style="background-color: white" value="Cart">
+          <v-btn v-bind="props" icon size="x-large" style="color: orange" value="Cart">
             <v-icon>mdi-cart</v-icon>
           </v-btn>
         </v-badge>
@@ -40,7 +40,7 @@
       <template v-slot:activator="{ props }">
         <div v-if="isLogged()">
           <router-link  :to="{name:'account'}" style="text-decoration: none">
-            <v-btn icon v-bind="props" size="x-large" color="warning" style="background-color: white; margin-left: 20px;"
+            <v-btn icon v-bind="props" size="x-large" color="warning" style="margin-left: 20px;"
               value="Account">
               <v-icon>mdi-account</v-icon>
             </v-btn>
@@ -49,7 +49,7 @@
         </div>
         <div v-else>
           <router-link  :to="{name:'login'}" style="text-decoration: none">
-            <v-btn icon v-bind="props" size="x-large" color="warning" style="background-color: white; margin-left: 20px;" value="Account">
+            <v-btn icon v-bind="props" size="x-large" color="warning" style="margin-left: 20px;" value="Account">
               <v-icon>mdi-account</v-icon>
             </v-btn>
           </router-link>
@@ -59,7 +59,7 @@
       <!--<v-list density="compact">
         <v-list-item v-if="!logged">
           <router-link :to="{name:'login'}" style="text-decoration: none">
-            <v-btn icon v-bind="props" size="x-large" color="warning" style="background-color: white; margin-left: 20px;" value="Account">
+            <v-btn icon v-bind="props" size="x-large" color="warning" style="margin-left: 20px;" value="Account">
               <v-icon>mdi-account</v-icon>
             </v-btn>
           </router-link>
@@ -77,7 +77,7 @@
       </v-list> -->
     </v-menu>
 
-    <v-btn icon size="x-large" color="warning" style="background-color: white; margin-left: 20px;" @click="logout()" v-if="role !== 5" :to="{ name: 'home' }">
+    <v-btn icon size="x-large" color="red" style="margin-left: 20px;" @click="logout()" v-if="role !== 5" :to="{ name: 'home' }">
       <v-icon>mdi-logout</v-icon>
     </v-btn>
   </v-app-bar>
