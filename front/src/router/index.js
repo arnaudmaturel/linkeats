@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import vue from "vue";
 import HomeView from '../views/HomeView.vue'
 import RestaurantsView from '../views/restaurants/RestaurantsView.vue'
 import RestaurantMenusView from '../views/restaurants/menus/RestaurantView.vue'
@@ -153,6 +154,7 @@ const router = createRouter({
 // console.log("Router.localStorage(userID)1", localStorage.getItem('userId'));
 
 router.beforeEach((to, from) => {
+  console.log("beforeEach !")
   if (localStorage.getItem("accessToken") === null || localStorage.getItem("accessToken") == undefined) {
     console.log("no token")
     fetch("http://localhost:80/auth/visitor_token", {

@@ -37,10 +37,10 @@ const actions = {
 // mutations
 const mutations = {
   async ['RECEIVE_USER'](state, data) {
-    if (!data.data) {
+    if (!data) {
       console.log("RECEIVE_USER : no data");
     }
-    state.credential = data.credential;
+    state.credential = data;
     console.log("UserStore.credential : ", state.credential);
 
     await localStorage.setItem("accessToken", data.accessToken);

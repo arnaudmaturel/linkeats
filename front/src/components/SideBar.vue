@@ -5,22 +5,10 @@
     <v-app-bar-title>
       <b style="font-family: MV Boli; font-size: 36px;">
         <router-link :to="{ name: 'home' }" style="text-decoration: none; color: white;">
-          LinkEats!
+          LinkEats!{{ this.user.UserID }}
         </router-link>
       </b>
     </v-app-bar-title>
-
-    <!--<v-card width="400" style="background-color: #27476E;" variant="plain">
-      <v-card-text>
-        <v-text-field density="compact" variant="solo" label="Your address" append-inner-icon="mdi-map-marker" single-line hide-details></v-text-field>
-      </v-card-text>
-    </v-card>
-
-    <v-card width="400" style="background-color: #27476E;" variant="plain">
-      <v-card-text>
-        <v-text-field :loading="loading" density="compact" variant="solo" label="Search menu" append-inner-icon="mdi-magnify" single-line hide-details @click:append-inner="onClick"></v-text-field>
-      </v-card-text>
-    </v-card>-->
 
     <v-spacer></v-spacer>
 
@@ -36,57 +24,17 @@
       <CartComponent/>
     </v-menu>
 
-        <div v-if="!this.user">
-          <router-link  :to="{name:'account'}" style="text-decoration: none">
-            <v-btn icon v-bind="props" size="x-large" color="warning" style="margin-left: 20px;"
+          <!-- <router-link  :to="{name:'account'}" style="text-decoration: none"> -->
+            <v-btn icon v-bind="props" @click="loginAccount" size="x-large" color="warning" style="margin-left: 20px;"
               value="Account">
               <v-icon>mdi-account-tie</v-icon>
             </v-btn>
-          </router-link>
-
-        </div>
-        <div v-else>
-          <router-link  :to="{name:'login'}" style="text-decoration: none">
-            <v-btn icon v-bind="props" size="x-large" color="warning" style="margin-left: 20px;" value="Account">
-              <v-icon>mdi-account</v-icon>
-            </v-btn>
-          </router-link>
-        </div>
-      </template>
-
-      <!--<v-list density="compact">
-        <v-list-item v-if="!logged">
-          <router-link :to="{name:'login'}" style="text-decoration: none">
-            <v-btn icon v-bind="props" size="x-large" color="warning" style="margin-left: 20px;" value="Account">
-              <v-icon>mdi-account</v-icon>
-            </v-btn>
-          </router-link>
-        </v-list-item>
-        <v-list-item v-if="!logged">
-          <router-link :to="{ name: 'register' }" style="text-decoration: none; color: black;">
-            <v-btn variant="plain">Register</v-btn>
-          </router-link>
-        </v-list-item>
-        <v-list-item v-if="logged">
-          <router-link :to="{ name: 'clients/account', params: { id: '1' }}" style="text-decoration: none; color: black;">
-            <v-btn href="/account" variant="plain">Account</v-btn>
-          </router-link>
-        </v-list-item>
-      </v-list> -->
-    </v-menu>
+          <!-- </router-link> -->
 
     <v-btn icon size="x-large" color="red" style="margin-left: 20px;" @click="logout()" v-if="role !== 5" :to="{ name: 'home' }">
       <v-icon>mdi-logout</v-icon>
     </v-btn>
-  </v-app-bar>
 
-  <!--<v-navigation-drawer location="top" v-model="mainMenu" width="150" style="background: #27476E; background: -webkit-linear-gradient(to bottom, #27476E, #1f4e76, #02678f); background: linear-gradient(to bottom, #27476E, #1f4e76, #02678f);">
-    <v-list>
-      <v-list-item>
-        It's time to find something to eat!
-      </v-list-item>
-    </v-list>
-  </v-navigation-drawer>-->
   <v-navigation-drawer app v-model="mainMenu">
     <v-list nav density="compact">
       <router-link :to="{ name: 'home' }" style="text-decoration: none; color: black;">
@@ -103,6 +51,7 @@
     </v-list>
   </v-navigation-drawer>
   
+  </v-app-bar>
   
 </template>
 
@@ -124,7 +73,6 @@ export default {
       locationMenu: false,
       logged: false,
       role: localStorage.getItem('userRole'),
-      isLog:false,
     }
   },
   computed: mapGetters({
@@ -135,10 +83,6 @@ export default {
     this.$store.dispatch("getCount");
     // console.log('userRole' + localStorage.getItem('userRole'))
     // console.log('userRole != 5' + localStorage.getItem('userRole')!=5)
-  },
-  props:
-  {
-    // isLogged:boolean
   },
   methods: {
     onClick () {
@@ -151,12 +95,14 @@ export default {
     },
     logout () {
       localStorage.clear();
-      this.$isLog = false;
       this.$router.push({ name: 'home' });
     },
-    showUser()
+    loginAccount()
     {
-      console.log("Cart.click",this.user);
+      if (localStorage.getItem('userRole') == 5)
+        this.$router.push({ name:'login'});
+      else
+        this.$router.push({ name: 'account' })
     }
   }
 }

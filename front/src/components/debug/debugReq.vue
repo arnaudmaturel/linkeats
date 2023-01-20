@@ -15,7 +15,7 @@
                 <v-col cols="1">
                     <v-select label="Method" variant="outlined" v-model="selectedMethod"  :items="methods"/>
                 </v-col>
-                <v-col cols="10">
+                <v-col cols="9">
                         <v-text-field v-model="request" :readonly="loading" clearable placeholder="/clients/status" variant="outlined" color="rgb(255, 152, 0)"
                             @keydown.enter="onSend()" />
                 </v-col>

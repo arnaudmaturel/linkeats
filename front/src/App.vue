@@ -2,11 +2,11 @@
   <v-app id="app">
     <v-main>
       <div>
-        <SideBar />
+        <SideBar  @on-loggout="logout()" :isLogged="isLog" />
       </div>
       <div style="padding-bottom:150px">
-        <router-view/>
-        <footer-component style="position: absolute; bottom: 0;" @on-loggout="logout" :isLogged="isLog"/>
+        <router-view @on-logged="log()"/>
+        <footer-component style="position: absolute; bottom: 0;"/>
       </div>
     </v-main>
   </v-app>
