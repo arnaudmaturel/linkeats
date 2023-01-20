@@ -23,6 +23,7 @@ export default {
             {'title':'A propos','link':'/about'},
             {'title':'Confidentialité','link':'/confidentiality'},
             {'title':'Contactez-nous','link':'/contact-us'},
+            {'title':'Documentation','link':'http://localhost:3000/api'},
         ],
     }),
 }
