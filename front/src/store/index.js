@@ -25,7 +25,7 @@ export default createStore({
     storeMenus,
     storeRestaurants,
     order,
-    credential: user,
+    user,
     dishes,
     basket,
     client,

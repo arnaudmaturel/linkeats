@@ -153,7 +153,8 @@ const router = createRouter({
 // console.log("Router.localStorage(userID)1", localStorage.getItem('userId'));
 
 router.beforeEach((to, from) => {
-  if (localStorage.getItem("accessToken") === null) {
+  if (localStorage.getItem("accessToken") === null || localStorage.getItem("accessToken") == undefined) {
+    console.log("no token")
     fetch("http://localhost:80/auth/visitor_token", {
       method: 'GET',
       headers: {
@@ -182,7 +183,7 @@ router.beforeEach((to, from) => {
       const userRole = data.userRole;
       localStorage.setItem("userRole", userRole)
       if (!to.meta.roles.includes(userRole)) {
-        return { name: 'home' , replace: true }
+        return { name: 'home', replace: true }
       }
     })
   });

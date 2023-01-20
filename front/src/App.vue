@@ -6,7 +6,7 @@
       </div>
       <div style="padding-bottom:150px">
         <router-view/>
-        <footer-component style="position: absolute; bottom: 0;"/>
+        <footer-component style="position: absolute; bottom: 0;" @on-loggout="logout" :isLogged="isLog"/>
       </div>
     </v-main>
   </v-app>
@@ -18,12 +18,20 @@ import FooterComponent from './components/FooterComponent.vue';
 
 export default {
   name: 'App',
+
   components: {
     SideBar,
     FooterComponent
   },
   created() {
     //this.$store.dispatch("createVisitor")
+  },
+  data: () => ({
+    isLog : false
+  }),
+  methods: {
+    logout() { this.isLog = false; console.log('App.vue : loggout') },
+    log() { this.isLog = true; console.log('App.vue : logged !') }
   }
 }
 </script>

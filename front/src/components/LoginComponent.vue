@@ -89,13 +89,25 @@ export default {
                 userRole: this.userRole,
             };
 
-            // console.log('login', login);
-            await this.$store.dispatch('loginUser', login);
+            this.loading = true;
+            // this.$store.dispatch('loginUser', login)
+            //     .then(() => {
+            //         console.log("User connected : ", localStorage.getItem('userRole'));
+            //         this.$emit('on-logged');
+            //         this.$isLog = true;
+            //         this.$router.push({ name: 'account' });
+            //     })
+            //     .catch((err) => {
+            //         console.log('error :', err);
+            //         this.loading = false;
+            //     });
 
-            if (localStorage.getItem('userRole')!='5')
-            {
-                this.$router.push({ name:'account'})
-            }
+            await this.$store.dispatch('loginUser', login);
+                    console.log("User connected : ", localStorage.getItem('userRole'));
+                    this.$emit('on-logged');
+                    this.$isLog = true;
+                    this.$router.push({ name: 'account' });
+
         },
         required(v) {
             return !!v || 'Field is required'

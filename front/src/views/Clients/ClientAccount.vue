@@ -1,7 +1,5 @@
 <template>
-    <div>
-
-        <v-container>
+        <v-container >
             <v-row>
                 <v-col class="ma-auto" id="account-title">
                     <div v-if="userRole == 'Client'">
@@ -103,6 +101,13 @@
                             <AddreessEdit :data = "{name: 'teste',cp: '76140',addr: 'CESI Rouen',city : '', lat:0,lon:0}"/>
                         </div>
 
+
+
+                <!-- DEBUG (DEBUG FOR NOW) -->
+                        <div v-else-if="menu.component == 'DebugView' && isDebug">
+                            <DebugReq/>
+                        </div>
+
                 <!-- EVERYTHING ELSE -->
                         <div v-else>
                             Comming soon
@@ -112,7 +117,6 @@
 
             </div>
         </v-container>
-    </div>
 </template>
 
 
@@ -123,7 +127,6 @@
 
 // Components
 
-// ALE
 import GeneralInfoClient from '@/components/GeneralInfoClient.vue'
 import CredentialInfo from '@/components/CredentialInfo.vue';
 import OrderVue from '@/components/OrdersClientViewer.vue'
@@ -132,7 +135,6 @@ import opneLayerDemo from '@/components/OpenLayerDemo.vue'
 import AdressViewerClient from '@/components/AdressViewerClient.vue';
 import AddreessEdit from '@/components/AddreessEdit.vue';
 
-// ALIM
 import OrdersRestaurantViewer from '@/components/OrdersRestaurantViewer.vue';
 import AddressRestaurant from '@/components/AdressRestaurant.vue';
 import GeneralInfoRestaurant from '@/components/GeneralInfoRestaurant.vue';
@@ -140,7 +142,10 @@ import RestaurantCardEditor from '@/components/RestaurantCardEditor.vue';
 import OrderDeliveryWorkComponent from '@/components/OrderDeliveryWorkComponent.vue';
 import DishEditor from '@/components/DishEditor.vue';
 
+import DebugReqView from '@/components/debug/debugReq.vue';
+
 import { mapGetters, mapMutations, useStore, mapState } from "vuex";
+import DebugReq from '@/components/debug/debugReq.vue';
 
 
 export default {
@@ -151,20 +156,21 @@ export default {
     props: {        
     },
     components: {
-        GeneralInfoClient,
-        CredentialInfo,
-        OrderVue,
-        viewClientLocOrder,
-        opneLayerDemo,
-        AdressViewerClient,
-        AddreessEdit,
-        OrdersRestaurantViewer,
-        AddressRestaurant,
-        GeneralInfoRestaurant,
-        RestaurantCardEditor,
-        OrderDeliveryWorkComponent,
-        DishEditor
-    },
+    GeneralInfoClient,
+    CredentialInfo,
+    OrderVue,
+    viewClientLocOrder,
+    opneLayerDemo,
+    AdressViewerClient,
+    AddreessEdit,
+    OrdersRestaurantViewer,
+    AddressRestaurant,
+    GeneralInfoRestaurant,
+    RestaurantCardEditor,
+    OrderDeliveryWorkComponent,
+    DishEditor,
+    DebugReq
+},
     created()
     {
         switch (localStorage.getItem('userRole'))
@@ -185,13 +191,14 @@ export default {
                 this.userRole = 'Visitor';
                 break;
         }
-
     },
     data: () => ({
-        userRole : '',
+        //userRole: 'Visitor',
+        isDebug:true,
         tab: 'Général',
         width: 100,
         menus: [
+            { 'title': 'Debug (preview)', 'component': "DebugView", 'icon': 'mdi-bug' },
             { 'title': 'Général', 'component': "GeneralInfoClient", 'icon': 'mdi-account' },
             { 'title': 'Sécurité', 'component': "CredentialInfo", 'icon': 'mdi-account-lock' },
             { 'title': 'Commandes', 'component': "OrderView", 'icon': 'mdi-clipboard-text' },
@@ -203,6 +210,7 @@ export default {
     }),
     setCurrentTab(value) {
         activTitle = value;
+        console.log("hello world");
     },
 }
 </script>

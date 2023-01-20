@@ -1,4 +1,5 @@
 import { createApp } from 'vue'
+import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
@@ -11,9 +12,13 @@ loadFonts()
 import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap"
 
-createApp(App)
-    .use(router)
-    .use(store)
-    .use(vuetify)
-    .use(OpenLayersMap)
-    .mount('#app')
+const app = createApp(App);
+
+
+app.use(router);
+app.use(store);
+app.use(vuetify);
+app.use(OpenLayersMap);
+app.mount('#app');
+
+app.config.globalProperties.$isLog = false;
