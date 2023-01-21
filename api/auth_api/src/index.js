@@ -42,15 +42,18 @@ async function authenticateToken(req, res) {
     const authHeader = req.headers['authorization']
     const token = authHeader && authHeader.split(' ')[1]
     if (token === undefined) {
+        console.log("Token undefined ! user rejected ")
         return res.sendStatus(401)
     }
 
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
         if (err) {
+            console.log("Authentification Failed : " + err.message)
             return res.sendStatus(403)
         }
 
         req.user = user
+        console.log("Authentification Success : ", user)
         return res.sendStatus(200)
     })
 }

@@ -31,10 +31,11 @@
             </v-btn>
           <!-- </router-link> -->
 
-    <v-btn icon size="x-large" color="red" style="margin-left: 20px;" @click="logout()" v-if="role !== 5" :to="{ name: 'home' }">
-      <v-icon>mdi-logout</v-icon>
-    </v-btn>
-
+          <v-btn icon size="x-large" color="red" style="margin-left: 20px;" @click="logout()" v-if="role !== 5" :to="{ name: 'home' }">
+            <v-icon>mdi-logout</v-icon>
+          </v-btn>
+        </v-app-bar>
+          
   <v-navigation-drawer app v-model="mainMenu">
     <v-list nav density="compact">
       <router-link :to="{ name: 'home' }" style="text-decoration: none; color: black;">
@@ -51,7 +52,6 @@
     </v-list>
   </v-navigation-drawer>
   
-  </v-app-bar>
   
 </template>
 

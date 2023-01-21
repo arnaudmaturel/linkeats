@@ -15,59 +15,90 @@ const getters = {
 
 // actions
 const actions = {
+    // async getAllRestaurants({ state, commit }, args) {
+    //     return reqHand.get('/restaurants')
+    //         .then((response) => {
+    //             response.json()
+    //                 .then((data) => {
+    //                     commit('RECEIVE_RESTAURANTS', { data })
+    //                 })
+    //         })
+    // },
+    // async getRestaurant({ state, commit }, args) {
+    //     return reqHand.get('/restaurants/' + args, { id: args.id })
+    //         .then((response) => {
+    //             response.json()
+    //                 .then((data) => {
+    //                     commit('RECEIVE_RESTAURANT', { data })
+    //                 })
+    //         })
+    // },
+    // async getRestaurantAccount({ state, commit }, args) {
+    //     return reqHand.get(`/restaurants/${args.id}/account`, { id: args.id })
+    //         .then((response) => {
+    //             response.json()
+    //                 .then((data) => {
+    //                     commit('RECEIVE_RESTAURANT', { data })
+    //                 })
+    //         })
+    // },
+    // async createRestaurant({ state, commit }, newRestaurant) {
+    //     return reqHand.post('/restaurants/register', newRestaurant)
+    //         .then((response) => {
+    //             response.text()
+    //                 .then((data) => {
+    //                     commit('RECEIVE_RESTAURANT', { data })
+    //                 })
+    //         })
+    // },
+    // async saveRestaurant({ state, commit }, args) {
+    //     return reqHand.put(`/restaurants/${state.restaurant.id}/`, { id: state.restaurant.id }, state.restaurant)
+    //         .then((response) => {
+    //             response.json()
+    //                 .then((data) => {
+    //                     commit('RECEIVE_RESTAURANT', { data })
+    //                 })
+    //         })
+    // },
+    // async deleteRestaurant({ state, commit }, args) {
+    //     return reqHand.delete(`/restaurants/${args.id}/`, { id: args.id })
+    //         .then((response) => {
+    //             response.json()
+    //                 .then((data) => {
+    //                     commit('RECEIVE_RESTAURANT', { data })
+    //                 })
+    //         })
+    // }
+
+
+
     async getAllRestaurants({ state, commit }, args) {
-        return reqHand.get('/restaurants')
-            .then((response) => {
-                response.json()
-                    .then((data) => {
-                        commit('RECEIVE_RESTAURANTS', { data })
-                    })
-            })
+        const res = await reqHand.get('/restaurants');
+        const data = await res.json();
+        commit('RECEIVE_RESTAURANTS', data)
     },
     async getRestaurant({ state, commit }, args) {
-        return reqHand.get('/restaurants/' + args, { id: args.id })
-            .then((response) => {
-                response.json()
-                    .then((data) => {
-                        commit('RECEIVE_RESTAURANT', { data })
-                    })
-            })
+        const res = await reqHand.get(`/restaurants/${args}/`, { id: args });
+        const data = await res.json();
+        commit('RECEIVE_RESTAURANT', data);
     },
-    async getRestaurantAccount({ state, commit }, args) {
-        return reqHand.get(`/restaurants/${args.id}/account`, { id: args.id })
-            .then((response) => {
-                response.json()
-                    .then((data) => {
-                        commit('RECEIVE_RESTAURANT', { data })
-                    })
-            })
-    },
+    // async getRestaurantAccount({ state, commit }, args) {
+    //     const res = await reqHand.get(`/restaurants/${args}`, { id: args })
+    //     const data = await response.json();
+    //     commit('RECEIVE_RESTAURANT',  data );
+    // },
     async createRestaurant({ state, commit }, newRestaurant) {
-        return reqHand.post('/restaurants/register', newRestaurant)
-            .then((response) => {
-                response.text()
-                    .then((data) => {
-                        commit('RECEIVE_RESTAURANT', { data })
-                    })
-            })
+        const res = await reqHand.post('/restaurants/register', newRestaurant);
+        const data = await res.json();
+        commit('RECEIVE_RESTAURANT', data);
     },
     async saveRestaurant({ state, commit }, args) {
-        return reqHand.put(`/restaurants/${state.restaurant.id}/`, { id: state.restaurant.id }, state.restaurant)
-            .then((response) => {
-                response.json()
-                    .then((data) => {
-                        commit('RECEIVE_RESTAURANT', { data })
-                    })
-            })
+        const res = await reqHand.put(`/restaurants/${args.id}/`, { id: args.id }, args.data);
     },
     async deleteRestaurant({ state, commit }, args) {
-        return reqHand.delete(`/restaurants/${args.id}/`, { id: args.id })
-            .then((response) => {
-                response.json()
-                    .then((data) => {
-                        commit('RECEIVE_RESTAURANT', { data })
-                    })
-            })
+        const res = await reqHand.delete(`/restaurants/${args}/`, { id: args })
+        const data = await res.json();
+        commit('RECEIVE_RESTAURANT', data);
     }
 }
 

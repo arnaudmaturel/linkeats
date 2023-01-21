@@ -9,22 +9,6 @@
         <div id="img">
             <div id="infPart">
 
-                <!-- <v-row id="banner">
-                    <v-col class="ma-auto">
-                        <v-card class="mx-auto">
-                            <div  class="container">
-                                    <v-img height="100%" color="rgb(250,250,250)" cover src="mdi-shop">
-                                        <v-avatar size="160" rounded="pill" color="rgb(228,228,228)">
-                                                <v-avatar size="150" rounded="pill" color="white" @click="openAvatar">
-                                                    <v-img cover src="@/assets/shop.png" />
-                                                </v-avatar>
-                                        </v-avatar>
-                                    </v-img>  
-                            </div>
-                        </v-card>
-                    </v-col>
-                </v-row> -->
-
 
 
                 <v-row>
@@ -58,13 +42,13 @@
                 <v-row>
                     <v-col class="ma-auto">
                         <h6>IBAN</h6>
-                        <v-text-field v-model="lastName" :readonly="loading" clearable
+                        <v-text-field v-model="iban" :readonly="loading" clearable
                             placeholder="Entrez votre numero d'IBAN" variant="outlined" color="rgb(255, 152, 0)">
                         </v-text-field>
                     </v-col>
                 </v-row>
 
-                <v-row>
+                <!-- <v-row>
                     <v-col class="ma-auto">
                         <h6>Heure d'ouverture</h6>
                         <Datepicker v-model="openAt" time-picker="true" />
@@ -74,21 +58,21 @@
                         <Datepicker v-model="cloaseAt" time-picker="true" />
                     </v-col>
 
-                </v-row>
+                </v-row> -->
 
 
 
                 <v-row>
                     <v-col class="ma-auto">
                         <h6>Rayon de livraison</h6>
-                        <v-text-field v-model="lastName" :readonly="loading" clearable
+                        <v-text-field v-model="range" :readonly="loading" clearable
                             placeholder="Entrez votre rayon de livraison" variant="outlined" color="rgb(255, 152, 0)">
                         </v-text-field>
                     </v-col>
 
                     <v-col class="ma-auto" style="text-align:right">
                         <v-btn id="btnSave" rounded="pill"
-                            :ripple="{ class: 'text-orange', center: true }">Sauvegarder</v-btn>
+                            :ripple="{ class: 'text-orange', center: true }" @click="onSave">Sauvegarder</v-btn>
                     </v-col>
                 </v-row>
             </div>
@@ -103,11 +87,21 @@ import '@vuepic/vue-datepicker/dist/main.css';
 
 export default {
     name: 'GeneralInfoRestaurant',
+    async created() {
+        await this.$store.dispatch('getRestaurant', localStorage.getItem('userId'));
+        console.log("Resto : ", this.$store.state.storeRestaurants.restaurant);
+        this.name = this.$store.state.storeRestaurants.restaurant.RestaurantName;
+        this.iban = this.$store.state.storeRestaurants.restaurant.RestaurantIBAN;
+        this.siren = this.$store.state.storeRestaurants.restaurant.RestaurantSiren;
+        this.siret = this.$store.state.storeRestaurants.restaurant.RestaurantSiret;
+        this.range = this.$store.state.storeRestaurants.restaurant.RestaurantDeliveryRange;
+    },
     data: () => ({
         name: null,
         siren: null,
         siret: null,
         iban: null,
+        range:null,
         openAt: null,
         cloaseAt: null,
     }),
@@ -116,10 +110,16 @@ export default {
     },
     methods:
     {
-        openAvatar()
+        async onSave()
         {
-            var src = this.$el.querySelector('#uploadmyfile');
-            console.log(src);
+            const newResto = {
+               RestaurantName: this.name ,
+               RestaurantIBAN: this.iban ,
+               RestaurantSiren: this.siren,
+               RestaurantSiret:this.siret,
+               RestaurantDeliveryRange:this.range
+            }
+            await this.$store.dispatch('saveRestaurant', { id: localStorage.getItem('userId') , data: newResto });
         }
     }
 }

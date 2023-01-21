@@ -10,7 +10,7 @@
                   </v-card-title>
                 </v-card-item>
 
-                <v-col v-for="item in cart" v-if='cartCount > 0' dense>
+                <v-col v-for="item in cart" :key="item" v-if="cartCount > 0" dense>
                   <v-card>
                     <v-card-item>
                       <v-row>
