@@ -9,6 +9,29 @@ const OrderSchema = {
         },
         required: true,
     },
+    Items: {
+        DishesNumber: Number,
+        Dishes: { 
+            IdDish: {
+                NameDish: String,
+                Quantity: Number,
+                Price: Number,
+                WeightDish: Number
+            }
+        }
+    },
+    ClientId: {
+        type: String,
+        required: true
+    },
+    RestaurantId: {
+        type: String,
+        required: true
+    },
+    DeliveryManId: {
+        type: String,
+        required: false
+    },
     OrderStatus: {
         type: Number,
         required: true
@@ -17,11 +40,7 @@ const OrderSchema = {
         type: Number,
         required: true,
     },
-    OrderTotalPrice: {
-        type: Number,
-        required: true,
-    },
-    OrderRestaurantPart: {
+    ItemsPrice: {
         type: Number,
         required: true,
     },
@@ -33,13 +52,30 @@ const OrderSchema = {
         type: Number,
         required: true,
     },
-    OrderTips: {
+    OrderDistance: {
         type: Number,
         required: true,
     },
     OrderPaymentInfo: {
         type: String,
         required: true,
+    },
+    OrderedAt: {
+        type: Date,
+        default: Date.now(),
+        required: true,
+    },
+    CookedAt: {
+        type: Date,
+        required: false,
+    },
+    PickedAt: {
+        type: Date,
+        required: false,
+    },
+    DeliveredAt: {
+        type: Date,
+        required: false,
     },
     RgpdObjectIsDeleted: {
         type: Boolean,

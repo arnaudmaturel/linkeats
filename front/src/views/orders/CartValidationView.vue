@@ -89,7 +89,27 @@ export default {
             dishName: dishes
           }
         }
-        this.$store.dispatch("createBasket", basketItem)
+
+
+        this.$store.dispatch("createBasket", basketItem).then(() => {
+          // WIP À réadapter avec les nouveau modèles de commandes et panier
+
+          const order = {
+            Basket: basketItem,
+            ClientId: localStorage.getItem("userId"),
+            RestaurantId: 'undefined',
+            OrderStatus: 5,
+            OrderFinalPrice: this.cartTotal,
+            OrderTotalPrice: this.cartTotal,
+            OrderRestaurantPart: 20,
+            OrderLinkEatsPart: 75,
+            OrderDeliveryCost: 5,
+            OrderTips: 0,
+            OrderPaymentInfo: "card"            
+          }
+            this.$store.dispatch("createOrder", basketItem).then((response) => {
+          })
+        })
       }
     }
   }
