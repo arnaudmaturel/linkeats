@@ -3,9 +3,9 @@ class RequestHandler {
         this.baseUrl = baseUrl;
     }
 
-    get(endUrl, params) {
+    async get(endUrl, params) {
         const accessToken = localStorage.getItem('accessToken')
-        return fetch(this.baseUrl + endUrl + '?' + new URLSearchParams(
+        return await fetch(this.baseUrl + endUrl + '?' + new URLSearchParams(
             params
         ), {
             method: 'GET',

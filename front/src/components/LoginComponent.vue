@@ -56,7 +56,19 @@
             </div>
         </v-card>
 
+
+        <!-- SNACKBAR -->
+        <v-snackbar v-model="snackbar" :timeout="timeout" style="border=solid 3px rgb(228, 228, 228);">
+            <template v-slot:actions>
+                <v-btn color="rgb(255, 152, 0)" rounded="pill" @click="snackbar = false">
+                    Close
+                </v-btn>
+            </template>
+        </v-snackbar>
+
+
     </v-container>
+
 </template>
 
 
@@ -76,6 +88,9 @@ export default {
         CredentialPassword: null,
         loading: false,
         tagBorder: 'stdBorder',
+        snackbar: false,
+        text: 'Login / mot de passe incorrect',
+        timeout: 3000,
     }),
 
     methods: {
@@ -103,11 +118,13 @@ export default {
             //     });
 
             await this.$store.dispatch('loginUser', login);
-                    console.log("User connected : ", localStorage.getItem('userRole'));
-                    this.$emit('on-logged');
-                    this.$isLog = true;
-                    this.$router.push({ name: 'account' });
+            console.log("User connected : ", localStorage.getItem('userRole'));
+            if (localStorage.getItem('userRole') != 5 && localStorage.getItem('userRole') != null)
+                this.$router.push({ name: 'account' });
+            else
+                snackbar = true;
 
+            this.loading = false;
         },
         required(v) {
             return !!v || 'Field is required'

@@ -17,8 +17,6 @@
                             placeholder="Entrez votre login" variant="outlined" color="rgb(255, 152, 0)">
                         </v-text-field>
                     </v-col>
-
-
                 </v-row>
 
                 <v-row>
@@ -38,15 +36,21 @@
                 </v-row>
 
                 <v-row>
+                    <v-col cols="ma-auto">
+                        <v-checkbox v-model="this.isChangingPwd" color="rgb(252,152,0)" label="Modifier le mot de passe"></v-checkbox>
+                    </v-col>
+                </v-row>
+
+                <v-row>
                     <v-col cols="5">
                         <h6>Mot de passe</h6>
-                        <v-text-field v-model="password" :readonly="loading" clearable placeholder="Entrez votre nouveau mot de passe"
+                        <v-text-field v-model="password" :disabled="!this.isChangingPwd" :readonly="loading" clearable placeholder="Entrez votre nouveau mot de passe"
                             variant="outlined" color="rgb(255, 152, 0)">
                         </v-text-field>
                     </v-col>
                     <v-col cols="5" offset="2">
                         <h6>Confirmez le mot de passe</h6>
-                        <v-text-field v-model="password2" :readonly="loading" clearable placeholder="confimer votre nouveau mot de passe"
+                        <v-text-field v-model="password2" :disabled="!this.isChangingPwd" :readonly="loading" clearable placeholder="confimer votre nouveau mot de passe"
                             variant="outlined" color="rgb(255, 152, 0)">
                         </v-text-field>
                     </v-col>
@@ -64,24 +68,56 @@
 </template>
 
 <script>
+import { thisExpression } from '@babel/types';
+import { mapGetters } from 'vuex';
 
 export default {
     name: 'CredentialInfo',
+    async created() {
+        await this.$store.dispatch('getCredential', localStorage.getItem('credentialId'));
+        console.log("CredentialInfo : ", this.$store.state.user.credential);  
+        this.login = this.$store.state.user.credential.CredentialLogin;
+        this.phone = this.$store.state.user.credential.CredentialEmail;
+        this.mail = this.$store.state.user.credential.CredentialPhone;
+    },
     data: () => ({
         password: null,
         password2: null,
         login: null,
         phone: null,
         mail: null,
-        loading: false
+        loading: false,
+        isChangingPwd : false,
     }),
-    created() {
-        
-    },
     methods: {
         async onSubmit()
         {
-            // TO DO
+            if (this.isChangingPwd)
+            {
+                const newCred = {
+                    CredentialLogin: this.login,
+                    CredentialEmail: this.mail,
+                    CredentialPhone: this.phone,            
+                }
+                this.$store.dispatch('puCredential', newCred);
+            }
+            else
+            {
+                if (this.password != this.password2)
+                {
+                    // password not the same
+                }
+                else
+                {
+                    const newCred = {
+                        CredentialLogin: this.login,
+                        CredentialEmail: this.mail,
+                        CredentialPhone: this.phone,
+                        CredentialPassword: this.password,
+                    }
+                    this.$store.dispatch('puCredential', newCred);
+                }
+            }
         }
     }
 }

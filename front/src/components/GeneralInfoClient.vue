@@ -54,9 +54,8 @@ export default {
     }),
     async created()
     {
-
         await this.$store.dispatch('getClient', localStorage.getItem('userId'));
-        await timer(1000);
+        //await timer(1000);
         this.firstName = this.$store.state.client.client.ClientFirstName;
         this.lastName = this.$store.state.client.client.ClientLastName;
         console.log('client xp :',this.$store.state.client);

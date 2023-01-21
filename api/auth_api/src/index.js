@@ -85,12 +85,24 @@ app.get('/auth/user_credential/:user_id', async (req, res) => {
         return res.status(200).json({
             CredentialLogin: user.CredentialLogin,
             CredentialEmail: user.CredentialEmail,
-            CredentialLogin: user.CredentialLogin,
+            CredentialPhone: user.CredentialPhone,
             CredentialAssociatedUserID: user.CredentialAssociatedUserID,
+            CredentialID: user.CredentialID,
+            CredentialUserRole: user.CredentialUserRole,
         });
     } else {
         return res.status(404).json({ error: "User not found" });
     }
+})
+
+app.put('/auth/user_credential/:user_id', async (req, res) => {
+
+    try {
+        await credentialMng.update(req.body, req.params.user_id);
+    } catch (err) {
+        return res.status(500).json({ error: err.message });
+    }
+
 })
 
 
@@ -157,7 +169,7 @@ app.post('/auth/login', rolesChecking.checkRole([rolesChecking.roles.Visitor]), 
 
             const accessToken = generateAccessToken(credential);
 
-            res.status(200).json({ accessToken, credential: credential });
+            res.status(200).json({ accessToken: accessToken, credential: credential });
             console.log(user.CredentialID + " aka " + user.CredentialLogin + " Crendential Successful !");
         } else {
             console.log(user.CredentialID + " aka " + user.CredentialLogin + " Crendential Incorrect !");

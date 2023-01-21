@@ -154,7 +154,6 @@ const router = createRouter({
 // console.log("Router.localStorage(userID)1", localStorage.getItem('userId'));
 
 router.beforeEach((to, from) => {
-  console.log("beforeEach !")
   if (localStorage.getItem("accessToken") === null || localStorage.getItem("accessToken") == undefined) {
     console.log("no token")
     fetch("http://localhost:80/auth/visitor_token", {

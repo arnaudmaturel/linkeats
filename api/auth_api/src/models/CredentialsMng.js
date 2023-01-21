@@ -7,6 +7,7 @@ const regexMail = new RegExp(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/);
 module.exports = {
     getById,
     getByUserName,
+    update,
 }
 
 // get the credential by the id
@@ -23,6 +24,15 @@ async function getByUserName(username, userRole) {
         return await getByPhone(username, userRole);
     else
         return await getByLogin(username, userRole);
+}
+
+// update props of the credentials
+async function update(id, params) {
+    const credential = await getCredential(id);
+
+    Object.assign(credential, params);
+
+    await credential.save();
 }
 
 

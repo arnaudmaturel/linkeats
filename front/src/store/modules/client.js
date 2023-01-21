@@ -14,13 +14,9 @@ const getters = {
 // actions
 const actions = {
   async getClient({ state, commit }, args) {
-    return reqHand.get(`/clients/${args}/`, { id: args })
-      .then((response) => {
-        response.json()
-          .then((data) => {
-            commit('RECEIVE_CLIENT', data)
-          })
-      })
+    const res = await reqHand.get(`/clients/${args}/`, { id: args })
+    const data = await res.json()
+    await commit('RECEIVE_CLIENT', data)
   },
 
 
@@ -48,6 +44,7 @@ const actions = {
           })
       })
   },
+
   async deleteClient({ state, commit }, args) {
     return reqHand.delete(`/clients/${args.id}/`, { id: args.id })
       .then((response) => {
@@ -61,7 +58,7 @@ const actions = {
 
 // mutations
 const mutations = {
-  ['RECEIVE_CLIENT'](state, data) {
+  async ['RECEIVE_CLIENT'](state, data) {
     state.client = data
   },
   ['UPDATE_CLIENT'](state, value) {

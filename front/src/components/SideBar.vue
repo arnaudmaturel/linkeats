@@ -5,7 +5,7 @@
     <v-app-bar-title>
       <b style="font-family: MV Boli; font-size: 36px;">
         <router-link :to="{ name: 'home' }" style="text-decoration: none; color: white;">
-          LinkEats!{{ this.user.UserID }}
+          LinkEats!
         </router-link>
       </b>
     </v-app-bar-title>
@@ -99,7 +99,7 @@ export default {
     },
     loginAccount()
     {
-      if (localStorage.getItem('userRole') == 5)
+      if (!localStorage.getItem('userRole') || localStorage.getItem('userRole') == 5)
         this.$router.push({ name:'login'});
       else
         this.$router.push({ name: 'account' })
