@@ -23,7 +23,7 @@ app.get('/baskets/status', (req,res) => {
 app.use('/baskets', basketController);
 
 
-app.listen(3005, () => {
-    console.log('Server is running on port 3005');
+app.listen(3000, () => {
+    console.log('Server is running on port 3000');
 });
 
