@@ -90,9 +90,11 @@
 export default {
     name: 'DishEditor',
     props: {
+        isEditing:Boolean,
         maxHeight: null,
         width:null,
         dish: {
+            _id : null,
             name: String,
             price: Number,
             PicturePaths: String,
@@ -140,12 +142,41 @@ export default {
                 return;
             this.allergenes.splice(i, 1);
         },
-        saveModif()
+        async saveModif()
         {
-            console.log(this.dish);
-            this.dish.Tags = this.tags.join(';');
-            this.dish.Allergens = this.allergenes.join(';');
-            this.dish.price = this.price * 100;
+
+            if (this.isEditing)
+            {
+                const newDish =
+                {
+                    name: this.dish.name,
+                    price: this.price * 100,
+                    PicturePaths: this.dish.PicturePaths,
+                    Description: this.dish.Description,
+                    Tags: this.tags.join(';'),
+                    Allergens: this.allergenes.join(';'),
+                    Wheight: this.dish.Wheight,
+                    IDRestaurant: localStorage.getItem('userId')
+                }
+                await this.$store.dispatch('saveDish', {id:this.dish._id, dish:newDish});
+                console.log("dish saved");
+            }
+            else // add dish
+            {
+                const newDish =
+                {
+                    name: this.dish.name,
+                    price: this.price * 100,
+                    PicturePaths: this.dish.PicturePaths,
+                    Description: this.dish.Description,
+                    Tags: this.tags.join(';'),
+                    Allergens: this.allergenes.join(';'),
+                    Wheight: this.dish.Wheight,
+                    IDRestaurant: localStorage.getItem('userId')
+                }
+                await this.$store.dispatch('createDish', newDish);
+                console.log("dish added");
+            }
             this.$emit('on-save')
         }
 

@@ -19,7 +19,7 @@ router.post('/', rolesChecking.checkRole([rolesChecking.roles.Restaurant]), (req
         });
 });
 
-router.get('/:id', rolesChecking.checkRole([rolesChecking.roles.Visitor, rolesChecking.roles.Client]), (req, res) => {
+router.get('/:id', rolesChecking.checkRole([rolesChecking.roles.Visitor, rolesChecking.roles.Restaurant, rolesChecking.roles.Client]), (req, res) => {
     console.log(req.params.id);
     const d = dishMng.getById(req.params.id);
     d.then((value) => {
@@ -32,7 +32,7 @@ router.get('/:id', rolesChecking.checkRole([rolesChecking.roles.Visitor, rolesCh
 });
 
 
-router.get('/', rolesChecking.checkRole([rolesChecking.roles.Visitor, rolesChecking.roles.Client]), (req, res) => {
+router.get('/', rolesChecking.checkRole([rolesChecking.roles.Visitor, rolesChecking.roles.Restaurant, rolesChecking.roles.Client]), (req, res) => {
     const d = dishMng.getAll();
     d.then((value) => {
         if (value)
@@ -44,7 +44,7 @@ router.get('/', rolesChecking.checkRole([rolesChecking.roles.Visitor, rolesCheck
 });
 
 
-router.get('/by-restaurant/:id', rolesChecking.checkRole([rolesChecking.roles.Visitor, rolesChecking.roles.Client]), (req, res) => {
+router.get('/by-restaurant/:id', rolesChecking.checkRole([rolesChecking.roles.Visitor, rolesChecking.roles.Restaurant, rolesChecking.roles.Client]), (req, res) => {
     console.log(req.params.id);
     const d = dishMng.getByRestaurantId(req.params.id);
     d.then((value) => {

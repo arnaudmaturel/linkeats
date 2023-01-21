@@ -26,6 +26,7 @@ function checkRole(allowedRoles) {
             if (allowedRoles.includes(decoded.CredentialUserRole)) {
                 next()
             } else {
+                console.log('Allowed roles : ' + allowedRoles + '   |    curent role  : ' + decoded.CredentialUserRole);
                 return res.status(403).json({ error: "Not allowed" });
             }
         } catch (error) {

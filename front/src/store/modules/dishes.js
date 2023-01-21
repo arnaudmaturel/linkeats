@@ -15,63 +15,46 @@ const getters = {
 
 // actions
 const actions = {
+
     async getAllDishes({ state, commit }, args) {
-        return reqHand.get('/dishes/by-restaurant/' + args)
-            .then((response) => {
-                response.json()
-                    .then((data) => {
-                        commit('RECEIVE_DISHES', { data })
-                    })
-            })
+        const res = await reqHand.get('/dishes/by-restaurant/' + args);
+        const data = await res.json();
+        await commit('RECEIVE_DISHES', data)
     },
+
     async getDish({ state, commit }, args) {
-        return reqHand.get('/dishes/' + args, { id: args.id })
-            .then((response) => {
-                response.json()
-                    .then((data) => {
-                        commit('RECEIVE_DISH', { data })
-                    })
-            })
+        const res = await reqHand.get('/dishes/' + args, { id: args.id });
+        const data = await res.json();
+        await commit('RECEIVE_DISH', data)
     },
-    async createDish({ state, commit }, newOrder) {
-        return reqHand.post('/dishes/', newOrder)
-            .then((response) => {
-                response.json()
-                    .then((data) => {
-                        commit('RECEIVE_DISH', { data })
-                    })
-            })
+
+    async createDish({ state, commit }, newDish) {
+        const res = await reqHand.post('/dishes/', newDish);
+        const data = await res.json();
+        commit('RECEIVE_DISH', data);
     },
     async saveDish({ state, commit }, args) {
-        return reqHand.put(`/dishes/${state.dish.id}/`, { id: state.dish.id }, state.dish)
-            .then((response) => {
-                response.json()
-                    .then((data) => {
-                        commit('RECEIVE_DISH', { data })
-                    })
-            })
+        const res = await reqHand.put(`/dishes/${args.id}/`, { id: args.id }, args.dish);
+        const data = await res.json();
+        commit('RECEIVE_DISH', data)
     },
     async deleteDish({ state, commit }, args) {
-        return reqHand.delete(`/dishes/${args.id}/`, { id: args.id })
-            .then((response) => {
-                response.json()
-                    .then((data) => {
-                        commit('RECEIVE_DISH', { data })
-                    })
-            })
-    }
+        const res = await reqHand.delete(`/dishes/${args._id}/`, { id: args._id });
+        const data = await res.json();
+        commit('RECEIVE_DISH', data);
+    },
 }
 
 // mutations
 const mutations = {
-    ['RECEIVE_DISHES'](state, data) {
-        state.dishes = data
+    async ['RECEIVE_DISHES'](state, data) {
+        state.dishes = data;
     },
-    ['RECEIVE_DISH'](state, data) {
-        state.dish = data
+    async ['RECEIVE_DISH'](state, data) {
+        state.dish = data;
     },
-    ['UPDATE_DISH'](state, value) {
-        state.dish = Object.assign(state.dish, value)
+    async ['UPDATE_DISH'](state, value) {
+        state.dish = await Object.assign(state.dish, value);
     }
 }
 

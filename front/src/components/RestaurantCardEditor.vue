@@ -5,7 +5,7 @@
                 Liste des Plats et boissons
             </h5>
             <div>
-                <v-btn rounded="pill" id="btn" elevation="6" :disabled="currentTab !='Plat'" icon="mdi-plus-thick" @click="dialogD=true"/>
+                <v-btn rounded="pill" id="btn" elevation="6" :disabled="currentTab !='Plat'" icon="mdi-plus-thick" @click="onAddDish()"/>
             </div>
         </div>
         <div id="middle"></div>
@@ -114,7 +114,7 @@
         <!-- DIALOG -->
         <v-dialog v-model="dialogD" class="ma-auto" width="50vw">
             <DishEditor maxHeight="80vh" :dish="dishEdit"
-             @on-close="dialogD=false" @on-save="dialogD=false"/>
+             @on-close="dialogD=false" :isEditing="this.isEdditing" @on-save="dialogD = false, refreshData()"/>
         </v-dialog>
     </v-card>
 </template>
@@ -122,14 +122,21 @@
 <script>
 import DishEditor from './DishEditor.vue';
 
+const DEFAULT_DISH = { name: '', price: 0, PicturePaths: '', Description: '', Tags: '', Allergens: '', Wheight: 500 };
+
 export default {
     components:
     {
         DishEditor
     },
+    async created()
+    {
+        await this.refreshData();
+    },
     props: {
     },
     data: () => ({
+        isEdditing : false,
         currentTab: "Plat",
         tabs: [
             'Plat',
@@ -139,13 +146,13 @@ export default {
         dialogD: false,
         dialogM: false,
         dishes: [
-            { name: 'Plat', price: 1550, PicturePaths: '', Description: 'delicious dish', Tags: 'tag1;tag2;tag3', Allergens: 'allergen1;allergen2', Wheight: 500 },
-            { name: 'Plat', price: 1550, PicturePaths: '', Description: 'delicious dish', Tags: 'tag1;tag2;tag3', Allergens: 'allergen1;allergen2', Wheight: 500 },
-            { name: 'Plat', price: 1550, PicturePaths: '', Description: 'delicious dish', Tags: 'tag1;tag2;tag3', Allergens: 'allergen1;allergen2', Wheight: 500 },
-            { name: 'Plat', price: 1550, PicturePaths: '', Description: 'delicious dish', Tags: 'tag1;tag2;tag3', Allergens: 'allergen1;allergen2', Wheight: 500 },
-            { name: 'Plat', price: 1550, PicturePaths: '', Description: 'delicious dish', Tags: 'tag1;tag2;tag3', Allergens: 'allergen1;allergen2', Wheight: 500 },
-            { name: 'Plat', price: 1550, PicturePaths: '', Description: 'delicious dish', Tags: 'tag1;tag2;tag3', Allergens: 'allergen1;allergen2', Wheight: 500 },
-            { name: 'Plat', price: 1550, PicturePaths: '', Description: 'delicious dish', Tags: 'tag1;tag2;tag3', Allergens: 'allergen1;allergen2', Wheight: 500 },
+            // { name: 'Plat', price: 1550, PicturePaths: '', Description: 'delicious dish', Tags: 'tag1;tag2;tag3', Allergens: 'allergen1;allergen2', Wheight: 500 },
+            // { name: 'Plat', price: 1550, PicturePaths: '', Description: 'delicious dish', Tags: 'tag1;tag2;tag3', Allergens: 'allergen1;allergen2', Wheight: 500 },
+            // { name: 'Plat', price: 1550, PicturePaths: '', Description: 'delicious dish', Tags: 'tag1;tag2;tag3', Allergens: 'allergen1;allergen2', Wheight: 500 },
+            // { name: 'Plat', price: 1550, PicturePaths: '', Description: 'delicious dish', Tags: 'tag1;tag2;tag3', Allergens: 'allergen1;allergen2', Wheight: 500 },
+            // { name: 'Plat', price: 1550, PicturePaths: '', Description: 'delicious dish', Tags: 'tag1;tag2;tag3', Allergens: 'allergen1;allergen2', Wheight: 500 },
+            // { name: 'Plat', price: 1550, PicturePaths: '', Description: 'delicious dish', Tags: 'tag1;tag2;tag3', Allergens: 'allergen1;allergen2', Wheight: 500 },
+            // { name: 'Plat', price: 1550, PicturePaths: '', Description: 'delicious dish', Tags: 'tag1;tag2;tag3', Allergens: 'allergen1;allergen2', Wheight: 500 },
         ],
         menus: [
             { name: 'Menu 1', description:'description du menu', price : 2000, items:[ 'item1', 'item2', 'item3']},
@@ -158,19 +165,26 @@ export default {
         
     }),
     methods: {
-        onAddDish() {
-            this.dishes.push(this.dishEdit);
-            dishEdit = { name: '', price: 0, PicturePaths: '', Description: '', Tags: '', Allergens: '', Wheight: 500 }
-        },
-        onDeleteDish(dish) {
-            var i = this.dishes.indexOf(dish);
-            if (i == -1) return;
-            this.dishes.splice(i, 1);
+        async onDeleteDish(dish) {
+            await this.$store.dispatch('deleteDish', dish);
+            await this.refreshData();
         },
         onEditDish(dish)
         {
+            this.isEdditing = true;
             this.dishEdit = dish;
             this.dialogD = true;
+        },
+        async refreshData()
+        {
+            await this.$store.dispatch('getAllDishes', localStorage.getItem('userId'));
+            this.dishes = this.$store.state.dishes.dishes;
+        },
+        onAddDish()
+        {
+            this.isEdditing = false;
+            this.dialogD = true;
+            Object.assign(this.dishEdit, DEFAULT_DISH);
         }
     },
 
