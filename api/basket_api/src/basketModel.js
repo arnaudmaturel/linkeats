@@ -4,17 +4,20 @@ const mongoose = require('mongoose');
 const basketSchema = new mongoose.Schema({
     IDClient: String,
     dishesNumber: Number,
-    isPaid: Boolean,
     totalPrice: Number,
     dishes: { 
-        dishName: {
-            id: String,
+        idDish: {
+            IDRestaurant: {
+                type: String,
+                required: true
+            },
+            nameDish: String,
             quantity: Number,
-            price: Number
+            price: Number,
+            weightDish: Number
         }
     }
 });
-
 
 const basketModel = mongoose.model('baskets',basketSchema);
 

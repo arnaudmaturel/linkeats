@@ -104,16 +104,16 @@
         <!-- DIALOG -->
         <v-dialog v-model="dialog">
             <MapViewer @on-close="dialog=false" :showProgressBar="true"
-             :progress="progressValue"
-             :positionStart="locStart" 
-             :positionEnd="locEnd" 
-             :positionDeliveryman="locDeliver"/>
+                :progress="progressValue"
+                :positionStart="locStart"
+                :positionEnd="locEnd"
+                :positionDeliveryman="locDeliver"
+            />
         </v-dialog>
     </v-card>
 </template>
 
 <script>
-import EndOrderCompoent from './endOrder.vue';
 import MapViewer from './MapProgresOrderViewer.vue';
 
 const timer = ms => new Promise(res => setTimeout(res, ms));
@@ -121,7 +121,7 @@ const timer = ms => new Promise(res => setTimeout(res, ms));
 
 
 export default {
-    components: { EndOrderCompoent, MapViewer },
+    components: { MapViewer },
     props: {
     },
     data: () => ({
