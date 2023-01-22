@@ -13,7 +13,7 @@
             <div id="middle"></div>
             <div id="img">
                 <div id="infPart">
-                    <v-form v-model="form" @submit.prevent="onSubmit">
+                    <v-form v-model="form">
                         <v-row>
                             <v-col class="ma-auto">
                                 <h6>Nom</h6>
@@ -28,9 +28,9 @@
                             <v-btn style="top:42px" id="btn" icon="mdi-map-marker" />
                             <v-col class="ma-auto">
                                 <h6>Adresse</h6>
-                                <v-text-field v-model="data.addr" :readonly="loading" clearable
+                                <v-text-field v-model="data.address" :readonly="loading" clearable
                                     placeholder="Saisissez l'adresse souhaité" :rules="[required]" class="mb-2"
-                                    variant="outlined" color="rgb(255, 152, 0)" @keydown.enter="getPosition()">
+                                    variant="outlined" color="rgb(255, 152, 0)" @keydown.enter="getPosition(); cancelExpand($event)">
                                 </v-text-field>
                             </v-col>
                             <v-btn style="top:42px" id="btn" icon="mdi-check-bold" @click="getPosition()"/>
@@ -50,7 +50,7 @@
                                 <ol-vector-layer>
                                     <ol-source-vector>
                                         <ol-feature>
-                                            <ol-geom-point :coordinates="coordinate"/>
+                                            <ol-geom-point :coordinates="[this.data.longitude,this.data.latitude]"/>
                                                 <ol-style>
                                                     <ol-style-icon :src="hereIcon" :scale="0.5"></ol-style-icon>
                                                 </ol-style>
@@ -64,30 +64,10 @@
                         <br/>
 
                         <v-row>
-                        <v-col class="ma-auto">
-                            <h6>Code postal</h6>
-                            <v-text-field v-model="data.cp" :readonly="true" placeholder="76140"
-                            :rules="[required]" class="mb-2" variant="outlined" color="rgb(255, 152, 0)">
-                        </v-text-field>
-                    </v-col>
-                </v-row>
-                
-                <v-row>
-                    <v-col class="ma-auto">
-                        <h6>Ville</h6>
-                        <v-text-field v-model="data.city" :readonly="true" clearable
-                        placeholder="Rouen" :rules="[required]" class="mb-2"
-                        variant="outlined" color="rgb(255, 152, 0)" >
-                    </v-text-field>
-                </v-col>
-                    </v-row>
-
-
-                        <v-row>
                             <v-col class="ma-auto">
                                 <div style="justify-content=center; text-align: center;">
-                                    <v-btn id="btn" size="large" type="submit" @click="$emit('on-close')"
-                                        :disabled="!form" rounded="pill"
+                                    <v-btn id="btn" size="large" @click="onSubmit()"
+                                        :disabled="this.data.latitude == null || this.data.longitude == null" rounded="pill"
                                         :ripple="{ class: 'text-orange', center: true }">
                                         Valider
                                     </v-btn>
@@ -142,32 +122,37 @@ export default {
     {
         data: {
             name: String,
-            cp: String,
-            addr: String,
-            city: String,
-            lat: Number,
-            lon: Number,
+            address: String,
+            latitude:Number,
+            longitude: Number,
+            IDUser: Number,
+            UserRole: 1,
         },
+    },
+    mounted()
+    {
+        if (!this.data.latitude && !this.data.longitude)
+        {
+            this.data.latitude = 50;
+            this.data.longitude = 1;
+        }
+
+        this.$refs.view.fit([this.data.longitude, this.data.latitude, this.data.longitude, this.data.latitude], { maxZoom: 14 });
     },
     data() {
         return {
-            coordinate : [1, 50],
-            form: false,
-            nameAddr: null,
-            cp: null,
-            city: null,
-            addr: null,
-            loading: false,
+            // coordinate : [1, 50],
+            // // form: false,
+            // nameAddr: null,
+            // cp: null,
+            // city: null,
+            // addr: null,
+            // loading: false,
         }
     },
     methods: {
         onSubmit() {
-            if (!this.form) return
-
-            this.loading = true
-
             this.$emit('on-validated');
-
         },
         required(v) {
             return !!v || 'Field is required'
@@ -177,10 +162,11 @@ export default {
             const myReqValue = '?text='
             const myReqAPI = 'https://api.geoapify.com/v1/geocode/search?';
 
-            var req = myReqAPI + myReqValue + this.data.addr.trim() + myAPIKey;
+
+            //var req = myReqAPI + myReqValue + this.data.address.trim() + myAPIKey;
             fetch(myReqAPI + new URLSearchParams(
                 {
-                    'text': this.data.addr.trim(),
+                    'text': this.data.address.trim(),
                     'apiKey': '630a891a8cd74b06952edfa21ed2bb5b'
                 }),
                 {
@@ -191,22 +177,29 @@ export default {
                 }).then(response => response.json())
                 .then(result => {
                     console.log(result);
+                    this.data.latitude = result.features[0].properties.lat;
+                    this.data.longitude = result.features[0].properties.lon;
+                    // this.data.city = result.features[0].properties.city;
+                    // this.data.city = result.features[0].properties.postcode;
 
-                    this.data.lat = result.features[0].properties.lat;
-                    this.data.lon = result.features[0].properties.lon;
-                    this.data.city = result.features[0].properties.city;
-                    this.data.city = result.features[0].properties.postcode;
+                    //this.coordinate = result.features[0].geometry.coordinates;
 
-                    this.coordinate = result.features[0].geometry.coordinates;
-                    
                     // this.$refs.view.fit(result.features[0].bbox, { maxZoom: 14 })
-                    this.$refs.view.fit([this.data.lon, this.data.lat, this.data.lon, this.data.lat], { maxZoom: 14 })
-                    
-                    console.log('data : ' + this.data);
+                    this.$refs.view.fit([this.data.longitude, this.data.latitude, this.data.longitude, this.data.latitude], { maxZoom: 14 })
+
+                    console.log('GeoDecode retrun :', this.data);
+                    this.form = true;
 
                 })
-                .catch(error => console.log('error', error));
-        }
+                .catch(error => {
+                    console.log('GeoDecode error :', error);
+                    this.form = false;
+                });
+                    
+        },
+        cancelExpand(e) {
+            e.cancelBubble = true;
+        },
     },
 }
 </script>

@@ -10,6 +10,7 @@ import basket from './modules/basket'
 import client from './modules/client'
 import delivery from './modules/delivery'
 import deliveryman from './modules/deliveryman'
+import adresses from './modules/adresses'
 
 export default createStore({
   state: {
@@ -30,6 +31,7 @@ export default createStore({
     basket,
     client,
     delivery,
-    deliveryman
+    deliveryman,
+    adresses
   }
 });

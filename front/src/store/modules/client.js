@@ -1,4 +1,5 @@
 // import helpers from '@/helpers'
+import { da } from 'vuetify/lib/locale'
 import reqHand from '../fetch'
 
 // initial state
@@ -23,7 +24,7 @@ const actions = {
   async createClient({ state, commit }, newClient) {
     const res = await reqHand.post('/clients/register', newClient)
     const data = await res.text()
-    console.log("response :", response);
+    console.log("response :", data);
   },
 
 
@@ -35,7 +36,7 @@ const actions = {
 
   async deleteClient({ state, commit }, args) {
     const res = await reqHand.delete(`/clients/${args.id}/`, { id: args.id });
-    const data = await response.text();
+    const data = await res.text();
   },
 }
 

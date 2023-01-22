@@ -30,6 +30,14 @@ services:
       - '27019:27017'
     volumes: 
       - ./.data/mongodb/dish_mongodb:/data/db
+  address_mongodb:
+    container_name: linkeats-address_mongodb
+    restart: unless-stopped
+    image: mongo:5.0
+    ports:
+      - '27021:27017'
+    volumes: 
+      - ./.data/mongodb/address_mongodb:/data/db
   mssql:
     container_name: linkeats-mssql
     restart: unless-stopped
@@ -93,6 +101,14 @@ services:
     build: ./api/dish_api
     depends_on:
       - dish_mongodb
+    volumes: 
+      - ./api/utils:/usr/src/app/src/utils:ro
+  address_api:
+    container_name: linkeats-address_api
+    restart: unless-stopped
+    build: ./api/address_api
+    depends_on:
+      - address_mongodb
     volumes: 
       - ./api/utils:/usr/src/app/src/utils:ro
   # user_api:

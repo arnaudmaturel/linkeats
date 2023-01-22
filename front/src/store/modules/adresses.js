@@ -13,24 +13,30 @@ const getters = {
 
 const actions = {
 
-    async getClientAddresses({ state, commit }, args) {
-
+    async getAddressInfo({ state, commit }, args) {
+        const res = await reqHand.get(`/addresses/by-user/${args}/`, { id: args });
+        const data = await res.json();
+        commit('RECEIVE_ADDRESSES', data);
     },
-    async getRestaurantAddressInfo({ state, commit }, args) {
 
-    },
     async getAllRestaurantsAddress({ state, commit }, args) {
-
+        const res = await reqHand.get(`/addresses/by-role/${args}/`, { id: args });
+        const data = await res.json();
+        commit('RECEIVE_ADDRESSES', data);
     },
 
     async CreateAddress({ state, commit }, args) {
-
+        const res = await reqHand.post('/addresses/', args)
+        const data = await res.text()
     },
-    async UpdateAddress({ state, commit }, args) {
 
+    async UpdateAddress({ state, commit }, args) {
+        const res = await reqHand.put(`/addresses/${args.id}/`, { id: args.id }, args.data)
+        const data = await res.text();
     },
     async DeletedAddress({ state, commit }, args) {
-
+        const res = await reqHand.delete(`/addresses/${args}/`, { id: args });
+        const data = await res.text();
     },
 }
 

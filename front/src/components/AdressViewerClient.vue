@@ -5,7 +5,7 @@
                 Liste des adresses
             </h5>
             <div>
-                <v-btn rounded="pill" id="btn" elevation="6" @click="dataEdit = { name: '', lat: 1, long: 50, cp: '', address: '', city: '' }; dialogAddr=true" icon="mdi-home-plus" />
+                <v-btn rounded="pill" id="btn" elevation="6" @click="addAddr()" icon="mdi-home-plus" />
             </div>
         </div>
         <div id="middle"></div>
@@ -16,19 +16,19 @@
                         <!-- IN PROGRESS ORDER -->
                             <v-expansion-panel-title>
                                 <v-row>
-                                    <v-col>
+                                    <v-col class="ma-auto" cols="8">
                                         {{ address.name }}
                                     </v-col>
 
-                                    <v-col cols="5">
+                                    <!-- <v-col cols="5">
                                         {{ address.address }}
+                                    </v-col> -->
+
+                                    <v-col cols="2">
+                                        <v-btn rounded="pill" id="btn" icon="mdi-home-edit" @click="editAddr(address)"/>
                                     </v-col>
 
-                                    <v-col offset="3">
-                                        <v-btn rounded="pill" id="btn" icon="mdi-home-edit" @click="onEditAddr(address)"/>
-                                    </v-col>
-
-                                    <v-col >
+                                    <v-col cols="2" >
                                         <v-btn rounded="pill" id="btn" icon="mdi-home-remove"  @click="onRemoveAddr(address)" />
                                     </v-col>
                                 </v-row>
@@ -39,11 +39,11 @@
                                     <v-col cols="10">
                                         <v-row>
                                             <v-col>
-                                                City : {{ address.city }}
+                                                Addresse : {{ address.address }}
                                             </v-col>
-                                            <v-col>
+                                            <!-- <v-col>
                                                 Code postal : {{  address.cp }}
-                                            </v-col>
+                                            </v-col> -->
                                         </v-row>
                                         <!-- <v-row>
                                             <v-col>
@@ -74,7 +74,7 @@
 
         <!-- DIALOG SHOW MAP -->
         <v-dialog v-model="dialogMap">
-           <view-client-loc-order @on-close="dialog = false" />
+           <view-client-loc-order @on-close="dialogMap = false" />
         </v-dialog>
         
     </v-card>
@@ -85,6 +85,7 @@
 import ALEProgressBar from '@/components/ALEProgressBar.vue'
 import AddreessEdit from './AddreessEdit.vue';
 
+const DEFAULT_VALUE = { name: '', lat: 1, long: 50, cp: '', address: '', city: '' };
 export default {
     components: {
         ALEProgressBar,
@@ -92,67 +93,78 @@ export default {
     },
     props: {
     },
+    async created()
+    {
+        await this.refreshData();
+    },
     data: () => ({
         scrollInvoked: 0,
+        isEdditing : false,
         dialogAddr: false,
         dialogMap: false,
-        addresses: [
-            { name: 'Home', lat: 1.0545682695334841, long: 49.427447623056295,  cp:'76140', address:'106 rue des frères delattres' , city:'Le Petit-Quevilly'  },
-            { name: 'Parent', lat: 1.0700076823176903, long: 49.41908420837877,  cp:'76140', address:'50/52 rue gambetta' , city:'Le Petit-Quevilly'  },
-            { name: 'CESI', lat: 1.075156398367302, long: 49.38240286389411, cp: '76800', address: '80 avenue Edmund Halley Rouen Madrillet Innovation', city: 'Saint - Étienne - du - Rouvray' } 
-        ],
+        addresses: [],
+                // { name: 'Home', lat: 1.0545682695334841, long: 49.427447623056295,  cp:'76140', address:'106 rue des frères delattres' , city:'Le Petit-Quevilly'  },
+                // { name: 'Parent', lat: 1.0700076823176903, long: 49.41908420837877,  cp:'76140', address:'50/52 rue gambetta' , city:'Le Petit-Quevilly'  },
+                // { name: 'CESI', lat: 1.075156398367302, long: 49.38240286389411, cp: '76800', address: '80 avenue Edmund Halley Rouen Madrillet Innovation', city: 'Saint - Étienne - du - Rouvray' } 
+        // ],
         nameAddr: -1,
         addrSelected: "none",
         dataEdit: { name: '', lat: 1, long: 50, cp: '', address: '', city: '' },
     }),
     methods: {
-        addrValidated() {
+        async addrValidated() {
+            if (this.isEdditing)
+                // put => update
+            {
+                console.log("updating adrress");
+                let newAddr = {
+                    name: this.dataEdit.name,
+                    address: this.dataEdit.address,
+                    latitude: this.dataEdit.latitude,
+                    longitude: this.dataEdit.longitude,
+                };
+                await this.$store.dispatch('UpdateAddress', {id:this.dataEdit._id, data: newAddr});
+            }
+            else
+            // post => create
+            {
+                console.log("adding adrress");
+                let newAddr = {
+                    name : this.dataEdit.name,
+                    address: this.dataEdit.address,
+                    latitude: this.dataEdit.latitude,
+                    longitude: this.dataEdit.longitude,
+                    IDUser: localStorage.getItem('userId'),
+                    UserRole: 1,
+                };
+                await this.$store.dispatch('CreateAddress', newAddr);
+            }
 
-            let newAddr = {
-                name: this.$refs.fdAddr.data.name,
-                lat: 1,
-                long: 50,
-                cp: this.$refs.fdAddr.data.cp,
-                address: this.$refs.fdAddr.data.addr,
-                city: this.$refs.fdAddr.data.city,
-            };
-
-            this.addresses.push(newAddr);
-            dialogAddr = false;
+            this.dialogAddr = false;
+            await this.refreshData();
         },
-        onRemoveAddr(addr) {
-            this.addresses.pop(addr);
-        },
-        onEditAddr(addr) {
-            this.dataEdit = {};
-
-            Object.defineProperty(this.dataEdit,'cp', {
-                value: addr.cp,
-                writable: true
-            });
-
-            Object.defineProperty(this.dataEdit, 'name', {
-                value: addr.name,
-                writable: true
-            });
-
-            Object.defineProperty(this.dataEdit, 'city', {
-                value: addr.city,
-                writable: true
-            });
-
-            Object.defineProperty(this.dataEdit, 'addr', {
-                value: addr.address,
-                writable: true
-            });
-            // this.dataEdit.cp = addr.cp;
-            // this.dataEdit.nameAddr = addr.name;
-            // this.dataEdit.city = addr.city;
-            // this.dataEdit.addr = addr.address;
-
+        addAddr()
+        {
+            this.isEdditing = false;
+            Object.assign(this.dataEdit, DEFAULT_VALUE);
             this.dialogAddr = true;
         },
-
+        editAddr(value)
+        {
+            this.isEdditing = true;
+            this.dataEdit = {};
+            Object.assign(this.dataEdit, value);
+            this.dialogAddr = true;
+        },
+        async onRemoveAddr(addr) {
+            await this.$store.dispatch('DeletedAddress', addr._id);
+            await this.refreshData();
+        },
+        async refreshData()
+        {
+            await this.$store.dispatch('getAddressInfo', localStorage.getItem('userId'));
+            this.addresses = this.$store.state.adresses.addresses;
+        }
     },
 
 }
