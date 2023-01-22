@@ -89,7 +89,8 @@ const actions = {
     // },
     async createRestaurant({ state, commit }, newRestaurant) {
         const res = await reqHand.post('/restaurants/register', newRestaurant);
-        const data = await res.json();
+        const data = await res.text();
+        this.$store.dispatch()
         commit('RECEIVE_RESTAURANT', data);
     },
     async saveRestaurant({ state, commit }, args) {

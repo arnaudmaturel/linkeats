@@ -20,39 +20,22 @@ const actions = {
   },
 
 
-  createClient({ state, commit }, newClient) {
-    return reqHand.post('/clients/register', newClient)
-      .then((response) => {
-        console.log("response :", response)
-        response.text().then((data) => {
-          console.log("response :", data)
-          //commit('RECEIVE_CLIENT', { data: data.user })
-        })
-      })
-
+  async createClient({ state, commit }, newClient) {
+    const res = await reqHand.post('/clients/register', newClient)
+    const data = await res.text()
+    console.log("response :", response);
   },
 
 
 
   async saveClient({ state, commit }, args) {
-    console.log("state.client", state.client);
-    return reqHand.put(`/clients/${state.client.UserID}/`, { id: state.client.UserID }, state.client)
-      .then((response) => {
-        response.text()
-          .then((data) => {
-            commit('RECEIVE_CLIENT', data)
-          })
-      })
+    const res = await reqHand.put(`/clients/${state.client.UserID}/`, { id: state.client.UserID }, state.client)
+    const data = await res.text();
   },
 
   async deleteClient({ state, commit }, args) {
-    return reqHand.delete(`/clients/${args.id}/`, { id: args.id })
-      .then((response) => {
-        response.json()
-          .then((data) => {
-            commit('RECEIVE_CLIENT', data)
-          })
-      })
+    const res = await reqHand.delete(`/clients/${args.id}/`, { id: args.id });
+    const data = await response.text();
   },
 }
 

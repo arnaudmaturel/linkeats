@@ -177,18 +177,76 @@ export default {
         {
             case "1":
                 this.userRole = "Client";
+                this.menus = [
+                    // { 'title': 'Debug (preview)', 'component': "DebugView", 'icon': 'mdi-bug' },
+                    { 'title': 'Général', 'component': "GeneralInfoClient", 'icon': 'mdi-account' },
+                    { 'title': 'Sécurité', 'component': "CredentialInfo", 'icon': 'mdi-account-lock' },
+                    { 'title': 'Commandes', 'component': "OrderView", 'icon': 'mdi-clipboard-text' },
+                    { 'title': 'Addresses', 'component': "AdressesView", 'icon': 'mdi-home-account' },
+                    // { 'title': 'Carte', 'component': "RestaurantCardEditor", 'icon': 'mdi-food' },
+                    { 'title': 'Stars (preview)', 'component': "Stars", 'icon': 'mdi-account-star' },
+                    { 'title': 'Linker (preview)', 'component': "", 'icon': 'mdi-account-heart' },
+                ]                
                 break;
+
+
             case "2":
                 this.userRole = "Restaurant";
+                this.menus = [
+                    // { 'title': 'Debug (preview)', 'component': "DebugView", 'icon': 'mdi-bug' },
+                    { 'title': 'Général', 'component': "GeneralInfoClient", 'icon': 'mdi-account' },
+                    { 'title': 'Sécurité', 'component': "CredentialInfo", 'icon': 'mdi-account-lock' },
+                    { 'title': 'Commandes', 'component': "OrderView", 'icon': 'mdi-clipboard-text' },
+                    { 'title': 'Addresses', 'component': "AdressesView", 'icon': 'mdi-home-account' },
+                    // { 'title': 'Carte', 'component': "RestaurantCardEditor", 'icon': 'mdi-food' },
+                    { 'title': 'Stars (preview)', 'component': "Stars", 'icon': 'mdi-account-star' },
+                    // { 'title': 'Linker (preview)', 'component': "", 'icon': 'mdi-account-heart' },
+                ]
                 break;
+
+
             case "3":
                 this.userRole = "Deliveryman";
+                this.menus = [
+                    // { 'title': 'Debug (preview)', 'component': "DebugView", 'icon': 'mdi-bug' },
+                    { 'title': 'Général', 'component': "GeneralInfoClient", 'icon': 'mdi-account' },
+                    { 'title': 'Sécurité', 'component': "CredentialInfo", 'icon': 'mdi-account-lock' },
+                    { 'title': 'Commandes', 'component': "OrderView", 'icon': 'mdi-clipboard-text' },
+                    // { 'title': 'Addresses', 'component': "AdressesView", 'icon': 'mdi-home-account' },
+                    // { 'title': 'Carte', 'component': "RestaurantCardEditor", 'icon': 'mdi-food' },
+                    { 'title': 'Stars (preview)', 'component': "Stars", 'icon': 'mdi-account-star' },
+                    // { 'title': 'Linker (preview)', 'component': "", 'icon': 'mdi-account-heart' },
+                ]
                 break;
+
+
             case "4":
                 this.userRole = "Developper";
+                this.menus = [
+                    // { 'title': 'Debug (preview)', 'component': "DebugView", 'icon': 'mdi-bug' },
+                    { 'title': 'Général', 'component': "GeneralInfoClient", 'icon': 'mdi-account' },
+                    { 'title': 'Sécurité', 'component': "CredentialInfo", 'icon': 'mdi-account-lock' },
+                    // { 'title': 'Commandes', 'component': "OrderView", 'icon': 'mdi-clipboard-text' },
+                    // { 'title': 'Addresses', 'component': "AdressesView", 'icon': 'mdi-home-account' },
+                    // { 'title': 'Carte', 'component': "RestaurantCardEditor", 'icon': 'mdi-food' },
+                    // { 'title': 'Stars (preview)', 'component': "Stars", 'icon': 'mdi-account-star' },
+                    // { 'title': 'Linker (preview)', 'component': "", 'icon': 'mdi-account-heart' },
+                ]
                 break;
+
+
             case "5":
                 this.userRole = 'Visitor';
+                this.menus = [
+                    // { 'title': 'Debug (preview)', 'component': "DebugView", 'icon': 'mdi-bug' },
+                    // { 'title': 'Général', 'component': "GeneralInfoClient", 'icon': 'mdi-account' },
+                    // { 'title': 'Sécurité', 'component': "CredentialInfo", 'icon': 'mdi-account-lock' },
+                    // { 'title': 'Commandes', 'component': "OrderView", 'icon': 'mdi-clipboard-text' },
+                    // { 'title': 'Addresses', 'component': "AdressesView", 'icon': 'mdi-home-account' },
+                    // // { 'title': 'Carte', 'component': "RestaurantCardEditor", 'icon': 'mdi-food' },
+                    // { 'title': 'Stars (preview)', 'component': "Stars", 'icon': 'mdi-account-star' },
+                    // { 'title': 'Linker (preview)', 'component': "", 'icon': 'mdi-account-heart' },
+                ]
                 break;
         }
     },
@@ -197,16 +255,16 @@ export default {
         isDebug:true,
         tab: 'Général',
         width: 100,
-        menus: [
-            { 'title': 'Debug (preview)', 'component': "DebugView", 'icon': 'mdi-bug' },
-            { 'title': 'Général', 'component': "GeneralInfoClient", 'icon': 'mdi-account' },
-            { 'title': 'Sécurité', 'component': "CredentialInfo", 'icon': 'mdi-account-lock' },
-            { 'title': 'Commandes', 'component': "OrderView", 'icon': 'mdi-clipboard-text' },
-            { 'title': 'Addresses', 'component': "AdressesView", 'icon': 'mdi-home-account' },
-            { 'title': 'Carte', 'component': "RestaurantCardEditor", 'icon': 'mdi-food' },
-            { 'title': 'Stars (preview)', 'component': "Stars", 'icon': 'mdi-account-star' },
-            { 'title': 'Linker (preview)', 'component': "", 'icon': 'mdi-account-heart' },
-        ]
+        menus: [],
+        //     { 'title': 'Debug (preview)', 'component': "DebugView", 'icon': 'mdi-bug' },
+        //     { 'title': 'Général', 'component': "GeneralInfoClient", 'icon': 'mdi-account' },
+        //     { 'title': 'Sécurité', 'component': "CredentialInfo", 'icon': 'mdi-account-lock' },
+        //     { 'title': 'Commandes', 'component': "OrderView", 'icon': 'mdi-clipboard-text' },
+        //     { 'title': 'Addresses', 'component': "AdressesView", 'icon': 'mdi-home-account' },
+        //     { 'title': 'Carte', 'component': "RestaurantCardEditor", 'icon': 'mdi-food' },
+        //     { 'title': 'Stars (preview)', 'component': "Stars", 'icon': 'mdi-account-star' },
+        //     { 'title': 'Linker (preview)', 'component': "", 'icon': 'mdi-account-heart' },
+        // ]
     }),
     setCurrentTab(value) {
         activTitle = value;
