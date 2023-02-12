@@ -99,7 +99,7 @@
                     <v-btn rounded="pill" id="btn" elevation="6" icon="mdi-fullscreen-exit" @click="dialogOrderRW = false" />
                 </div>
             </div>
-                        <OrderRestaurantWorkComponent heightList="90vh"/>
+                        <OrderRestaurantWorkComponent/>
             </v-div>
         </v-dialog>
     </v-card>

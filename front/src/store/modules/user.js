@@ -38,8 +38,6 @@ const mutations = {
       return;
     }
     state.credential = data;
-    console.log("UserStore.loginToken : ", state.credential);
-
     await localStorage.setItem("accessToken", data.accessToken);
     await localStorage.setItem("credentialId", data.credential.CredentialID);
     await localStorage.setItem("userRole", data.credential.CredentialUserRole);

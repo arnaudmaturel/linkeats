@@ -11,33 +11,23 @@
                 <v-expansion-panel v-for="order in orderToAccept" :key="order" style="width: 100%;">
                     <v-expansion-panel-title>
                         <v-row>
-                            <v-col class="ma-auto">
-                                {{ order.orderN }}
+                            <v-col class="ma-auto" cols="6"  inline-block >
+                                {{ order._id }}
                             </v-col>
 
-                            <v-col class="ma-auto">
-                                {{ order.cost / 100 }}€
+                            <v-col class="ma-auto" cols="2"  inline-block >
+                                {{ order.ItemsPrice / 100 }}€
                             </v-col>
 
-                            <v-col class="ma-auto"> <!--Accecpt Order-->
-                                <v-btn id="btn" rounded="pill" @click="onAcceptOrder(order)" @click.native="cancelExpand($event)">
-                                    <v-icon icon="mdi-check-bold" size="small"></v-icon>
-                                </v-btn>
-                            </v-col>
-
-                            <v-col class="ma-auto"><!--Reject Order-->
-                                <v-btn id="btn" color="red" rounded="pill" @click="onRejectOrder(order)" @click.native="cancelExpand($event)">
-                                    <v-icon icon="mdi-close-thick" size="small">
-                                    </v-icon>
-                                </v-btn>
-                            </v-col>
+                            <v-btn id="btn" icon="mdi-check-bold" rounded="pill" @click="onAcceptOrder(order)" @click.native="cancelExpand($event)"/> 
+                            <v-btn id="btn" icon="mdi-close-thick" color="red" rounded="pill" @click="onRejectOrder(order)" @click.native="cancelExpand($event)"/> 
                         </v-row>
                     </v-expansion-panel-title>
 
                     <v-expansion-panel-text>
-                        <v-row v-for="item in order.items" :key="item">
-                            <v-col class="ma-auto">
-                                {{ item }}
+                        <v-row v-for="item in order.Items" :key="item">
+                            <v-col class="ma-auto"  inline-block >
+                                {{ item.Quantity + '× ' + item.NameDish }}
                             </v-col>
                         </v-row>
                     </v-expansion-panel-text>
@@ -58,30 +48,29 @@
                 <v-expansion-panel v-for="order in orderCooking" :key="order" style="width: 100%;">
                     <v-expansion-panel-title>
                         <v-row>
-                            <v-col>
-                                {{ order.orderN }}
+                            <v-col inline-block >
+                                {{ order._id }}
                             </v-col>
 
-                            <v-col offset="2">
-                                {{ order.cost / 100 }}€
+                            <v-col offset="2"  inline-block >
+                                {{ order.ItemsPrice / 100 }}€
                             </v-col>
 
                         </v-row>
                     </v-expansion-panel-title>
 
                     <v-expansion-panel-text>
-                        <v-checkbox v-for="item in order.items" :key="item" :label="item" dense style="height: 50px;" :value="item" v-model="order.itemsDone"/>
+                        <v-checkbox v-for="item in order.Items" :key="item" :label="item.Quantity + '× ' + item.NameDish" dense style="height: 50px;" :value="item" v-model="order.ItemsDone"/>
                         <v-row>
+                            {{ this.progressOrder[order._id] }}
                             <v-col class="ma-auto" cols="12" style="text-align:center;">
                                 <!-- ORDER IS READY -->
-                                <v-btn id="btn" rounded="pill" :disabled="order.itemsDone.length!=order.items.length" @click="onOrderReady(order)"  >
-                                    <v-icon icon="mdi-check-bold" />
+                                <v-btn id="btn" icon="mdi-check-bold" rounded="pill" :disabled="order.ItemsDone.length!=order.Items.length" @click="onOrderReady(order)"  >
                                     <ConfettiExplosion v-if="visibleC" />
                                 </v-btn> 
 
                                 <!-- ORDER IS ABORT -->
-                                <v-btn id="btn" color="red" rounded="pill" @click="onAbortOrder(order)">
-                                    <v-icon icon="mdi-close-thick" />
+                                <v-btn id="btn" icon="mdi-close-thick" color="red" rounded="pill" @click="onAbortOrder(order)">
                                 </v-btn> 
                             </v-col>
                         </v-row>
@@ -103,20 +92,20 @@
                 <v-expansion-panel v-for="order in ordersForDelivery" :key="order" style="width: 100%;">
                     <v-expansion-panel-title>
                         <v-row>
-                            <v-col>
-                                {{ order.orderN }}
+                            <v-col inline-block >
+                                {{ order._id }}
                             </v-col>
 
-                            <v-col offset="2">
-                                {{ order.cost / 100 }}€
+                            <v-col offset="2" inline-block >
+                                {{ order.ItemsPrice / 100 }}€
                             </v-col>
 
                         </v-row>
                     </v-expansion-panel-title>
 
                     <v-expansion-panel-text>
-                        <v-row v-for="item in order.items" :key="item">
-                            {{ item }}
+                        <v-row v-for="item in order.Items" :key="item">
+                                {{ item.Quantity + '× ' + item.NameDish }}
                         </v-row>
                     </v-expansion-panel-text>
                 </v-expansion-panel>
@@ -132,6 +121,7 @@
 
 <script>
 import ConfettiExplosion from "vue-confetti-explosion";
+import OrderStatus from '@/store/OrderStatus';
 
 
 export default {
@@ -142,77 +132,60 @@ export default {
     props: {
         heightList: Number,
     },
+    async created()
+    {
+        await this.refreshData();
+    },
     data: () => ({
         visibleC: false,
         ordersForDelivery: [],
         orderCooking: [],
-        orderToAccept:
-            [
-                { orderN: '0000001', cost: '999999', items: ['item1', 'item2', 'item3'] },
-                { orderN: '0000002', cost: '999999', items: ['item1', 'item2', 'item3'] },
-                { orderN: '0000003', cost: '999999', items: ['item1', 'item2', 'item3'] },
-                { orderN: '0000004', cost: '999999', items: ['item1', 'item2', 'item3'] },
-                { orderN: '0000005', cost: '999999', items: ['item1', 'item2', 'item3'] },
-                { orderN: '0000006', cost: '999999', items: ['item1', 'item2', 'item3'] },
-                { orderN: '0000007', cost: '999999', items: ['item1', 'item2', 'item3'] },
-                { orderN: '0000008', cost: '999999', items: ['item1', 'item2', 'item3'] },
-                { orderN: '0000009', cost: '999999', items: ['item1', 'item2', 'item3'] },
-                { orderN: '0000010', cost: '999999', items: ['item1', 'item2', 'item3'] },
-                { orderN: '0000011', cost: '999999', items: ['item1', 'item2', 'item3'] },
-                { orderN: '0000012', cost: '999999', items: ['item1', 'item2', 'item3'] },
-                { orderN: '0000013', cost: '999999', items: ['item1', 'item2', 'item3'] },
-                { orderN: '0000014', cost: '999999', items: ['item1', 'item2', 'item3'] },
-                { orderN: '0000015', cost: '999999', items: ['item1', 'item2', 'item3'] },
-                { orderN: '0000016', cost: '999999', items: ['item1', 'item2', 'item3'] },
-                { orderN: '0000017', cost: '999999', items: ['item1', 'item2', 'item3'] },
-                { orderN: '0000018', cost: '999999', items: ['item1', 'item2', 'item3'] },
-                { orderN: '0000019', cost: '999999', items: ['item1', 'item2', 'item3'] },
-                { orderN: '0000020', cost: '999999', items: ['item1', 'item2', 'item3'] },
-            ],
+        orderToAccept: [],
+        progressOrder:[],
         idOdrer: -1,
     }),
     methods: {
-        onAcceptOrder(order) {
-            var idx = this.orderToAccept.indexOf(order);
-            this.orderToAccept.splice(order, 1);
-            var cookingObj = {};
-            Object.assign(cookingObj, order);
-            Object.defineProperty(cookingObj, 'itemsDone', {
-                value: [],
-                writable: true
-            });
-
-            // for (let i = 0; i < order.items.length; i++) {
-            //     cookingObj.itemsDone.push(false)
-            // }
-            console.log(cookingObj);
-            this.orderCooking.push(cookingObj);
+        async onAcceptOrder(order) {
+            await this.$store.dispatch('saveOrder', { id: order._id, data: { OrderStatus: OrderStatus.CookingProgress } });
+            console.log("order "+order._id+" updated");
+            await this.refreshData();
         },
-        onRejectOrder(order) {
-            var idx = this.orderToAccept.indexOf(order);
-            this.orderToAccept.splice(idx, 1);
+        async onRejectOrder(order) {
+            await this.$store.dispatch('saveOrder', { id: order._id, data: { OrderStatus: OrderStatus.CancelledRestaurant } });
+            await this.refreshData();
         },
-        onAbortOrder(order) {
-            var idx = this.orderCooking.indexOf(order);
-            this.orderCooking.splice(idx, 1)
+        async onAbortOrder(order) {            
+            await this.$store.dispatch('saveOrder', { id: order._id, data: { OrderStatus: OrderStatus.CancelledRestaurant } });
+            await this.refreshData();
         },
-        onOrderReady(order) {
+        async onOrderReady(order) {
             this.visibleC = true;
-            setTimeout(() => {
+            await setTimeout(async() => {
                 this.visibleC = false;
-                var idx = this.orderCooking.indexOf(order);
-                this.orderCooking.splice(idx, 1)
-                this.ordersForDelivery.push(order);
+                await this.$store.dispatch('saveOrder', { id: order._id, data: { OrderStatus: OrderStatus.WaitingDeliverymanConfirmation, CookedAt:new Date(),ItemsDone : [] } });
             }, 500);
-            
-        },
-        onOrderExpediated(order) {
-            var idx = this.ordersForDelivery.indexOf(order);
-            this.ordersForDelivery.splice(idx, 1)
+            await this.refreshData();            
         },
         cancelExpand(e)
         {
             e.cancelBubble = true;
+        },
+        async refreshData()
+        {
+            console.log("check orders");
+            await this.$store.dispatch('getAllRestoOrders', localStorage.getItem('userId'));
+            this.orderToAccept = await this.$store.state.order.orders.filter(this.isWaitingAccpectation);
+            this.orderCooking = await this.$store.state.order.orders.filter(this.isCookingProgress);
+            this.ordersForDelivery = await this.$store.state.order.orders.filter(this.isWaitingDelivery);
+        },
+        isWaitingAccpectation(value) {
+            return value.OrderStatus == OrderStatus.WaitingRestaurantConfirmation;
+        },
+        isCookingProgress(value) {  
+            return value.OrderStatus == OrderStatus.CookingProgress;
+        },
+        isWaitingDelivery(value) {
+            return value.OrderStatus == OrderStatus.WaitingDeliverymanConfirmation || value.OrderStatus == OrderStatus.WaitingDeliverymanPickUp;
         },
     },
 

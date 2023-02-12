@@ -54,7 +54,7 @@
       <v-col class="d-flex" cols="12" md="10">
         <v-row>
 
-          <v-col :cols="4" v-for="plate in dishes.data">
+          <v-col :cols="4" v-for="plate in dishes" :key="plate">
             <v-card min-width="100" max-width="400">
               <v-img height="250" :src="plate.PicturePaths"></v-img>
 
@@ -124,6 +124,9 @@ export default {
   },
   methods: {
     add(menu) {
+      console.log("menu :",menu);
+      return;
+
       let item = {
         plate: menu.name,
         dishName: {

@@ -34,22 +34,22 @@
                             </v-row>
 
                             <v-row>
-                                <v-col class="ma-auto">
-                                    N°{{ orderProgressDelivery.orderN }}
+                                <v-col class="ma-auto" inline-block>
+                                    N°{{ orderProgressDelivery._id }}
                                 </v-col>
 
                                 <v-col class="ma-auto">
-                                    longueur: {{ orderProgressDelivery.distance }} km
+                                    longueur: {{ orderProgressDelivery.OrderDistance }} km
                                 </v-col>
 
-                                <v-col class="ma-auto">
-                                    Rémunération: {{ orderProgressDelivery.remun / 100 }}€
+                                <v-col class="ma-auto" inline-block >
+                                    Rémunération: {{ orderProgressDelivery.OrderDeliveryCost / 100 }}€
                                 </v-col>
 
                             </v-row>
 
                             <v-row>
-                                <v-col class="ma-auto" style="text-align:left">
+                                <v-col class="ma-auto" style="text-align:left" inline-block >
                                     Address de collecte : {{ orderProgressDelivery.restoLoc }}
                                 </v-col>
                                 <v-col cols="2">
@@ -59,7 +59,7 @@
                             </v-row>
 
                             <v-row>
-                                <v-col class="ma-auto" style="text-align:left">
+                                <v-col class="ma-auto" style="text-align:left" inline-block >
                                     Address de Livraison : {{ orderProgressDelivery.clientLoc }}
                                 </v-col>
                                 <v-col cols="2">
@@ -98,16 +98,16 @@
                                 <v-expansion-panel v-for="order in orderToAccept" :key="order" style="width: 100%;">
                                     <v-expansion-panel-title>
                                         <v-row>
-                                            <v-col class="ma-auto">
-                                                N°{{ order.orderN }}
+                                            <v-col class="ma-auto" inline-block>
+                                                N°{{ order._id }}
                                             </v-col>
 
-                                            <v-col class="ma-auto">
-                                                {{ order.distance }}km
+                                            <v-col class="ma-auto" inline-block >
+                                                {{ order.OrderDistance }}km
                                             </v-col>
 
-                                            <v-col class="ma-auto">
-                                                {{ order.remun / 100 }}€
+                                            <v-col class="ma-auto" inline-block >
+                                                {{ order.OrderDeliveryCost / 100 }}€
                                             </v-col>
 
                                             <v-col cols="2">
@@ -122,7 +122,7 @@
                                     <v-expansion-panel-text>
                                         <v-row>
                                             <v-col class="ma-auto" style="text-align:left">
-                                                Address de collecte : {{ order.restoLoc }}
+                                                Address de collecte : {{ order.RestaurantLocation.Address }}
                                             </v-col>
                                             <v-col cols="2">
                                                 <v-btn icon="mdi-map-search-outline"
@@ -131,7 +131,7 @@
                                         </v-row>
                                         <v-row>
                                             <v-col class="ma-auto" style="text-align:left">
-                                                Address de Livraison : {{ order.clientLoc }}
+                                                Address de Livraison : {{ order.ClientLocation.Address }}
                                             </v-col>
                                             <v-col cols="2">
                                                 <v-btn icon="mdi-map-search-outline"
@@ -162,22 +162,23 @@
 
                         <v-expansion-panels variant="popout" class="my-4">
                             <v-expansion-panel v-for="order in orderDelivered" :key="order" style="width: 100%;">
+                                {{order}}
                                 <v-expansion-panel-title>
                                     <v-row>
-                                        <v-col class="ma-auto">
-                                            N°{{ order.orderN }}
+                                        <v-col class="ma-auto" inline-block>
+                                            N°{{ order._id }}
                                         </v-col>
 
                                         <v-col class="ma-auto">
-                                            {{ order.distance }}km
+                                            {{ order.OrderDistance }}km
                                         </v-col>
 
                                         <v-col class="ma-auto">
-                                            {{ order.remun / 100 }}€
+                                            {{ order.OrderDeliveryCost / 100 }}€
                                         </v-col>
 
                                         <v-col>
-                                            {{ formatDate(order.date) }}
+                                            {{ formatDate(order.DeliveredAt) }}
                                         </v-col>
                                     </v-row>
                                 </v-expansion-panel-title>
@@ -185,12 +186,12 @@
                                 <v-expansion-panel-text>
                                     <v-row>
                                         <v-col class="ma-auto" style="text-align:left">
-                                            Address de collecte : {{ order.restoLoc }}
+                                            Address de collecte : {{ order.RestaurantLocation.Address }}
                                         </v-col>
                                     </v-row>
                                     <v-row>
                                         <v-col class="ma-auto" style="text-align:left">
-                                            Address de Livraison : {{ order.clientLoc }}
+                                            Address de Livraison : {{ order.ClientLocation.Address }}
                                         </v-col>
                                     </v-row>
                                 </v-expansion-panel-text>
@@ -208,12 +209,15 @@
 
 <script>
 import ConfettiExplosion from "vue-confetti-explosion";
-
+import OrderStatus from '@/store/OrderStatus';
 
 export default {
     name: 'OrderRestaurantWorkComponent',
     components: {
         ConfettiExplosion,
+    },
+    async created() {
+        await this.refreshData();
     },
     props: {
         heightList: Number,
@@ -223,58 +227,37 @@ export default {
         curentTab: 'En Cours',
         orderProgressDelivery: null,
         orderDelivered: [],
-        orderToAccept:
-            [
-                { orderN: '0000001', remun: '9999', distance: 5, restoLoc: 'address restaurant', clientLoc: 'address client' },
-                { orderN: '0000002', remun: '9999', distance: 5, restoLoc: 'address restaurant', clientLoc: 'address client' },
-                { orderN: '0000003', remun: '9999', distance: 5, restoLoc: 'address restaurant', clientLoc: 'address client' },
-                { orderN: '0000004', remun: '9999', distance: 5, restoLoc: 'address restaurant', clientLoc: 'address client' },
-                { orderN: '0000005', remun: '9999', distance: 5, restoLoc: 'address restaurant', clientLoc: 'address client' },
-                { orderN: '0000006', remun: '9999', distance: 5, restoLoc: 'address restaurant', clientLoc: 'address client' },
-                { orderN: '0000007', remun: '9999', distance: 5, restoLoc: 'address restaurant', clientLoc: 'address client' },
-                { orderN: '0000008', remun: '9999', distance: 5, restoLoc: 'address restaurant', clientLoc: 'address client' },
-                { orderN: '0000009', remun: '9999', distance: 5, restoLoc: 'address restaurant', clientLoc: 'address client' },
-                { orderN: '0000010', remun: '9999', distance: 5, restoLoc: 'address restaurant', clientLoc: 'address client' },
-                { orderN: '0000011', remun: '9999', distance: 5, restoLoc: 'address restaurant', clientLoc: 'address client' },
-                { orderN: '0000012', remun: '9999', distance: 5, restoLoc: 'address restaurant', clientLoc: 'address client' },
-                { orderN: '0000013', remun: '9999', distance: 5, restoLoc: 'address restaurant', clientLoc: 'address client' },
-                { orderN: '0000014', remun: '9999', distance: 5, restoLoc: 'address restaurant', clientLoc: 'address client' },
-                { orderN: '0000015', remun: '9999', distance: 5, restoLoc: 'address restaurant', clientLoc: 'address client' },
-                { orderN: '0000016', remun: '9999', distance: 5, restoLoc: 'address restaurant', clientLoc: 'address client' },
-                { orderN: '0000017', remun: '9999', distance: 5, restoLoc: 'address restaurant', clientLoc: 'address client' },
-                { orderN: '0000018', remun: '9999', distance: 5, restoLoc: 'address restaurant', clientLoc: 'address client' },
-                { orderN: '0000019', remun: '9999', distance: 5, restoLoc: 'address restaurant', clientLoc: 'address client' },
-                { orderN: '0000020', remun: '9999', distance: 5, restoLoc: 'address restaurant', clientLoc: 'address client' },
-            ],
+        orderToAccept:[],
     }),
     methods: {
-        onAcceptOrder(order) {
-            this.orderProgressDelivery = order;
+        async onAcceptOrder(order) {
+            await this.$store.dispatch('deliveryManAcceptCourse', { id: order._id, data: { DeliveryManId:localStorage.getItem('userId'), OrderStatus: OrderStatus.WaitingDeliverymanPickUp } });
+            await this.refreshData();
         },
-        onAbortOrder(order) {
+        async onAbortOrder(order) {
             this.orderProgressDelivery = null;
         },
-        cancelExpand(e) {
+        async cancelExpand(e) {
             e.cancelBubble = true;
         },
-        onDelivered() {
+        async onDelivered() {
             this.visibleC = true;
-            var deliveredOrder = {
-                orderN: this.orderProgressDelivery.orderN,
-                remun: this.orderProgressDelivery.remun,
-                distance: this.orderProgressDelivery.distance,
-                restoLoc: this.orderProgressDelivery.restoLoc,
-                clientLoc: this.orderProgressDelivery.clientLoc,
-                date: new Date,
-            };
-            setTimeout(() => {
+            // var deliveredOrder = {
+            //     orderN: this.orderProgressDelivery.orderN,
+            //     remun: this.orderProgressDelivery.remun,
+            //     distance: this.orderProgressDelivery.distance,
+            //     restoLoc: this.orderProgressDelivery.restoLoc,
+            //     clientLoc: this.orderProgressDelivery.clientLoc,
+            //     date: new Date,
+            // };
+            setTimeout(async() => {
                 this.visibleC = false;
-
-                this.orderDelivered.push(deliveredOrder);
+                // this.orderDelivered.push(deliveredOrder);
                 this.orderProgressDelivery = null;
+                await this.refreshData();
             }, 500);
         },
-        formatDate(date) {
+        async formatDate(date) {
             var d = new Date(date),
                 month = '' + (d.getMonth() + 1),
                 day = '' + d.getDate(),
@@ -286,6 +269,29 @@ export default {
                 day = '0' + day;
 
             return [day, month, year].join('/');
+        },
+        async refreshData() {
+            console.log("check orders");
+            await this.$store.dispatch('getAllDeliverOrders',localStorage.getItem('userId'));
+            await this.$store.dispatch('getOrdersByStatus', OrderStatus.WaitingDeliverymanConfirmation);
+            console.log("allOrder",this.$store.state.order.allOrder);
+            const temp =await this.$store.state.order.allOrder.find(value => value.status == OrderStatus.WaitingDeliverymanConfirmation);
+            
+            this.orderToAccept = (temp) ? temp.data : [];
+            console.log("orderToAccept", this.orderToAccept);
+            //this.orderDelivered = await this.$store.state.order.orders.filter(this.isDelivered);
+            this.orderProgressDelivery = null;
+        },
+        isWaitingAccpectation(value) {
+            return value.OrderStatus == OrderStatus.WaitingDeliverymanConfirmation;
+        },
+        isDelivered(value) {
+            return value.OrderStatus == OrderStatus.Delivered;
+        },
+        isOrderDeiveryProgress(value)
+        {
+            return value.OrderStatus == OrderStatus.WaitingDeliverymanPickUp
+                || value.OrderStatus == OrderStatus.DeliveryInProgress;
         }
     },
 

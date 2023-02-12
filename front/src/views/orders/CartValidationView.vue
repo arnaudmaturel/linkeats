@@ -45,7 +45,8 @@
 
 <script>
 import {mapGetters} from "vuex";
-import {el} from "vuetify/locale";
+import { el } from "vuetify/locale";
+import OrderStatus from '@/store/OrderStatus'
 
 export default {
   data() {
@@ -72,44 +73,77 @@ export default {
       this.$store.commit("setCount")
       this.$store.commit("setTotal")
     },
-    basket() {
-      if (localStorage.getItem("userRole") == 1) {
-        var plate = JSON.parse(localStorage.getItem("cart"))
-        var dishes = []
-        plate.forEach(element => {
-          dishes.push(element.dishName)
+    async basket() {
 
-        });
+
+      if (localStorage.getItem("userRole") == 1)
+      {
+        const plate = JSON.parse(localStorage.getItem("cart"))
+        console.log("plate:",plate)
+        var dishes = []
+
+        plate.forEach(element => { dishes.push(element.dishName) });
+        
         var basketItem = {
           IDClient: localStorage.getItem("userId"),
           dishesNumber: this.cart.length,
           isPaid: 0,
           totalPrice: this.cartTotal,
-          dishes: {
-            dishName: dishes
-          }
+          dishes: {dishName: dishes}
         }
 
 
-        this.$store.dispatch("createBasket", basketItem).then(() => {
+        //await this.$store.dispatch("createBasket", basketItem)
           // WIP À réadapter avec les nouveau modèles de commandes et panier
 
-          const order = {
-            Basket: basketItem,
-            ClientId: localStorage.getItem("userId"),
-            RestaurantId: 'undefined',
-            OrderStatus: 5,
-            OrderFinalPrice: this.cartTotal,
-            OrderTotalPrice: this.cartTotal,
-            OrderRestaurantPart: 20,
-            OrderLinkEatsPart: 75,
-            OrderDeliveryCost: 5,
-            OrderTips: 0,
-            OrderPaymentInfo: "card"            
+        var orderItems = [];
+        var itemsPrice = 0;
+
+        plate.forEach(element => {
+          const oItem = {
+            DisheID: element.dishName.id,
+            NameDish: element.plate,
+            Quantity: element.dishName.quantity,
+            Price: element.dishName.price,
+            // WeightDish: Number
+            WeightDish: 500
           }
-            this.$store.dispatch("createOrder", basketItem).then((response) => {
-          })
-        })
+          itemsPrice += element.dishName.price * element.dishName.quantity;
+          orderItems.push(oItem);
+        });
+
+          const order = {
+            Items: orderItems,
+            ClientId: localStorage.getItem('userId'),
+
+            RestaurantId: '{ type: String, required: true }',
+            // DeliveryManId: { type: String, required: false },
+            DeliveryManId: '',
+            OrderStatus: OrderStatus.WaitingRestaurantConfirmation,
+            // OrderStatus: { type: Number, required: true },
+            OrderFinalPrice: 500,
+            // OrderFinalPrice: { type: Number, required: true, },
+            ItemsPrice: itemsPrice,
+            // ItemsPrice: { type: Number, required: true, },
+            OrderLinkEatsPart: itemsPrice*0.1,
+            // OrderLinkEatsPart: { type: Number, required: true, },
+            OrderDeliveryCost: 2,
+            // OrderDeliveryCost: { type: Number, required: true, },
+            OrderDistance: 5,
+            // OrderPaymentInfo: { type: String, required: true, },
+            OrderPaymentInfo: "credit card",
+            // OrderedAt: { type: Date, default: Date.now(), required: true, },
+            // CookedAt: { type: Date, required: false, },
+            // PickedAt: { type: Date, required: false, },
+            // DeliveredAt: { type: Date, required: false, },
+
+            RestaurantLocation: { Longitude: 1, Latitude: 50, Address: "Rouen" },
+            ClientLocation: {  Longitude: 1, Latitude: 50, Address: "Rouen" },
+        };
+
+        console.log("order", order)
+
+        await this.$store.dispatch("createOrder", order);
       }
     }
   }

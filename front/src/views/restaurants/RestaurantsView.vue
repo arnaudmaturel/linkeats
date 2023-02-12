@@ -9,7 +9,7 @@
       
       <v-col class="d-flex" cols="12" md="10">
         <v-row>
-          <v-col cols="3" v-for="restaurant in allRestaurants.data">
+          <v-col cols="3" v-for="restaurant in allRestaurants" :key="restaurant">
             <v-card min-width="100" max-width="400" :loading="loading" :id="restaurant">
               <v-img height="250" :src='restaurant.RestaurantImgIdentityPath'></v-img>
 

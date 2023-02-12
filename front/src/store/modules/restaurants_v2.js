@@ -78,7 +78,8 @@ const actions = {
         commit('RECEIVE_RESTAURANTS', data)
     },
     async getRestaurant({ state, commit }, args) {
-        const res = await reqHand.get(`/restaurants/${args}/`, { id: args });
+        // const res = await reqHand.get(`/restaurants/${args}/`, { id: args });
+        const res = await reqHand.get(`/restaurants/${args}/`);
         const data = await res.json();
         commit('RECEIVE_RESTAURANT', data);
     },

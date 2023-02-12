@@ -157,7 +157,13 @@ services:
       - auth_api
       - order_api
       - basket_api
-      # - user_api
+      - clients_api
+      - restaurants_api
+      - deliverymen_api
+      - developpers_api
+      - address_api
+      - dish_api
+      # - api_doc
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./nginx/logs:/home/logs

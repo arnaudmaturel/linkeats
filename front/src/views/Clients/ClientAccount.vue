@@ -35,8 +35,8 @@
 
 
             <div id="contentMainCard" class="d-flex">
-                <v-window id="tabWindow" v-model="tab">
-                    <v-window-item v-for="menu in menus" :key="menu" :value="menu.title" :ref="menu.title">
+                <v-window  :id="(tab == 'Commandes' && userRole == 'Restaurant')? 'tabRWindow' : 'tabWindow'" v-model="tab">
+                    <v-window-item v-for="menu in menus" :key="menu" :value="menu.title" :ref="menu.title" style="width:100%;">
                 
                 <!-- GENERAL INFO -->
                         <div v-if="menu.component == 'GeneralInfoClient'">
@@ -54,7 +54,7 @@
                             <div v-if="userRole == 'Client'">
                                 <OrderVue/>
                             </div>
-                            <div v-else-if="userRole=='Restaurant'">
+                            <div v-else-if="userRole=='Restaurant'" style="width:100%;">
                                 <OrdersRestaurantViewer/>
                             </div >
                             <div v-else-if="userRole=='Deliveryman'">
@@ -82,7 +82,7 @@
                 <!-- CARD EDITOR -->
                         <div v-else-if="menu.component == 'RestaurantCardEditor'">
                             <div v-if="userRole=='Restaurant'">
-                                <RestaurantCardEditor/>
+                                <RestaurantCardEditor style="width=100%"/>
                             </div>
                             <div v-else>
                                 not available
@@ -198,7 +198,7 @@ export default {
                     { 'title': 'Sécurité', 'component': "CredentialInfo", 'icon': 'mdi-account-lock' },
                     { 'title': 'Commandes', 'component': "OrderView", 'icon': 'mdi-clipboard-text' },
                     { 'title': 'Addresses', 'component': "AdressesView", 'icon': 'mdi-home-account' },
-                    // { 'title': 'Carte', 'component': "RestaurantCardEditor", 'icon': 'mdi-food' },
+                    { 'title': 'Carte', 'component': "RestaurantCardEditor", 'icon': 'mdi-food' },
                     { 'title': 'Stars (preview)', 'component': "Stars", 'icon': 'mdi-account-star' },
                     // { 'title': 'Linker (preview)', 'component': "", 'icon': 'mdi-account-heart' },
                 ]
@@ -324,7 +324,10 @@ export default {
 
 
 #tabWindow {
-    width: 22cm;
+    width: 22cm !important;}
+
+#tabRWindow {
+    width: 30cm !important;
 }
 
 #btnTab {

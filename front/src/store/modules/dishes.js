@@ -49,6 +49,7 @@ const actions = {
 const mutations = {
     async ['RECEIVE_DISHES'](state, data) {
         state.dishes = data;
+        console.log(state.dishes.length + " dishes recieved");
     },
     async ['RECEIVE_DISH'](state, data) {
         state.dish = data;
