@@ -147,15 +147,20 @@ export default {
                 userRole: this.userRole,
             };
 
-            this.$store.dispatch('createClient', this.newClient)
-                .then(() => {
-                    console.log('login', login);
-                    this.$store.dispatch('loginUser', login)
-                        .then(() => {
-                            this.$router.push({ name: 'home' });
-                        })
-                        console.log('Jello')
-                 })
+            const userId = await this.$store.dispatch('createClient', this.newClient);
+            if (userId)
+            {
+                await this.$store.dispatch('loginUser', login)
+                console.log('user ' + userId + " connected");
+                const newBasket = { IDClient: userId, dishesNumber: 0, totalPrice: 0, dishes: [] };
+                await this.$store.dispatch("createBasket", newBasket);
+                this.$router.push({ name: 'home' });
+            }
+            else
+            {
+                console.log("error registration");
+                alert("error registration");
+            }
 
             //this.loading = true;
 

@@ -94,7 +94,10 @@ export default {
       }, 2000)
     },
     logout () {
-      localStorage.clear();
+      localStorage.removeItem("userId");
+      localStorage.removeItem("userRole");
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("credentialId");
       this.$router.push({ name: 'home' });
     },
     loginAccount()

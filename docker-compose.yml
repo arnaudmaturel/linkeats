@@ -95,6 +95,8 @@ services:
       - basket_mongodb
     volumes: 
       - ./api/utils:/usr/src/app/src/utils:ro
+    ports:
+      - '3020:3000'
   dish_api:
     container_name: linkeats-dish_api
     restart: unless-stopped
@@ -111,12 +113,6 @@ services:
       - address_mongodb
     volumes: 
       - ./api/utils:/usr/src/app/src/utils:ro
-  # user_api:
-    # container_name: linkeats-user_api
-    # restart: unless-stopped
-    # build: ./api/user_api
-    # depends_on:
-    #   - mssql
   clients_api:
     container_name: linkeats-clients_api
     restart: unless-stopped

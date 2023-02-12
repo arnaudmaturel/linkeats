@@ -119,6 +119,10 @@ export default {
 
             await this.$store.dispatch('loginUser', login);
             console.log("User connected : ", localStorage.getItem('userRole'));
+            if (localStorage.getItem('userRole') == 1)
+            {
+                this.$store.dispatch('getClientBasket', localStorage.getItem('userId'));
+            }    
             if (localStorage.getItem('userRole') != 5 && localStorage.getItem('userRole') != null)
                 this.$router.push({ name: 'account' });
             else

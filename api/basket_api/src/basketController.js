@@ -6,21 +6,20 @@ const basketMng = require('../src/basketMng');
 const router = express.Router();
 
 
-router.post('/',(req,res)=>
-{
+router.post('/', (req, res) => {
+    console.log("creation in progress");
     basketMng.create(req.body)
-    .then((value)=>{
-        console.log("Sucessful creation !");
-        res.send(200,value);
-    })
-    .catch((err)=>
-    {
-        console.log("error Creation ! : "+err.message);
-        res.send(500).send(err);
-    });
+        .then((value) => {
+            console.log("Sucessful creation !");
+            res.send(200, value);
+        })
+        .catch((err) => {
+            console.log("error Creation ! : " + err.message);
+            res.send(500).send(err);
+        });
 });
 
-router.get('/:id', (req,res) => {
+router.get('/:id', (req, res) => {
     console.log(req.params.id);
     const d = basketMng.getById(req.params.id);
     d.then((value) => {
@@ -33,7 +32,7 @@ router.get('/:id', (req,res) => {
 });
 
 
-router.get('/', (req,res) => {
+router.get('/', (req, res) => {
     const d = basketMng.getAll();
     d.then((value) => {
         if (value)
@@ -44,7 +43,7 @@ router.get('/', (req,res) => {
         .catch((err) => res.json(err));
 });
 
-router.get('/by-client/:id', (req,res) => {
+router.get('/by-client/:id', (req, res) => {
     console.log(req.params.id);
     const d = basketMng.getByClientId(req.params.id);
     d.then((value) => {
@@ -57,33 +56,30 @@ router.get('/by-client/:id', (req,res) => {
 });
 
 
-router.put('/:id',(req,res)=>
-{
+router.put('/:id', (req, res) => {
     basketMng.update(req.params.id, req.body)
-    .then((value)=>{
-        console.log("Sucessful update !");
-        res.send(200,value);
-    })
-    .catch((err)=>
-    {
-        console.log("error update ! : "+err.message);
-        res.send(500).send(err);
-    });
+        .then((value) => {
+            console.log("Sucessful update !");
+            res.send(200, value);
+        })
+        .catch((err) => {
+            console.log("error update ! : " + err.message);
+            res.send(500).send(err);
+        });
 });
 
 
-router.delete('/:id', (req,res) => {
+router.delete('/:id', (req, res) => {
     console.log(req.params.id);
     basketMng.delete(req.params.id)
-    .then((value)=>{
-        console.log("Sucessful delete !");
-        res.send(200,value);
-    })
-    .catch((err)=>
-    {
-        console.log("error delete ! : "+err.message);
-        res.send(500).send(err);
-    });
+        .then((value) => {
+            console.log("Sucessful delete !");
+            res.send(200, value);
+        })
+        .catch((err) => {
+            console.log("error delete ! : " + err.message);
+            res.send(500).send(err);
+        });
 });
 
 module.exports = router;

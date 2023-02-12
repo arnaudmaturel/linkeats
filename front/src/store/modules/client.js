@@ -1,5 +1,4 @@
 // import helpers from '@/helpers'
-import { da } from 'vuetify/lib/locale'
 import reqHand from '../fetch'
 
 // initial state
@@ -22,9 +21,9 @@ const actions = {
 
 
   async createClient({ state, commit }, newClient) {
-    const res = await reqHand.post('/clients/register', newClient)
+    const res = await reqHand.post('/clients/register', newClient);
     const data = await res.text()
-    console.log("response :", data);
+    return data;
   },
 
 

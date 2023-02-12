@@ -124,7 +124,12 @@ export default {
   },
   methods: {
     add(menu) {
-      console.log("menu :",menu);
+      let d =
+      {
+        idDish: menu._id,
+        quantity: 1,
+      }
+      this.$store.commit("ADD_ITEM", d);
       return;
 
       let item = {

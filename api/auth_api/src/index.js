@@ -4,7 +4,7 @@ const express = require('express');
 const app = express();
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken');
-const credentialMng = require("./Models/CredentialsMng");
+const credentialMng = require("./models/CredentialsMng");
 
 app.use(express.json())
 
@@ -39,6 +39,7 @@ const rolesChecking = require('./utils/role')
 app.get('/auth/authenticate', authenticateToken);
 
 async function authenticateToken(req, res) {
+    console.log('/auth/authenticate progressing')
     const authHeader = req.headers['authorization']
     const token = authHeader && authHeader.split(' ')[1]
     if (token === undefined) {
