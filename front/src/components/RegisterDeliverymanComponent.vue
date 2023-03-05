@@ -152,12 +152,23 @@ export default {
                 userRole: 3,
             };
 
-            this.$store.dispatch('createDeliveryman', this.newDeliver)
-                .then(() => {
-                    console.log('login', login);
-                    this.$store.dispatch('loginUser', login)
-                        .then(() => { this.$router.push({ name: 'home' }); })
-                })
+            const userId = await this.$store.dispatch('createDeliveryman', this.newDeliver)
+
+                        ///const userId = await this.$store.dispatch("createRestaurant", newResto)
+
+            console.log("userId", userId)
+
+            if (userId) {
+                await this.$store.dispatch('loginUser', login)
+                console.log('user ' + userId + " connected");
+                this.$router.push({ name: 'account' });
+            }
+            else {
+                console.log("error registration");
+                alert("error registration");
+            }
+
+
 
         },
         required(v) {

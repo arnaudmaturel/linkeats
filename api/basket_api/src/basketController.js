@@ -19,6 +19,13 @@ router.post('/', (req, res) => {
         });
 });
 
+
+// route 
+router.get('/status', (req, res) => {
+    console.log('basket server is alive');
+    res.status(200).json({ "status": "OK" });
+});
+
 router.get('/:id', (req, res) => {
     console.log(req.params.id);
     const d = basketMng.getById(req.params.id);

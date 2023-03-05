@@ -7,7 +7,24 @@ require('dotenv').config()
 const router = express.Router()
 
 const db = require('./models/index')
-const orderStatuses = require('./models/orderStatuses')
+const orderStatuses = require('./models/orderStatuses');
+
+
+function formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2)
+        month = '0' + month;
+    if (day.length < 2)
+        day = '0' + day;
+
+    return [year, month, day].join('-');
+}
+
+
 
 //Routes
 router.get('/', (req, res) => {
@@ -101,14 +118,30 @@ router.get('/by-status/:status', (req, res) => {
     }
 });
 
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
     //checkAllRequiredKeys(req.body, db.order.OrderSchema)
 
     newOrder = req.body
+
+    var SimpleID = {
+        Date: formatDate(new Date()),
+        Id4Resto: 0,
+        Id4Delivery: 0
+    }
+
+    var ordersResto = await db.order.OrderModel.find({ RestaurantId: req.body.RestaurantId });
+
+    // .then((value) => ordersResto = value)
+    // .catch((err) => { console.log("Creation failed, cannot define order quantity for the resto and date :", err) });
+
+    SimpleID.Id4Resto = ordersResto.filter(o => o.SimpleID.Date == SimpleID.Date).length + 1;
+
+    Object.assign(newOrder, { SimpleID });
+
     db.order.OrderModel.create(newOrder)
         .then(() => {
             console.log(`Creation Sucessful !`);
-            res.status(201).json({ message: `Order ${newOrder._id} created` })
+            res.status(200).json({ message: `Order created` })
         })
         .catch((error) => {
             console.log(`Creation failed : ${error}`);
@@ -119,28 +152,31 @@ router.post('/', (req, res) => {
 function isEmptyOrSpaces(str) {
     return !str || str === null || str.match(/^ *$/) !== null;
 }
-router.put('/set-deliveryman/:id', (req, res) => {
+
+router.put('/set-deliveryman/:id', async (req, res) => {
     try {
         var orderId = req.params.id;
         // db.order.OrderModel.findOneAndUpdate({ orderId: orderId }, req.body, { ReturnDocument: "before" })
-        const order = db.order.OrderModel.findOne({ _id: orderId });
+        var order = await db.order.OrderModel.findOne({ _id: orderId });
         console.log("order.DeliveryManId", order.DeliveryManId);
+        if (!order) {
+            console.log("order not find with the id: " + orderId);
+            res.status(404).send();
+        }
         if (order.DeliveryManId != undefined) {
             console.log("Deliveryman already set");
             res.status(401).send();
             return;
         }
 
-        const temp = db.order.OrderModel.findOne({ _id: orderId, DeliveryManId: req.body.DeliveryManId });
-        console.log("temp activ progess order :", temp)
-        if (!temp) {
-            console.log("Deliveryman already take a course");
-            res.status(401).send();
-            return;
-        }
+        var ordresDeliver = await db.order.OrderModel.find({ DeliveryManId: req.body.DeliveryManId });
+
+        order.SimpleID.Id4Delivery = ordresDeliver.filter(o => o.SimpleID.Date == req.body.SimpleID.Date).length + 1;
+        order.DeliveryManId = req.body.DeliveryManId;
+        order.OrderStatus = req.body.OrderStatus;
 
 
-        db.order.OrderModel.findOneAndUpdate({ _id: orderId }, req.body)
+        db.order.OrderModel.findOneAndUpdate({ _id: orderId }, order)
             .then(() => {
                 console.log("Order Updated");
                 res.status(200).json({ message: `Order updated` });
@@ -160,7 +196,6 @@ router.put('/set-deliveryman/:id', (req, res) => {
 
 router.put('/:id', (req, res) => {
     try {
-        //checkAllRequiredKeys(req.body, db.order.OrderSchema)
 
         var orderId = req.params.id;
         // db.order.OrderModel.findOneAndUpdate({ orderId: orderId }, req.body, { ReturnDocument: "before" })

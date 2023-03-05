@@ -14,11 +14,18 @@
 
     <v-menu v-model="cartMenu" :close-on-content-click="false">
       <template v-slot:activator="{ props }">
-        <v-badge color="error" :content=cartCount>
-          <v-btn v-bind="props" icon size="x-large" style="color: orange" value="Cart">
-            <v-icon>mdi-cart</v-icon>
-          </v-btn>
-        </v-badge>
+        <div v-if="basket && basket.dishes && basket.dishes.length">
+          <v-badge color="error" :content=basket.dishes.length>
+            <v-btn v-bind="props" icon size="x-large" style="color: orange" value="Cart">
+              <v-icon>mdi-cart</v-icon>
+            </v-btn>
+          </v-badge>
+        </div>
+        <div v-else>
+            <v-btn v-bind="props" icon size="x-large" style="color: orange" value="Cart">
+              <v-icon>mdi-cart</v-icon>
+            </v-btn>
+        </div>
       </template>
 
       <CartComponent/>
@@ -76,11 +83,17 @@ export default {
     }
   },
   computed: mapGetters({
+    basket : "basket",
     cartCount: "itemCount",
     user: "credential",
   }),
-  created() {
+  async created() {
     this.$store.dispatch("getCount");
+    if ((!this.$store.basket || this.$store.basket.IDClient != localStorage.getItem('userId')) && localStorage.getItem('userRole') ==1)
+    {
+      console.log("checkBaket");
+      await this.$store.dispatch("getClientBasket", localStorage.getItem('userId'));
+    }
     // console.log('userRole' + localStorage.getItem('userRole'))
     // console.log('userRole != 5' + localStorage.getItem('userRole')!=5)
   },
@@ -95,7 +108,7 @@ export default {
     },
     logout () {
       localStorage.removeItem("userId");
-      localStorage.removeItem("userRole");
+      localStorage.setItem("userRole",5);
       localStorage.removeItem("accessToken");
       localStorage.removeItem("credentialId");
       this.$router.push({ name: 'home' });

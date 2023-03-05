@@ -3,8 +3,6 @@ const mongoose = require('mongoose');
 
 const basketSchema = new mongoose.Schema({
     IDClient: String,
-    dishesNumber: Number,
-    totalPrice: Number,
     dishes: [
         {
             idDish: { type: String, required: true },

@@ -2,7 +2,12 @@ const mongoose = require('mongoose')
 const uuid = require('node-uuid');
 
 const OrderSchema = {
-    // OrderID: { type: mongoose.ObjectId, default: new mongoose.Types.ObjectId(), required: true, },
+    SimpleID:
+    {
+        Date: String,
+        Id4Resto: Number,
+        Id4Delivery: Number
+    },
     Items: [
         {
             DisheID: mongoose.ObjectId,

@@ -170,24 +170,32 @@ router.beforeEach((to, from) => {
     });
   }
 
-  const userId = localStorage.getItem("credentialId") || 'undefined'
+  const userId = localStorage.getItem("credentialId");
+  console.log("Router.index.js.userId:", userId);
 
-  fetch(`http://localhost:80/auth/user_role/${userId}/`, {
-    method: 'GET',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    },
-    // params: params
-  }).then((response) => {
-    response.json().then((data) => {
-      const userRole = data.userRole;
-      localStorage.setItem("userRole", userRole)
-      if (!to.meta.roles.includes(userRole)) {
-        return { name: 'home', replace: true }
-      }
-    })
-  });
+  if (!userId) {
+    console.log("no user");
+    localStorage.setItem("userRole", 5)
+  }
+  else {
+
+    fetch(`http://localhost:80/auth/user_role/${userId}/`, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      // params: params
+    }).then((response) => {
+      response.json().then((data) => {
+        const userRole = data.userRole;
+        localStorage.setItem("userRole", userRole)
+        if (!to.meta.roles.includes(userRole)) {
+          return { name: 'home', replace: true }
+        }
+      })
+    });
+  }
   // explicitly return false to cancel the navigation
   // return false
 })

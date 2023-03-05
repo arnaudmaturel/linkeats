@@ -1,151 +1,284 @@
 <template>
   <v-container>
-    <v-card variant="outlined"  class="mx-auto px-2 py-2"  max-width="1200" style="border: 1px solid grey; background-color: white;" elevation="24">
+    <v-card variant="outlined" class="mx-auto px-2 py-2" max-width="1200"
+      style="border: 1px solid grey; background-color: white;" elevation="24">
       <v-container fluid>
         <v-row>
           <v-col>
             <h4 style="color: black;">Votre pannier :</h4>
           </v-col>
         </v-row>
-        <v-col v-for="item in cart" :key="item.title" dense>
-          <v-card elevation="3" width="90%" height="90%"  class="mx-auto">
+        <v-col v-for="item in items" :key="item" dense>
+          <v-card elevation="3" width="90%" height="90%" class="mx-auto">
             <v-card-title style="color: black;">
-              {{ item.plate }}: {{ item.dishName.price / 100 }} €/unit
+              {{ item.name }}: {{ (item.price / 100).toFixed(2) }} €
             </v-card-title>
 
             <v-card-text style="color: black;">
               <v-row>
                 <v-col cols="5">
-                  Quantité : {{ item.dishName.quantity }}
+                  Quantité : {{ item.quantity }}
                 </v-col>
 
                 <v-col cols="6">
-                  Total : {{ (item.dishName.quantity * item.dishName.price) /100 }} €
+                  Total : {{ ((item.quantity * item.price) / 100).toFixed(2) }} €
                 </v-col>
 
                 <v-col cols="1">
-                  <v-icon @click="del(item.dishName)">mdi-delete</v-icon>
+                  <v-icon @click="del(item.idDish)">mdi-delete</v-icon>
                 </v-col>
               </v-row>
             </v-card-text>
           </v-card>
         </v-col>
       </v-container>
-      <v-card-title style="color: black;">
-        Total à payer : {{ cartTotal / 100 }} €
-      </v-card-title>
+      <v-col cols="3">
+
+        <p style="color: black;text-align: right;">
+          Items Panier : {{ (itemsPrice/100).toFixed(2) }} €
+        </p>
+        
+        <p style="color: black;text-align: right;">
+          Coût de Livraison : {{ (deliveryCost/100).toFixed(2) }} €
+        </p>
+        
+        <v-card-title style="color: black;text-align: right;">
+          Coût Total : {{ (deliveryCost/100+itemsPrice/100).toFixed(2) }} €
+        </v-card-title>
+      </v-col>
       <v-card-actions>
-        <v-btn variant="elevated" size="large" color="rgb(255, 152, 0)" style="color: white;" @click="basket()">
+        <v-btn variant="elevated" size="large" color="rgb(255, 152, 0)" style="color: white;" @click="validateBasket" >
           Passer commande !
         </v-btn>
       </v-card-actions>
     </v-card>
+
+    <!-- DIALOG -->
+    <v-dialog v-model="popUp">
+      <PopUpConfirm :message="popUpMessage" @on-validated="onValidatePopUp()" @on-cancel="onClosePopUp()" />
+  </v-dialog>
+
+          <!-- SNACKBAR -->
+          <v-snackbar v-model="snackbar" :timeout="timeout" style="border=solid 3px rgb(228, 228, 228);">
+              <!-- {{ (orderSate == 'En cours') ?
+                'Nous annulons votre coommande ' :
+                'Nous avons pris en considération votre réclamation pour la commande ' }} {{ idOdrer }} -->
+                  {{ text }}
+              <template v-slot:actions>
+                  <v-btn color="rgb(255, 152, 0)" rounded="pill" @click="snackbar = false">
+                      Close
+                  </v-btn>
+              </template>
+          </v-snackbar>
+
   </v-container>
 </template>
 
 <script>
-import {mapGetters} from "vuex";
-import { el } from "vuetify/locale";
+import { mapGetters } from "vuex";
 import OrderStatus from '@/store/OrderStatus'
+import PopUpConfirm from '@/components/PopUpConfirm.vue';
+
 
 export default {
+  components:{ PopUpConfirm },
   data() {
     return {
-      logged: false
+      logged: false,
+      snackbar: false,
+      items: [],
+      orders: [],
+      modeTypePop: { validated: 0, romeveLine: 1 },
+      modePop: 0,
+      popUpMessage: "",
+      popUp: false,
+      popUpData: null,
+      deliveryCost: 0,
+      itemsPrice : 0,
     }
   },
   computed: mapGetters({
-    cartTotal: "getTotal",
-    cart: "getCart",
+    basket: "basket"
   }),
-  created() {
-    this.$store.dispatch("getTotal")
+  async created() {
+    await this.refreshData();
   },
   methods: {
-    del(menu) {
-      let item = {
-        dishName: {
-          id: menu.id,
-          price: menu.price
-        }
+    // REFRESH DATA
+    async refreshData() {
+      this.items = [];
+
+      if (!this.$store.basket && localStorage.getItem("userId")) {
+        await this.$store.dispatch('getClientBasket', localStorage.getItem('userId'));
       }
-      this.$store.commit("delItem", item);
-      this.$store.commit("setCount")
-      this.$store.commit("setTotal")
-    },
-    async basket() {
 
-
-      if (localStorage.getItem("userRole") == 1)
+      if (!this.basket)
       {
-        const plate = JSON.parse(localStorage.getItem("cart"))
-        console.log("plate:",plate)
-        var dishes = []
+        console.log("error no basket");
+        return;
+      }
+      
+      // var itemsTemp = [];
+      for (var i = 0; i < this.basket.dishes.length; i++)
+      {
+        var d = this.basket.dishes[i];
+        const data = await this.$store.dispatch("getOnlyDish", d.idDish);
+        const item = { id: d.idDish, idResto: data.IDRestaurant, name: data.name, price: data.price, quantity: d.quantity, weight: data.Wheight };
+        this.items.push(item);
 
-        plate.forEach(element => { dishes.push(element.dishName) });
-        
-        var basketItem = {
-          IDClient: localStorage.getItem("userId"),
-          dishesNumber: this.cart.length,
-          isPaid: 0,
-          totalPrice: this.cartTotal,
-          dishes: {dishName: dishes}
+      }
+
+
+      this.orders = [];
+      this.items.forEach(item => {
+        var idxOrder = -1;
+        // search of index of corresponding restaurant
+        for (var i = 0; i < this.orders.length; i++) {
+          if (this.orders[i].RestaurantId == item.idResto) {
+            idxOrder = i;
+            break;
+          }
         }
 
 
-        //await this.$store.dispatch("createBasket", basketItem)
-          // WIP À réadapter avec les nouveau modèles de commandes et panier
-
-        var orderItems = [];
-        var itemsPrice = 0;
-
-        plate.forEach(element => {
-          const oItem = {
-            DisheID: element.dishName.id,
-            NameDish: element.plate,
-            Quantity: element.dishName.quantity,
-            Price: element.dishName.price,
-            // WeightDish: Number
-            WeightDish: 500
-          }
-          itemsPrice += element.dishName.price * element.dishName.quantity;
-          orderItems.push(oItem);
-        });
-
-          const order = {
-            Items: orderItems,
+        // no order for the corresponding restaurant
+        // creation of order associate to restaurant
+        if (idxOrder == -1) {
+          var order = {
+            Items: [],
             ClientId: localStorage.getItem('userId'),
-
-            RestaurantId: '{ type: String, required: true }',
-            // DeliveryManId: { type: String, required: false },
-            DeliveryManId: '',
+            RestaurantId: item.idResto,
+            DeliveryManId: null,
             OrderStatus: OrderStatus.WaitingRestaurantConfirmation,
-            // OrderStatus: { type: Number, required: true },
-            OrderFinalPrice: 500,
-            // OrderFinalPrice: { type: Number, required: true, },
-            ItemsPrice: itemsPrice,
-            // ItemsPrice: { type: Number, required: true, },
-            OrderLinkEatsPart: itemsPrice*0.1,
-            // OrderLinkEatsPart: { type: Number, required: true, },
-            OrderDeliveryCost: 2,
-            // OrderDeliveryCost: { type: Number, required: true, },
-            OrderDistance: 5,
-            // OrderPaymentInfo: { type: String, required: true, },
+            // cost with delivery + commision + products
+            OrderFinalPrice: 0,
+            // cost of only products
+            ItemsPrice: 0,
+            // commision
+            OrderLinkEatsPart: 0,
+            // delivery cost
             OrderPaymentInfo: "credit card",
             // OrderedAt: { type: Date, default: Date.now(), required: true, },
             // CookedAt: { type: Date, required: false, },
             // PickedAt: { type: Date, required: false, },
             // DeliveredAt: { type: Date, required: false, },
 
+            // not used for now
+            OrderDistance: 5,
+            OrderDeliveryCost: 200,
             RestaurantLocation: { Longitude: 1, Latitude: 50, Address: "Rouen" },
-            ClientLocation: {  Longitude: 1, Latitude: 50, Address: "Rouen" },
-        };
+            ClientLocation: { Longitude: 1, Latitude: 50, Address: "Rouen" },
+          };
 
-        console.log("order", order)
+          this.orders.push(order);
+          idxOrder = this.orders.length - 1;
+        }
 
-        await this.$store.dispatch("createOrder", order);
+        // creation of the new line order
+        var orderLine =
+        {
+          DisheID: item.id,
+          NameDish: item.name,
+          Quantity: item.quantity,
+          Price: item.price,
+          WeightDish: item.weight
+        }
+
+
+        // update data for orders
+        this.orders[idxOrder].Items.push(orderLine);
+        this.orders[idxOrder].ItemsPrice += orderLine.Price * orderLine.Quantity;
+
+
+      });
+
+      // create orders
+      this.orders.forEach(async o => {
+        o.OrderLinkEatsPart = o.ItemsPrice * 0.1;
+        o.OrderFinalPrice = o.ItemsPrice + o.OrderLinkEatsPart + o.OrderDeliveryCost;
+      });
+
+      this.deliveryCost = 0;
+      this.itemsPrice = 0;
+
+      this.orders.forEach(o => {
+        this.deliveryCost += o.OrderDeliveryCost + o.OrderLinkEatsPart;
+        this.itemsPrice += o.ItemsPrice;
+      });
+
+    },
+
+    // VALIDATE FROM POPUP
+    async onValidatePopUp() {
+      switch (this.modePop) {
+
+        case this.modeTypePop.validated:
+          this.SendOrder();
+          break;
+
+        case this.modeTypePop.romeveLine:
+          // TO DO DELETE Line
+          var idx = -1;
+          for (var i = 0; i < this.items.length; i++)
+            if (this.items[i].idDish == this.popUpData)
+            {
+              idx = i;
+              break;
+            }
+
+          if (idx == -1)
+          {
+            this.text = "erreur";
+            this.snackbar = true;
+            console.log("on delete line error !");
+            return;
+          }
+
+          this.basket.dishes.splice(i, 1);
+          this.$store.dispatch("saveBasket");
+
+          this.refreshData();
+          break;
       }
-    }
+      this.popUp = false;
+    },
+
+    // CLOSE FROM  POP UP
+    onClosePopUp() {
+      this.popUp = false;
+    },
+
+    // DELETE ITEM
+    del(idDish) {
+      this.modePop = this.modeTypePop.romeveLine;
+      this.popUpMessage = "vouler vous suprimmer cet élément ?";
+      this.popUpData = idDish;
+      this.popUp = true;
+    },
+
+    // VALIDATE THE BASKET 
+    async validateBasket() {
+      this.modePop = this.modeTypePop.validated;
+      this.popUpMessage = "Envoyer la commander ?";
+      this.popUp = true;
+    },
+
+
+    // SEND ORDERS
+    async SendOrder()
+    {
+      this.orders.forEach(async o => {
+        await this.$store.dispatch("createOrder", o);
+      })
+      return;
+
+      this.basket.dishes = [];
+      await this.$store.dispatch('saveBasket');
+      this.$router.push({ name: 'home' });
+    },
+
+
   }
 }
+
 </script>

@@ -63,7 +63,15 @@
                 </v-row>
             </div>
         </div>
-
+                        <!-- SNACKBAR -->
+                <v-snackbar v-model="snackbar" :timeout="timeout" style="border=solid 3px rgb(228, 228, 228);">
+                        Information de sécurité sauvegardé correctement
+                    <template v-slot:actions>
+                        <v-btn color="rgb(255, 152, 0)" rounded="pill" @click="snackbar = false">
+                            Close
+                        </v-btn>
+                    </template>
+                </v-snackbar>
     </v-card>
 </template>
 
@@ -87,7 +95,9 @@ export default {
         phone: null,
         mail: null,
         loading: false,
-        isChangingPwd : false,
+        isChangingPwd: false,
+        timeout: 3000,
+        snackbar: false
     }),
     methods: {
         async onSubmit()
@@ -100,6 +110,7 @@ export default {
                     CredentialPhone: this.phone,            
                 }
                 this.$store.dispatch('puCredential', newCred);
+                this.snackbar = true;
             }
             else
             {
@@ -116,6 +127,7 @@ export default {
                         CredentialPassword: this.password,
                     }
                     this.$store.dispatch('puCredential', newCred);
+                    this.snackbar = true;      
                 }
             }
         }

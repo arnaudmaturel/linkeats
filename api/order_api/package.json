@@ -4,7 +4,8 @@
   "description": "Running Node.js and Express.js on Docker",
   "main": "index.js",
   "scripts": {
-    "start": "node src/index.js"
+    "start": "node src/index.js",
+    "devStart": "nodemon src/index.js"
   },
   "dependencies": {
     "dotenv": "^16.0.3",
@@ -13,5 +14,8 @@
     "node-uuid": "^1.4.8"
   },
   "author": "",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "nodemon": "^2.0.21"
+  }
 }

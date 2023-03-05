@@ -58,7 +58,7 @@
             <v-card min-width="100" max-width="400">
               <v-img height="250" :src="plate.PicturePaths"></v-img>
 
-              <v-card-title>{{ plate.name }} Menu</v-card-title>
+              <v-card-title>{{ plate.name }}</v-card-title>
 
               <v-card-text>
                 <div>

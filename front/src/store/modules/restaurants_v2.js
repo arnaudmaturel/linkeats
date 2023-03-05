@@ -91,11 +91,13 @@ const actions = {
     async createRestaurant({ state, commit }, newRestaurant) {
         const res = await reqHand.post('/restaurants/register', newRestaurant);
         const data = await res.text();
-        this.$store.dispatch()
-        commit('RECEIVE_RESTAURANT', data);
+        return data;
+        // commit('RECEIVE_RESTAURANT', data);
     },
     async saveRestaurant({ state, commit }, args) {
         const res = await reqHand.put(`/restaurants/${args.id}/`, { id: args.id }, args.data);
+        const data = await res.text();
+        return data;
     },
     async deleteRestaurant({ state, commit }, args) {
         const res = await reqHand.delete(`/restaurants/${args}/`, { id: args })

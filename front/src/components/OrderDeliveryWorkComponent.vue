@@ -1,5 +1,4 @@
 <template>
-
     <v-card id="form" rounded="5" elevation="0">
         <v-row id="rowTitle">
             <v-col class="ma-auto">
@@ -10,8 +9,7 @@
         </v-row>
         <div id="middle"></div>
         <v-tabs id="tabMenu" centered grow v-model="curentTab" color="rgb(255, 152, 0)">
-            <v-tab :id="('En Cours' == curentTab) ? 'orderStateSelected' : 'orderState'" value="En Cours"
-                ripple="false">
+            <v-tab :id="('En Cours' == curentTab) ? 'orderStateSelected' : 'orderState'" value="En Cours" ripple="false">
                 En Cours
             </v-tab>
             <v-tab :id="('Terminé' == curentTab) ? 'orderStateSelected' : 'orderState'" value="Terminé" ripple="false">
@@ -35,21 +33,22 @@
 
                             <v-row>
                                 <v-col class="ma-auto" inline-block>
-                                    N°{{ orderProgressDelivery._id }}
+                                    N°{{ orderProgressDelivery.SimpleID.Date + " " +
+                                        orderProgressDelivery.SimpleID.Id4Delivery }}
                                 </v-col>
 
                                 <v-col class="ma-auto">
                                     longueur: {{ orderProgressDelivery.OrderDistance }} km
                                 </v-col>
 
-                                <v-col class="ma-auto" inline-block >
+                                <v-col class="ma-auto" inline-block>
                                     Rémunération: {{ orderProgressDelivery.OrderDeliveryCost / 100 }}€
                                 </v-col>
 
                             </v-row>
 
                             <v-row>
-                                <v-col class="ma-auto" style="text-align:left" inline-block >
+                                <v-col class="ma-auto" style="text-align:left" inline-block>
                                     Address de collecte : {{ orderProgressDelivery.restoLoc }}
                                 </v-col>
                                 <v-col cols="2">
@@ -59,7 +58,7 @@
                             </v-row>
 
                             <v-row>
-                                <v-col class="ma-auto" style="text-align:left" inline-block >
+                                <v-col class="ma-auto" style="text-align:left" inline-block>
                                     Address de Livraison : {{ orderProgressDelivery.clientLoc }}
                                 </v-col>
                                 <v-col cols="2">
@@ -76,15 +75,15 @@
                                         <ConfettiExplosion v-if="visibleC" />
                                     </div>
                                     <v-btn rounded="pill" icon="mdi-close-thick"
-                                        style="color:white; background-color:rgb(252, 152, 0)" @click="onAbortOrder" />
+                                        style="color:white; background-color:red" @click="onAbortOrder" />
                                 </v-col>
                             </v-row>
                         </v-card>
                     </div>
                     <!-- AVALAIBLE ORDER TO BE DELIVER -->
                     <div v-else>
-                        <v-card style="border:solid 1px rgb(228, 228, 288); margin-bottom:10px;"
-                            :max-height="heightList" class="overflow-y-auto px-3">
+                        <v-card style="border:solid 1px rgb(228, 228, 288); margin-bottom:10px;" :max-height="heightList"
+                            class="overflow-y-auto px-3">
 
                             <v-row>
                                 <v-col class="ma-auto">
@@ -98,21 +97,27 @@
                                 <v-expansion-panel v-for="order in orderToAccept" :key="order" style="width: 100%;">
                                     <v-expansion-panel-title>
                                         <v-row>
-                                            <v-col class="ma-auto" inline-block>
-                                                N°{{ order._id }}
+                                            <v-col class="ma-auto" cols="5" inline-block>
+                                                <v-row>
+                                                    <v-col class="ma-auto">
+                                                        {{ " N°" + order.SimpleID.Id4Delivery }}
+                                                    </v-col>
+                                                    <v-col class="ma-auto">
+                                                        {{ order.SimpleID.Date }}
+                                                    </v-col>
+                                                </v-row>
                                             </v-col>
 
-                                            <v-col class="ma-auto" inline-block >
+                                            <v-col class="ma-auto" cols="2" inline-block>
                                                 {{ order.OrderDistance }}km
                                             </v-col>
 
-                                            <v-col class="ma-auto" inline-block >
+                                            <v-col class="ma-auto" cols="2" inline-block>
                                                 {{ order.OrderDeliveryCost / 100 }}€
                                             </v-col>
 
                                             <v-col cols="2">
-                                                <v-btn rounded="pill"
-                                                    style="color:white; background-color:rgb(252, 152, 0)"
+                                                <v-btn rounded="pill" style="color:white; background-color:rgb(252, 152, 0)"
                                                     icon="mdi-check-bold" @click="cancelExpand, onAcceptOrder(order)" />
                                             </v-col>
 
@@ -162,11 +167,10 @@
 
                         <v-expansion-panels variant="popout" class="my-4">
                             <v-expansion-panel v-for="order in orderDelivered" :key="order" style="width: 100%;">
-                                {{order}}
                                 <v-expansion-panel-title>
                                     <v-row>
                                         <v-col class="ma-auto" inline-block>
-                                            N°{{ order._id }}
+                                            N°{{ order.SimpleID.Date + " " + order.SimpleID.Id4Delivery }}
                                         </v-col>
 
                                         <v-col class="ma-auto">
@@ -203,18 +207,28 @@
                 </div>
             </v-card>
         </div>
+        <v-dialog v-model="popUp">
+            <PopUpConfirm :message="popUpMessage" @on-validated="onValidatePopUp()" @on-cancel="onClosePopUp()" />
+        </v-dialog>
     </v-card>
+    
 </template>
 
 
 <script>
 import ConfettiExplosion from "vue-confetti-explosion";
 import OrderStatus from '@/store/OrderStatus';
+import PopUpConfirm from '@/components/PopUpConfirm.vue';
+import AppSetting from '@/AppSetting.js'
+
+const timer = ms => new Promise(res => setTimeout(res, ms));
+
 
 export default {
     name: 'OrderRestaurantWorkComponent',
     components: {
         ConfettiExplosion,
+        PopUpConfirm
     },
     async created() {
         await this.refreshData();
@@ -222,42 +236,76 @@ export default {
     props: {
         heightList: Number,
     },
+        async mounted() {
+        this.mustRefresh = true;
+        this.timedRefresh();
+    },
+    async unmounted() {
+        this.mustRefresh = false;
+    },
     data: () => ({
         visibleC: false,
         curentTab: 'En Cours',
         orderProgressDelivery: null,
         orderDelivered: [],
-        orderToAccept:[],
+        orderToAccept: [],
+        modeTypePop: { accept: 0, abort: 1 },
+        modePop: 0,
+        popUpMessage: "",
+        popUp: false,
+        popUpData: null,
+        mustRefresh: false,
     }),
     methods: {
+        async onValidatePopUp() {
+            switch (this.modePop) {
+                case this.modeTypePop.accept:
+                    await this.$store.dispatch('deliveryManAcceptCourse', { id: this.popUpData._id, data: {  OrderStatus: OrderStatus.WaitingDeliverymanPickUp, SimpleID:this.popUpData.SimpleID } });
+                    await this.refreshData();
+                    break;
+
+                case this.modeTypePop.abort:
+                    await this.$store.dispatch('saveOrder', { id: this.popUpData._id, data: { OrderStatus: OrderStatus.RejectededDeliveryman } });
+                    await this.refreshData();
+                    break;
+            }
+            this.popUp = false;
+        },
+        onClosePopUp() {
+            this.popUp = false;
+        },
         async onAcceptOrder(order) {
-            await this.$store.dispatch('deliveryManAcceptCourse', { id: order._id, data: { DeliveryManId:localStorage.getItem('userId'), OrderStatus: OrderStatus.WaitingDeliverymanPickUp } });
-            await this.refreshData();
+            // await this.$store.dispatch('deliveryManAcceptCourse', { id: order._id, data: { DeliveryManId: localStorage.getItem('userId'), OrderStatus: OrderStatus.WaitingDeliverymanPickUp, SimpleID: order.SimpleID } });
+            // await this.refreshData();
+            this.popUpData = order;
+            this.modePop = this.modeTypePop.accept;
+            this.popUpMessage = "Confirmer la prise en charge de la commande";
+            this.popUp = true;
         },
         async onAbortOrder(order) {
             this.orderProgressDelivery = null;
+            // await this.$store.dispatch('deliveryManAcceptCourse', { id: order._id, data: { DeliveryManId: localStorage.getItem('userId'), OrderStatus: OrderStatus.RejectededDeliveryman, SimpleID: order.SimpleID } });
+            // await this.refreshData();
+            this.popUpData = order;
+            this.modePop = this.modeTypePop.abort;
+            this.popUpMessage = "Confirmer la prise en charge de la commande";
+            this.popUp = true;
         },
         async cancelExpand(e) {
             e.cancelBubble = true;
         },
         async onDelivered() {
             this.visibleC = true;
-            // var deliveredOrder = {
-            //     orderN: this.orderProgressDelivery.orderN,
-            //     remun: this.orderProgressDelivery.remun,
-            //     distance: this.orderProgressDelivery.distance,
-            //     restoLoc: this.orderProgressDelivery.restoLoc,
-            //     clientLoc: this.orderProgressDelivery.clientLoc,
-            //     date: new Date,
-            // };
-            setTimeout(async() => {
+
+            await setTimeout(async () => {
                 this.visibleC = false;
-                // this.orderDelivered.push(deliveredOrder);
-                this.orderProgressDelivery = null;
+                await this.$store.dispatch('saveOrder', { id: this.orderProgressDelivery._id, data: { OrderStatus: OrderStatus.Delivered, DeliveredAt: Date.now() } });
+                // await this.$store.dispatch('saveOrder', { id: this.orderProgressDelivery._id, data: { DeliveryManId: localStorage.getItem('userId'), OrderStatus: OrderStatus.Delivered, DeliveredAt: Date.now(), SimpleID: order.SimpleID } });
                 await this.refreshData();
             }, 500);
+
         },
-        async formatDate(date) {
+        formatDate(date) {
             var d = new Date(date),
                 month = '' + (d.getMonth() + 1),
                 day = '' + d.getDate(),
@@ -270,29 +318,42 @@ export default {
 
             return [day, month, year].join('/');
         },
+        async timedRefresh() {
+            while (this.mustRefresh) {
+                await timer(AppSetting.REFRESH_TIME);
+                await this.refreshData();
+            }
+        },
         async refreshData() {
-            console.log("check orders");
-            await this.$store.dispatch('getAllDeliverOrders',localStorage.getItem('userId'));
+
+            // this.orderProgressDelivery = null;
+            // this.orderDelivered = [];
+            var tempOrderProgressDelivery = null;
+            var tempOrderDelivered = [];
+
+            await this.$store.dispatch('getAllDeliverOrders', localStorage.getItem('userId'));
+            this.$store.state.order.orders.forEach(o => {
+                if (o.OrderStatus == OrderStatus.WaitingDeliverymanPickUp || o.OrderStatus == OrderStatus.DeliveryInProgress)
+                    tempOrderProgressDelivery = o;
+                else
+                    tempOrderDelivered.push(o);
+            });
+
+            this.orderProgressDelivery = tempOrderProgressDelivery;
+
+            if (this.orderProgressDelivery) {
+                console.log("order in progress")
+                return;
+            }
+
+            this.orderDelivered = tempOrderDelivered;
+
             await this.$store.dispatch('getOrdersByStatus', OrderStatus.WaitingDeliverymanConfirmation);
-            console.log("allOrder",this.$store.state.order.allOrder);
-            const temp =await this.$store.state.order.allOrder.find(value => value.status == OrderStatus.WaitingDeliverymanConfirmation);
-            
-            this.orderToAccept = (temp) ? temp.data : [];
-            console.log("orderToAccept", this.orderToAccept);
-            //this.orderDelivered = await this.$store.state.order.orders.filter(this.isDelivered);
-            this.orderProgressDelivery = null;
+
+
+            this.orderToAccept = this.$store.state.order.orders;
         },
-        isWaitingAccpectation(value) {
-            return value.OrderStatus == OrderStatus.WaitingDeliverymanConfirmation;
-        },
-        isDelivered(value) {
-            return value.OrderStatus == OrderStatus.Delivered;
-        },
-        isOrderDeiveryProgress(value)
-        {
-            return value.OrderStatus == OrderStatus.WaitingDeliverymanPickUp
-                || value.OrderStatus == OrderStatus.DeliveryInProgress;
-        }
+
     },
 
 }

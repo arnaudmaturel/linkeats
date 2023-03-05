@@ -19,7 +19,7 @@ const getters = {
 // actions
 const actions = {
   async getAllClientOrders({ state, commit }, idClient) {
-    const res = await reqHand.get('/orders/by-client', idClient);
+    const res = await reqHand.get(`/orders/by-client/${idClient}`);
     if (res.status != 200) { console.error(res); return; }
     const data = await res.json();
     commit('RECEIVE_CLIENT_ORDERS', data);
@@ -35,7 +35,7 @@ const actions = {
 
 
   async getAllDeliverOrders({ state, commit }, idDeliver) {
-    const res = await reqHand.get('/orders/by-deliveryman', idDeliver);
+    const res = await reqHand.get(`/orders/by-deliveryman/${idDeliver}`);
     if (res.status != 200) { console.error(res); return; }
     const data = await res.json();
     commit('RECEIVE_DELIVER_ORDERS', data);
@@ -45,7 +45,7 @@ const actions = {
     const res = await reqHand.get('/orders/by-status/' + status);
     if (res.status != 200) { console.error(res); return; }
     const data = await res.json();
-    commit('ADD_STATUS', { status: status, data: data });
+    commit('RECEIVE_DELIVER_ORDERS', data);
   },
 
 
@@ -68,8 +68,8 @@ const actions = {
   async saveOrder({ state, commit }, args) {
     const res = await reqHand.put(`/orders/${args.id}/`, { id: args.id }, args.data);
     if (res.status != 200) { console.error(res); return; }
-    const data = await res.json();
-    commit('RECEIVE_ORDER', data);
+    const data = await res.text();
+    //commit('RECEIVE_ORDER', data);
   },
 
   async deliveryManAcceptCourse({ state, commit }, args) {
@@ -78,7 +78,7 @@ const actions = {
     else if (res.status === 401) { }
     if (res.status != 200) { console.error(res); return; }
     const data = await res.json();
-    commit('RECEIVE_ORDER', data);
+    return data;
   },
 
 

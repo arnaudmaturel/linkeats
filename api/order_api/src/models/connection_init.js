@@ -5,6 +5,7 @@ mongoose.Promise = global.Promise
 
 mongoose
     .connect(`mongodb://${process.env.MONGO_HOST}:${process.env.MONGO_PORT}/${process.env.MONGO_DB}`, {
+        //.connect(`mongodb://localhost:27018/linkeats`, {
         useNewUrlParser: true,
         useUnifiedTopology: true
     })

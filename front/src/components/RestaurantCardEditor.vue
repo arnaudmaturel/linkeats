@@ -29,7 +29,7 @@
                                         </v-col>
 
                                         <v-col class="ma-auto">
-                                            {{ dish.price / 100 }}€
+                                            {{ (dish.price / 100).toFixed(2) }}€
                                         </v-col>
 
                                         <v-col class="ma-auto" style="text-align:right">
@@ -74,7 +74,7 @@
                                         </v-col>
 
                                         <v-col offset="3">
-                                            {{ menu.price / 100 }}€
+                                            {{ (menu.price / 100).toFixed(2) }}€
                                         </v-col>
 
                                         <v-col offset="4">
@@ -116,18 +116,25 @@
             <DishEditor maxHeight="80vh" :dish="dishEdit"
              @on-close="dialogD=false" :isEditing="this.isEdditing" @on-save="dialogD = false, refreshData()"/>
         </v-dialog>
+
+        <v-dialog v-model="popUp">
+                <PopUpConfirm :message="popUpMessage" @on-validated="onValidatePopUp()" @on-cancel="onClosePopUp()" />
+        </v-dialog>
+
     </v-card>
 </template>
 
 <script>
 import DishEditor from './DishEditor.vue';
+import PopUpConfirm from '@/components/PopUpConfirm.vue';
 
-const DEFAULT_DISH = { name: '', price: 0, PicturePaths: '', Description: '', Tags: '', Allergens: '', Wheight: 500 };
+const DEFAULT_DISH = { name: '', price: '0', PicturePaths: '', Description: '', Tags: '', Allergens: '', Wheight: 500 };
 
 export default {
     components:
     {
-        DishEditor
+        DishEditor,
+        PopUpConfirm
     },
     async created()
     {
@@ -142,16 +149,10 @@ export default {
             'Plat',
             'Menu'
         ],
-        dishEdit: { name: '', price: 0, PicturePaths: '', Description: '', Tags: '', Allergens: '', Wheight: 500 },
+        dishEdit: { name: '', price: '0', PicturePaths: '', Description: '', Tags: '', Allergens: '', Wheight: 500 },
         dialogD: false,
         dialogM: false,
         dishes: [
-            // { name: 'Plat', price: 1550, PicturePaths: '', Description: 'delicious dish', Tags: 'tag1;tag2;tag3', Allergens: 'allergen1;allergen2', Wheight: 500 },
-            // { name: 'Plat', price: 1550, PicturePaths: '', Description: 'delicious dish', Tags: 'tag1;tag2;tag3', Allergens: 'allergen1;allergen2', Wheight: 500 },
-            // { name: 'Plat', price: 1550, PicturePaths: '', Description: 'delicious dish', Tags: 'tag1;tag2;tag3', Allergens: 'allergen1;allergen2', Wheight: 500 },
-            // { name: 'Plat', price: 1550, PicturePaths: '', Description: 'delicious dish', Tags: 'tag1;tag2;tag3', Allergens: 'allergen1;allergen2', Wheight: 500 },
-            // { name: 'Plat', price: 1550, PicturePaths: '', Description: 'delicious dish', Tags: 'tag1;tag2;tag3', Allergens: 'allergen1;allergen2', Wheight: 500 },
-            // { name: 'Plat', price: 1550, PicturePaths: '', Description: 'delicious dish', Tags: 'tag1;tag2;tag3', Allergens: 'allergen1;allergen2', Wheight: 500 },
             // { name: 'Plat', price: 1550, PicturePaths: '', Description: 'delicious dish', Tags: 'tag1;tag2;tag3', Allergens: 'allergen1;allergen2', Wheight: 500 },
         ],
         menus: [
@@ -161,18 +162,39 @@ export default {
             { name: 'Menu 4', description:'description du menu', price : 2000, items:[ 'item1', 'item2', 'item3']},
             { name: 'Menu 5', description:'description du menu', price : 2000, items:[ 'item1', 'item2', 'item3']},
             { name: 'Menu 6', description:'description du menu', price : 2000, items:[ 'item1', 'item2', 'item3']},
-        ]
-        
+        ],
+        modeTypePop: { suppr: 0 },
+        modePop: 0,
+        popUpMessage: "",
+        popUp: false,
+        popUpData: null, 
     }),
     methods: {
+        async onValidatePopUp() {
+            switch (this.modePop) {
+                case this.modeTypePop.suppr:
+                    await this.$store.dispatch('deleteDish', this.popUpData);
+                    await this.refreshData();
+                    break;
+            }
+            this.popUp = false;
+        },
+        onClosePopUp() {
+            this.popUp = false;
+        },
         async onDeleteDish(dish) {
-            await this.$store.dispatch('deleteDish', dish);
-            await this.refreshData();
+            this.popUpData = dish;
+            this.popUpMessage = "etes vous sûre de vouloir supprimer " + dish.name + " à " + (dish.price / 100).toFixed(2) + "€ ?";
+            this.modePop = this.modeTypePop.suppr;
+            this.popUp = true;
+            // await this.$store.dispatch('deleteDish', dish);
+            // await this.refreshData();
         },
         onEditDish(dish)
         {
             this.isEdditing = true;
             this.dishEdit = dish;
+            this.dishEdit.price = (dish.price).toFixed(2);
             this.dialogD = true;
         },
         async refreshData()

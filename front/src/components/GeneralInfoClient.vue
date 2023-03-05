@@ -32,6 +32,16 @@
 </div>
 </div>
 
+                    <!-- SNACKBAR -->
+                <v-snackbar v-model="snackbar" :timeout="timeout" style="border=solid 3px rgb(228, 228, 228);">
+                        Information général saugardé correctement
+                    <template v-slot:actions>
+                        <v-btn color="rgb(255, 152, 0)" rounded="pill" @click="snackbar = false">
+                            Close
+                        </v-btn>
+                    </template>
+                </v-snackbar>
+
     </v-sheet>
 </template>
 
@@ -50,7 +60,9 @@ export default {
     data: () => ({
          firstName: null,
          lastName: null,
-        loading: false
+        loading: false,
+        timeout: 3000,
+        snackbar: false
     }),
     async created()
     {
@@ -78,6 +90,7 @@ export default {
         // "ClientLastName": "e",
         // "ClientFirstName": "e",
             await this.$store.dispatch('saveClient');
+            this.snackbar = true;
         }
     }
 }

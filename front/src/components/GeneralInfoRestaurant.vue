@@ -64,7 +64,7 @@
 
                 <v-row>
                     <v-col class="ma-auto">
-                        <h6>Rayon de livraison</h6>
+                        <h6>Rayon de livraison (km)</h6>
                         <v-text-field v-model="range" :readonly="loading" clearable
                             placeholder="Entrez votre rayon de livraison" variant="outlined" color="rgb(255, 152, 0)">
                         </v-text-field>
@@ -77,7 +77,15 @@
                 </v-row>
             </div>
         </div>
-
+                    <!-- SNACKBAR -->
+                <v-snackbar v-model="snackbar" :timeout="timeout" style="border=solid 3px rgb(228, 228, 228);">
+                        Information général saugardé correctement
+                    <template v-slot:actions>
+                        <v-btn color="rgb(255, 152, 0)" rounded="pill" @click="snackbar = false">
+                            Close
+                        </v-btn>
+                    </template>
+                </v-snackbar>
     </v-card>
 </template>
 
@@ -104,6 +112,8 @@ export default {
         range:null,
         openAt: null,
         cloaseAt: null,
+        timeout: 3000,
+        snackbar: false
     }),
     components: {
         Datepicker
@@ -119,7 +129,8 @@ export default {
                RestaurantSiret:this.siret,
                RestaurantDeliveryRange:this.range
             }
-            await this.$store.dispatch('saveRestaurant', { id: localStorage.getItem('userId') , data: newResto });
+            await this.$store.dispatch('saveRestaurant', { id: localStorage.getItem('userId'), data: newResto });
+            this.snackbar = true;
         }
     }
 }

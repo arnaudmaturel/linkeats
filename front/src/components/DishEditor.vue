@@ -96,7 +96,7 @@ export default {
         dish: {
             _id : null,
             name: String,
-            price: Number,
+            price: String,
             PicturePaths: String,
             Description: String,
             Tags: String,

@@ -29,7 +29,7 @@ const actions = {
         const res = await reqHand.get(`/baskets/${args.id}/`, { id: args.id });
         try {
             const data = res.json();
-            commit('RECEIVE_BASKET', data);
+            commit('RECEIVE_BASKET', data[0]);
         }
         catch (e) {
             console.log("getBasketError", e);
@@ -37,10 +37,12 @@ const actions = {
     },
 
     async getClientBasket({ state, commit }, args) {
-        const res = await reqHand.get(`//by-client/${args}/`, { id: args });
+        const res = await reqHand.get(`/baskets/by-client/${args}`);
         try {
-            const data = res.json();
-            commit('RECEIVE_BASKET', data);
+            const data = await res.json();
+            // console.log("store.basket.getClientBasket() 1:", data);
+            commit('RECEIVE_BASKET', data[0]);
+            // console.log("store.basket.getClientBasket() 2:", state.basket);
         }
         catch (e) {
             console.log("getBasketError", e);
@@ -52,7 +54,7 @@ const actions = {
         try {
             console.log("localstorage", localStorage)
             const res = await reqHand.post('/baskets/', newItem);
-            const data = res.json();
+            const data = await res.json();
             commit('RECEIVE_BASKET', data)
         }
         catch (e) {
@@ -61,12 +63,19 @@ const actions = {
 
     },
 
+    // async saveDish({ state, commit }, args) {
+    //     const res = await reqHand.put(`/dishes/${args.id}/`, { id: args.id }, args.dish);
+    //     const data = await res.json();
+    //     commit('RECEIVE_DISH', data)
+    // },
+
 
     async saveBasket({ state, commit }, args) {
-        const res = await reqHand.put(`/baskets/${state.basket.id}/`, { id: state.basket.id }, state.basket);
         try {
+            const res = await reqHand.put(`/baskets/${state.basket._id}`, { id: state.basket._id }, state.basket);
             const data = await res.json();
-            commit('RECEIVE_BASKET', data)
+            console.log("Basket.saved");
+            //commit('RECEIVE_BASKET', data)
         }
         catch (e) { console.log("saveBasketError :", e) }
     },
@@ -93,10 +102,12 @@ const mutations = {
     // RECIEVE BASKET
     ['RECEIVE_BASKET'](state, data) {
         state.basket = data
+        console.log("basket synchronized");
     },
     // UDATE BASKET
     ['UPDATE_BASKET'](state, value) {
         state.basket = Object.assign(state.basket, value)
+        console.log("basket updated");
     },
     // RECIEVE BASKET STATUSE
     ['RECEIVE_BASKETS_STATUSES'](state, value) {
@@ -105,20 +116,24 @@ const mutations = {
     // ADD ITEM
     ['ADD_ITEM'](state, value) {
 
-
         state.basket.IDClient = localStorage.getItem("userId");
 
         // check if the basket is created
-        if (!state.basket || !state.basket.dishes) {
+        if (!state.basket) {
+            console.log("No basket")
             this.commit('CREATE_BASKET');
         }
 
         // check presence of item
-        const item = state.basket.dishes.find(x => x.idDish == value.idDish);
+        let idx = -1;
+        for (let i = 0; i < state.basket.dishes.length; i++) {
+            if (state.basket.dishes[i].idDish == value.idDish)
+                idx = i;
+        }
 
         // add quantity or add item
-        if (item) {
-            item.quantity += value.quantity;
+        if (idx != -1) {
+            state.basket.dishes[idx].quantity += 1;
         }
         else {
             state.basket.dishes.push(value);

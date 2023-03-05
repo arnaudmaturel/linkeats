@@ -40,8 +40,9 @@
                 
                 <!-- GENERAL INFO -->
                         <div v-if="menu.component == 'GeneralInfoClient'">
-                            <GeneralInfoClient v-if="userRole=='Client' || userRole=='Deliveryman'" />
+                            <GeneralInfoClient v-if="userRole=='Client'" />
                             <GeneralInfoRestaurant v-else-if="userRole=='Restaurant'"/>
+                            <GeneralInfoDeliveryMen v-else-if="userRole=='Deliveryman'"/>
                         </div>
 
                 <!-- CREDENTIALS -->
@@ -108,6 +109,10 @@
                             <DebugReq/>
                         </div>
 
+                        <div v-else-if="menu.component == 'PopUpConfirm'" >
+                            <PopUpConfirm message="Hello World !"/>
+                        </div>
+
                 <!-- EVERYTHING ELSE -->
                         <div v-else>
                             Comming soon
@@ -134,15 +139,17 @@ import viewClientLocOrder from '@/components/MapViewer.vue'
 import opneLayerDemo from '@/components/OpenLayerDemo.vue'
 import AdressViewerClient from '@/components/AdressViewerClient.vue';
 import AddreessEdit from '@/components/AddreessEdit.vue';
-
 import OrdersRestaurantViewer from '@/components/OrdersRestaurantViewer.vue';
 import AddressRestaurant from '@/components/AdressRestaurant.vue';
 import GeneralInfoRestaurant from '@/components/GeneralInfoRestaurant.vue';
 import RestaurantCardEditor from '@/components/RestaurantCardEditor.vue';
 import OrderDeliveryWorkComponent from '@/components/OrderDeliveryWorkComponent.vue';
 import DishEditor from '@/components/DishEditor.vue';
+import PopUpConfirm from '@/components/PopUpConfirm.vue';
+import GeneralInfoDeliveryMen from '@/components/GeneralInfoDeliveryMen.vue';
 
 import DebugReqView from '@/components/debug/debugReq.vue';
+
 
 import { mapGetters, mapMutations, useStore, mapState } from "vuex";
 import DebugReq from '@/components/debug/debugReq.vue';
@@ -157,19 +164,21 @@ export default {
     },
     components: {
     GeneralInfoClient,
-    CredentialInfo,
-    OrderVue,
-    viewClientLocOrder,
-    opneLayerDemo,
-    AdressViewerClient,
-    AddreessEdit,
-    OrdersRestaurantViewer,
-    AddressRestaurant,
-    GeneralInfoRestaurant,
-    RestaurantCardEditor,
-    OrderDeliveryWorkComponent,
-    DishEditor,
-    DebugReq
+        CredentialInfo,
+        OrderVue,
+        viewClientLocOrder,
+        opneLayerDemo,
+        AdressViewerClient,
+        AddreessEdit,
+        OrdersRestaurantViewer,
+        AddressRestaurant,
+        GeneralInfoRestaurant,
+        RestaurantCardEditor,
+        OrderDeliveryWorkComponent,
+        DishEditor,
+        DebugReq,
+        PopUpConfirm,
+        GeneralInfoDeliveryMen,
 },
     created()
     {
@@ -178,7 +187,7 @@ export default {
             case "1":
                 this.userRole = "Client";
                 this.menus = [
-                    // { 'title': 'Debug (preview)', 'component': "DebugView", 'icon': 'mdi-bug' },
+                     { 'title': 'Debug (preview)', 'component': "PopUpConfirm", 'icon': 'mdi-bug' },
                     { 'title': 'Général', 'component': "GeneralInfoClient", 'icon': 'mdi-account' },
                     { 'title': 'Sécurité', 'component': "CredentialInfo", 'icon': 'mdi-account-lock' },
                     { 'title': 'Commandes', 'component': "OrderView", 'icon': 'mdi-clipboard-text' },
@@ -327,7 +336,7 @@ export default {
     width: 22cm !important;}
 
 #tabRWindow {
-    width: 30cm !important;
+    width: 90% !important;
 }
 
 #btnTab {

@@ -28,6 +28,12 @@ const actions = {
         await commit('RECEIVE_DISH', data)
     },
 
+    async getOnlyDish({ state, commit }, args) {
+        const res = await reqHand.get('/dishes/' + args, { id: args.id });
+        const data = await res.json();
+        return data;
+    },
+
     async createDish({ state, commit }, newDish) {
         const res = await reqHand.post('/dishes/', newDish);
         const data = await res.json();

@@ -42,7 +42,7 @@
                                     <v-expansion-panel-title>
                                         <v-row>
                                             <v-col>
-                                                {{ order.orderN }}
+                                                {{ order.SimpleID.Date + " "+order.SimpleID.Id4Resto }}
                                             </v-col>
 
                                             <v-col offset="1">
@@ -124,23 +124,6 @@ export default {
         dialogOrderRW: false,
         orders: [
             { orderN: '0009999', state: 'Terminé', date: '01/01/2022', cost: '999999', items: ['item1', 'item2', 'item3'] },
-            { orderN: '0007777', state: 'Terminé', date: '01/01/2022', cost: '999999', items: ['item1', 'item2', 'item3'] },
-            { orderN: '0006666', state: 'Terminé', date: '01/01/2022', cost: '999999', items: ['item1', 'item2', 'item3'] },
-            { orderN: '0005555', state: 'Terminé', date: '01/01/2022', cost: '999999', items: ['item1', 'item2', 'item3'] },
-            { orderN: '0004444', state: 'En cours', date: '01/01/2022', cost: '999999', items: ['item1', 'item2', 'item3'] },
-            { orderN: '0003333', state: 'En cours', date: '01/01/2022', cost: '999999', items: ['item1', 'item2', 'item3'] },
-            { orderN: '0002222', state: 'En cours', date: '01/01/2022', cost: '999999', items: ['item1', 'item2', 'item3'] },
-            { orderN: '0001111', state: 'En cours', date: '01/01/2022', cost: '999999', items: ['item1', 'item2', 'item3'] },
-            { orderN: '0000000', state: 'Terminé', date: '01/01/2022', cost: '999999', items: ['item1', 'item2', 'item3'] },
-            { orderN: '0000000', state: 'Terminé', date: '01/01/2022', cost: '999999', items: ['item1', 'item2', 'item3'] },
-            { orderN: '0000000', state: 'Terminé', date: '01/01/2022', cost: '999999', items: ['item1', 'item2', 'item3'] },
-            { orderN: '0000000', state: 'Terminé', date: '01/01/2022', cost: '999999', items: ['item1', 'item2', 'item3'] },
-            { orderN: '0000000', state: 'Terminé', date: '01/01/2022', cost: '999999', items: ['item1', 'item2', 'item3'] },
-            { orderN: '0000000', state: 'Terminé', date: '01/01/2022', cost: '999999', items: ['item1', 'item2', 'item3'] },
-            { orderN: '0000000', state: 'Terminé', date: '01/01/2022', cost: '999999', items: ['item1', 'item2', 'item3'] },
-            { orderN: '0000000', state: 'Terminé', date: '01/01/2022', cost: '999999', items: ['item1', 'item2', 'item3'] },
-            { orderN: '0000000', state: 'Terminé', date: '01/01/2022', cost: '999999', items: ['item1', 'item2', 'item3'] },
-            { orderN: '0000000', state: 'Terminé', date: '01/01/2022', cost: '999999', items: ['item1', 'item2', 'item3'] },
         ],
         snackbar: false,
         text: 'Nous avons pris en considération votre réclamation',

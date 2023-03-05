@@ -12,14 +12,6 @@ app.use(express.json());
 // const rolesChecking = require('./utils/role')
 
 //app.use(rolesChecking.checkRole([rolesChecking.roles.Visitor, rolesChecking.roles.Client]))
-
-// route 
-app.get('/baskets/status', (req, res) => {
-    console.log('basket server is alive');
-    res.status(200).json({ "status": "OK" });
-});
-
-
 app.use('/baskets', basketController);
 
 

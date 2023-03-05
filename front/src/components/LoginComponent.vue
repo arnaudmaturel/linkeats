@@ -105,26 +105,21 @@ export default {
             };
 
             this.loading = true;
-            // this.$store.dispatch('loginUser', login)
-            //     .then(() => {
-            //         console.log("User connected : ", localStorage.getItem('userRole'));
-            //         this.$emit('on-logged');
-            //         this.$isLog = true;
-            //         this.$router.push({ name: 'account' });
-            //     })
-            //     .catch((err) => {
-            //         console.log('error :', err);
-            //         this.loading = false;
-            //     });
+
 
             await this.$store.dispatch('loginUser', login);
-            console.log("User connected : ", localStorage.getItem('userRole'));
+            console.log("User connected UR: ", localStorage.getItem('userRole'));
+            console.log("User connected ID: ", localStorage.getItem('userId'));
             if (localStorage.getItem('userRole') == 1)
             {
                 this.$store.dispatch('getClientBasket', localStorage.getItem('userId'));
-            }    
+            }   
+
             if (localStorage.getItem('userRole') != 5 && localStorage.getItem('userRole') != null)
+            {
+                console.log("router push");
                 this.$router.push({ name: 'account' });
+            }
             else
                 snackbar = true;
 
