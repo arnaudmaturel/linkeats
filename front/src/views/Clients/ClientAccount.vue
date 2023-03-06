@@ -99,7 +99,8 @@
                 <!-- STARS (DEBUG FOR NOW) -->
                         <div v-else-if="menu.component == 'Stars'">
                             <!-- <DishEditor :dish="{name : '',price: 0,PicturePaths: '',Description: '', Tags:'tag1;tag2;tag3',Allergens: '',Wheight: 0,}"/> -->
-                            <AddreessEdit :data = "{name: 'teste',cp: '76140',addr: 'CESI Rouen',city : '', lat:0,lon:0}"/>
+                            <div v-if="userRole != 'Client'">Comming soon</div>
+                            <StarsClient v-if="userRole == 'Client'" style="width: 100%;"/>
                         </div>
 
 
@@ -147,6 +148,7 @@ import OrderDeliveryWorkComponent from '@/components/OrderDeliveryWorkComponent.
 import DishEditor from '@/components/DishEditor.vue';
 import PopUpConfirm from '@/components/PopUpConfirm.vue';
 import GeneralInfoDeliveryMen from '@/components/GeneralInfoDeliveryMen.vue';
+import StarsClient from '@/components/StarsClient.vue';
 
 import DebugReqView from '@/components/debug/debugReq.vue';
 
@@ -179,6 +181,7 @@ export default {
         DebugReq,
         PopUpConfirm,
         GeneralInfoDeliveryMen,
+        StarsClient,
 },
     created()
     {
@@ -187,7 +190,7 @@ export default {
             case "1":
                 this.userRole = "Client";
                 this.menus = [
-                     { 'title': 'Debug (preview)', 'component': "PopUpConfirm", 'icon': 'mdi-bug' },
+                    // { 'title': 'Debug (preview)', 'component': "PopUpConfirm", 'icon': 'mdi-bug' },
                     { 'title': 'Général', 'component': "GeneralInfoClient", 'icon': 'mdi-account' },
                     { 'title': 'Sécurité', 'component': "CredentialInfo", 'icon': 'mdi-account-lock' },
                     { 'title': 'Commandes', 'component': "OrderView", 'icon': 'mdi-clipboard-text' },

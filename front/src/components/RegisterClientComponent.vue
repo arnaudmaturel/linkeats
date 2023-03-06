@@ -1,108 +1,123 @@
 <template>
-<v-container >
-    
-    <v-card id="form" rounded="5" elevation="0" class="mx-auto">
-        <v-card class="overflow-y-auto" max-height="70vh">
-        <v-row id="rowTitle">
-            <v-col class="ma-auto">
-                <div id="title">
-                    <h5>Inscription {{ titleUser }}</h5>
-                </div>
-            </v-col>
-        </v-row>
-        <div id="middle"></div>
-        <div id="img">
-            <div id="infPart">
-                <v-form v-model="form" @submit.prevent="onSubmit" >
+    <v-container>
 
-                <v-row>
-                    <v-col cols="6">
-
-                        <h6>Login</h6>
-                        <v-text-field v-model="newClient.CredentialLogin" :readonly="loading" clearable placeholder="Entrez votre login"
-                            variant="outlined" color="rgb(255, 152, 0)" :rules="[required]" class="mb-2" type="login">
-                        </v-text-field>
-                    </v-col>
-                    </v-row>
-                    
-                    <v-row>
-                    <v-col>
-
-                        <h6>Prénom</h6>
-                        <v-text-field v-model="newClient.ClientFirstName" :readonly="loading" clearable
-                            placeholder="Saisissez votre prénom" :rules="[required]" class="mb-2"
-                            variant="outlined" color="rgb(255, 152, 0)" type="text">
-                        </v-text-field>
-                    </v-col>
-                    <v-col>
-
-                        <h6>Nom</h6>
-                        <v-text-field v-model="newClient.ClientLastName" :readonly="loading" clearable
-                            placeholder="Saisissez votre nom" :rules="[required]" class="mb-2"
-                            variant="outlined" color="rgb(255, 152, 0)" type="text">
-                        </v-text-field>
+        <v-card id="form" rounded="5" elevation="0" class="mx-auto">
+            <v-card class="overflow-y-auto" max-height="70vh">
+                <v-row id="rowTitle">
+                    <v-col class="ma-auto">
+                        <div id="title">
+                            <h5>Inscription {{ titleUser }}</h5>
+                        </div>
                     </v-col>
                 </v-row>
-                
-                <v-row>
-                    <v-col>
+                <div id="middle"></div>
+                <div id="img">
+                    <div id="infPart">
+                        <v-form v-model="form" @submit.prevent="onSubmit">
 
-                        <h6>E-Mail</h6>
-                        <v-text-field v-model="newClient.CredentialEmail" :readonly="loading" clearable
-                            placeholder="Saisissez votre e-mail" :rules="[required]" class="mb-2"
-                            variant="outlined" color="rgb(255, 152, 0)" type="email">
-                        </v-text-field>
-                    </v-col>
-                    <v-col>
+                            <v-row>
+                                <v-col cols="6">
 
-                        <h6>Téléphone</h6>
-                        <v-text-field v-model="newClient.CredentialPhone" :readonly="loading" clearable
-                            placeholder="Saisissez votre numéro de téléphone" :rules="[required]" class="mb-2"
-                            variant="outlined" color="rgb(255, 152, 0)" type="phone">
-                        </v-text-field>
-                    </v-col>
-                </v-row>
+                                    <h6>Login</h6>
+                                    <v-text-field v-model="newClient.CredentialLogin" :readonly="loading" clearable
+                                        placeholder="Entrez votre login" variant="outlined" color="rgb(255, 152, 0)"
+                                        :rules="[required]" class="mb-2" type="login">
+                                    </v-text-field>
+                                </v-col>
+                            </v-row>
 
-                    <v-row>
-                    <v-col>
+                            <v-row>
+                                <v-col>
 
-                        <h6>Mot de passe</h6>
-                        <v-text-field v-model="newClient.CredentialPassword" :readonly="loading" clearable
-                            placeholder="Saisissez votre mot de passe" :rules="[required]" class="mb-2"
-                            variant="outlined" color="rgb(255, 152, 0)" type="password">
-                        </v-text-field>
-                    </v-col>
-                    <v-col>
+                                    <h6>Prénom</h6>
+                                    <v-text-field v-model="newClient.ClientFirstName" :readonly="loading" clearable
+                                        placeholder="Saisissez votre prénom" :rules="[required]" class="mb-2"
+                                        variant="outlined" color="rgb(255, 152, 0)" type="text">
+                                    </v-text-field>
+                                </v-col>
+                                <v-col>
 
-                        <h6>Confirmation</h6>
-                        <v-text-field v-model="password2" :readonly="loading" clearable
-                            placeholder="confimer votre mot de passe" :rules="[required]" class="mb-2"
-                            variant="outlined" color="rgb(255, 152, 0)" type="password">
-                        </v-text-field>
-                    </v-col>
-                </v-row>
+                                    <h6>Nom</h6>
+                                    <v-text-field v-model="newClient.ClientLastName" :readonly="loading" clearable
+                                        placeholder="Saisissez votre nom" :rules="[required]" class="mb-2"
+                                        variant="outlined" color="rgb(255, 152, 0)" type="text">
+                                    </v-text-field>
+                                </v-col>
+                            </v-row>
 
-                <div style="justify-content=center; text-align: center;">
-                    <v-btn id="btn" size="large" type="submit" :disabled="!form" rounded="pill"
-                        :ripple="{ class: 'text-orange', center: true }">
-                        S'inscrire
-                    </v-btn>
+                            <v-row>
+                                <v-col>
+
+                                    <h6>E-Mail</h6>
+                                    <v-text-field v-model="newClient.CredentialEmail" :readonly="loading" clearable
+                                        placeholder="Saisissez votre e-mail" :rules="[required]" class="mb-2"
+                                        variant="outlined" color="rgb(255, 152, 0)" type="email">
+                                    </v-text-field>
+                                </v-col>
+                                <v-col>
+
+                                    <h6>Téléphone</h6>
+                                    <v-text-field v-model="newClient.CredentialPhone" :readonly="loading" clearable
+                                        placeholder="Saisissez votre numéro de téléphone" :rules="[required]" class="mb-2"
+                                        variant="outlined" color="rgb(255, 152, 0)" type="phone">
+                                    </v-text-field>
+                                </v-col>
+                            </v-row>
+
+                            <v-row>
+                                <v-col>
+
+                                    <h6>Mot de passe</h6>
+                                    <v-text-field v-model="newClient.CredentialPassword" :readonly="loading" clearable
+                                        placeholder="Saisissez votre mot de passe" :rules="[required]" class="mb-2"
+                                        variant="outlined" color="rgb(255, 152, 0)" type="password">
+                                    </v-text-field>
+                                </v-col>
+                                <v-col>
+
+                                    <h6>Confirmation</h6>
+                                    <v-text-field v-model="password2" :readonly="loading" clearable
+                                        placeholder="confimer votre mot de passe" :rules="[required]" class="mb-2"
+                                        variant="outlined" color="rgb(255, 152, 0)" type="password">
+                                    </v-text-field>
+                                </v-col>
+                            </v-row>
+
+                            <v-row>
+                                <v-col cols="10">
+                                    <h6>(Optionel) Identifiant parain :</h6>
+                                    <v-text-field v-model="a" :readonly="loading" clearable
+                                        placeholder="Entrez le login\e-mail\téléphone" variant="outlined" color="rgb(255, 152, 0)"
+                                        class="mb-2" type="login">
+                                    </v-text-field>
+                                </v-col>
+                                <v-col cols="2">
+                                     <v-btn id="btn" icon="mdi-head-sync" style="margin-top: 32px" rounded="pill"/>
+                                </v-col>
+                            </v-row>
+                            <div style="justify-content=center; text-align: center;">
+                                <v-btn id="btn" size="large" type="submit" :disabled="!form" rounded="pill"
+                                    :ripple="{ class: 'text-orange', center: true }">
+                                    S'inscrire
+                                </v-btn>
+                            </div>
+
+
+                        </v-form>
+                    </div>
+
+                    <div id="middle"></div>
+                    <div id="signUpPart">
+                        <div style="text-align=center;">
+                            <router-link to="login">
+                                <a @click="$emit('sign-in')">Connexion</a>
+                            </router-link>
+                        </div>
+                    </div>
                 </div>
-            </v-form>
-            </div>
-
-            <div id="middle"></div>
-            <div id="signUpPart">
-                <div style="text-align=center;">
-                    <router-link to="login">
-                        <a @click="$emit('sign-in')">Connexion</a>
-                    </router-link>
-                </div>
-            </div>
-        </div>
-    </v-card>
-    </v-card>
-</v-container>
+            </v-card>
+        </v-card>
+    </v-container>
 </template>
 
 
@@ -125,7 +140,7 @@ export default {
             CredentialLogin: null,
             CredentialPassword: null,
             ClientFirstName: null,
-            ClientLastName:null   
+            ClientLastName: null
         },
         password2: null,
         loading: false,
@@ -148,23 +163,21 @@ export default {
             };
 
             const userId = await this.$store.dispatch('createClient', this.newClient);
-            if (userId)
-            {
+            if (userId) {
                 await this.$store.dispatch('loginUser', login)
                 console.log('user ' + userId + " connected");
                 const newBasket = { IDClient: userId, dishesNumber: 0, totalPrice: 0, dishes: [] };
                 await this.$store.dispatch("createBasket", newBasket);
                 this.$router.push({ name: 'home' });
             }
-            else
-            {
+            else {
                 console.log("error registration");
                 alert("error registration");
             }
 
             //this.loading = true;
 
-           // this.$store.dispatch("createClient");
+            // this.$store.dispatch("createClient");
 
         },
         required(v) {
@@ -174,9 +187,9 @@ export default {
             this.$emit('on-login-in');
         }
     },
-    props:{
+    props: {
         titleUser: String,
-        userRole:Number
+        userRole: Number
     }
 }
 </script>
