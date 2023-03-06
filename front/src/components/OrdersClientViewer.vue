@@ -247,6 +247,7 @@ export default {
                     this.text = 'Voulez vous annulez la commande ' + this.popUpData;
                     await this.$store.dispatch('saveOrder', { id: this.popUpData, data: { OrderStatus: OrderStatus.CancelledClient } });
                     this.snackbar = true;
+                    await this.refreshData();
                     break;
             }
             this.popUp = false;

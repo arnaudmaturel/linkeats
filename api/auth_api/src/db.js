@@ -1,7 +1,7 @@
 const { Sequelize } = require('sequelize');
 // const tedious = require('tedious');
 
-const { dbName, dbConfig } = require('./Models/config.json');
+const { dbName, dbConfig } = require('./models/config.json');
 
 module.exports = db = {};
 
@@ -27,8 +27,8 @@ async function initialize() {
     }
 
     // init models and add them to the expoxted db object
-    const CredentialsSchema = require('./Models/CredentialsModel')(sequelize);
-    const RegisteryTokenSchema = require('./Models/RegisteryTokenModel')(sequelize);
+    const CredentialsSchema = require('./models/CredentialsModel')(sequelize);
+    const RegisteryTokenSchema = require('./models/RegisteryTokenModel')(sequelize);
 
     db.Credentials = CredentialsSchema;
     db.RegisteryToken = RegisteryTokenSchema;

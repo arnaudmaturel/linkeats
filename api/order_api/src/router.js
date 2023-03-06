@@ -163,11 +163,11 @@ router.put('/set-deliveryman/:id', async (req, res) => {
             console.log("order not find with the id: " + orderId);
             res.status(404).send();
         }
-        if (order.DeliveryManId != undefined) {
-            console.log("Deliveryman already set");
-            res.status(401).send();
-            return;
-        }
+        // if (order.DeliveryManId != undefined) {
+        //     console.log("Deliveryman already set");
+        //     res.status(401).send();
+        //     return;
+        // }
 
         var ordresDeliver = await db.order.OrderModel.find({ DeliveryManId: req.body.DeliveryManId });
 

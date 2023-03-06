@@ -270,7 +270,6 @@ export default {
       this.orders.forEach(async o => {
         await this.$store.dispatch("createOrder", o);
       })
-      return;
 
       this.basket.dishes = [];
       await this.$store.dispatch('saveBasket');

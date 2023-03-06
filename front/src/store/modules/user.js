@@ -14,9 +14,21 @@ const getters = {
 // actions
 const actions = {
   async loginUser({ state, commit }, credentials) {
-    const res = await reqHand.post('/auth/login', credentials);
-    const data = await res.json();
-    await commit('RECEIVE_LOGIN_TOKEN', data)
+    try {
+      const res = await reqHand.post('/auth/login', credentials);
+      console.log("login res :", res);
+      if (res.status != 200) {
+        await commit('RECEIVE_LOGIN_TOKEN', null)
+        return;
+      }
+
+      const data = await res.json();
+      await commit('RECEIVE_LOGIN_TOKEN', data)
+    }
+    catch (err) {
+      console.log("Error login :", err);
+      await commit('RECEIVE_LOGIN_TOKEN', null)
+    }
   },
 
   async getCredential({ state, commit }, credentialId) {
@@ -33,6 +45,13 @@ const actions = {
 // mutations
 const mutations = {
   async ['RECEIVE_LOGIN_TOKEN'](state, data) {
+    if (data == null) {
+      state.credential = null;
+      await localStorage.removeItem("credentialId");
+      await localStorage.removeItem("userId");
+      return;
+    }
+
     if (!data.accessToken) {
       console.log("RECEIVE_LOGIN_TOKEN : no data");
       return;

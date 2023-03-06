@@ -58,11 +58,14 @@
 
 
         <!-- SNACKBAR -->
-        <v-snackbar v-model="snackbar" :timeout="timeout" style="border=solid 3px rgb(228, 228, 228);">
+        <v-snackbar v-model="snackbar" :timeout="timeout" style="border=solid 3px rgb(228, 228, 228);" location="top">
             <template v-slot:actions>
-                <v-btn color="rgb(255, 152, 0)" rounded="pill" @click="snackbar = false">
-                    Close
-                </v-btn>
+                <div class="ma-auto" >
+                    Login / mot de passe incorrect
+                    <v-btn color="rgb(255, 152, 0)" rounded="pill" @click="snackbar = false">
+                        Close
+                    </v-btn>
+                </div>
             </template>
         </v-snackbar>
 
@@ -89,7 +92,6 @@ export default {
         loading: false,
         tagBorder: 'stdBorder',
         snackbar: false,
-        text: 'Login / mot de passe incorrect',
         timeout: 3000,
     }),
 
@@ -108,9 +110,15 @@ export default {
 
 
             await this.$store.dispatch('loginUser', login);
-            console.log("User connected UR: ", localStorage.getItem('userRole'));
-            console.log("User connected ID: ", localStorage.getItem('userId'));
-            if (localStorage.getItem('userRole') == 1)
+
+            this.loading = false;
+
+            if (localStorage.getItem('userRole') == 5)
+            {
+                this.snackbar = true;
+                return;
+            }
+            else if (localStorage.getItem('userRole') == 1)
             {
                 this.$store.dispatch('getClientBasket', localStorage.getItem('userId'));
             }   
@@ -120,8 +128,6 @@ export default {
                 console.log("router push");
                 this.$router.push({ name: 'account' });
             }
-            else
-                snackbar = true;
 
             this.loading = false;
         },

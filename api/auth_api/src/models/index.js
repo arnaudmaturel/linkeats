@@ -2,7 +2,7 @@ const db = {}
 
 db.sequelize = require('./connection_init')
 
-db.user = require('./user.model')
+db.user = require('./CredentialsModel')
 
 db.sequelize.sync()
 

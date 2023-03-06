@@ -4,7 +4,7 @@ const express = require('express');
 const app = express();
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken');
-const credentialMng = require("./Models/CredentialsMng");
+const credentialMng = require("./models/CredentialsMng");
 
 app.use(express.json())
 
