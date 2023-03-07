@@ -4,10 +4,12 @@ import HomeView from '../views/HomeView.vue'
 import RestaurantsView from '../views/restaurants/RestaurantsView.vue'
 import RestaurantMenusView from '../views/restaurants/menus/RestaurantView.vue'
 import RegisterView from '../views/RegisterView.vue'
+import ContactView from '../views/ContactView.vue'
 import CartToOrderView from '../views/orders/CartValidationView.vue'
 import MenuView from '../views/restaurants/menus/MenuView.vue'
 import ClientAccount from '../views/Clients/ClientAccount.vue'
 import RestaurateurOrders from '../views/Restaurateur/Orders.vue'
+import ConfidentialityView from '../views/ConfidentialityView.vue'
 import FlipLogSignClient from '@/components/FlipLogSignClient.vue'
 import FlipLogSignResto from "@/components/FlipLogSignResto.vue"
 import FlipLogSignDeliver from "@/components/FlipLogSignDeliver.vue"
@@ -132,7 +134,7 @@ const routes = [
   {
     path: '/contact-us',
     name: "/contact-us",
-    component: HomeView,
+    component: ContactView,
     meta: {
       roles: []
     }
@@ -140,7 +142,7 @@ const routes = [
   {
     path: '/confidentiality',
     name: "/confidentiality",
-    component: HomeView,
+    component: ConfidentialityView,
     meta: {
       roles: []
     }
