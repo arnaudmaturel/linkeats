@@ -162,7 +162,7 @@ export default {
             this.breadCrumData = [];
             for (var lvlOffset = 0; lvlOffset < 5; lvlOffset++)
             {
-                var ld = this.getLevel(this.$store.state.client.client.ClientLevel + lvlOffset);
+                var ld = this.getLevel(this.$store.state.client.client.ClientLevel + lvlOffset+1);
                 if (ld == null)
                     break;
 

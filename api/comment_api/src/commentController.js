@@ -18,6 +18,13 @@ router.post('/', async (req, res) => {
     }
 });
 
+
+// route 
+router.get('/status', (req, res) => {
+    console.log('Comments server is alive');
+    res.sendStatus(200);
+});
+
 router.get('/:id', async (req, res) => {
 
     try {

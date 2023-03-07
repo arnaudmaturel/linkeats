@@ -144,6 +144,17 @@
                                         </b>
                                     </v-col>
                                 </v-row>
+                                <v-row>
+                                    <v-col class="ma-auto">
+                                        Evaluation : 
+                                    </v-col>
+                                    <v-col class="ma-auto">
+                                        <v-rating v-model="rating" disabled color="rgb(255, 152, 0)" active-color="rgb(255, 152, 0)" half-increments size="18"/>
+                                    </v-col>
+                                    <v-col class="ma-auto">
+                                        <v-btn icon="mdi-pencil" id="btn" @click="dialogCom=true"/>
+                                    </v-col>
+                                </v-row>
                             </v-expansion-panel-text>
 
                         </v-expansion-panel>
@@ -178,6 +189,10 @@
         <v-dialog v-model="popUp">
             <PopUpConfirm :message="popUpMessage" @on-validated="onValidatePopUp()" @on-cancel="onClosePopUp()" />
         </v-dialog>
+
+        <v-dialog v-model="dialogCom">
+            <CommentEditVue @on-close="dialogCom=false" />
+        </v-dialog>
     </v-card>
 </template>
 
@@ -185,7 +200,8 @@
 import MapViewer from './MapProgresOrderViewer.vue';
 import OrderStatus from '@/store/OrderStatus';
 import PopUpConfirm from '@/components/PopUpConfirm.vue';
-import AppSetting from '@/AppSetting.js'
+import AppSetting from '@/AppSetting.js';
+import CommentEditVue from './CommentEdit.vue';
 
 
 const timer = ms => new Promise(res => setTimeout(res, ms));
@@ -193,7 +209,7 @@ const timer = ms => new Promise(res => setTimeout(res, ms));
 
 
 export default {
-    components: { MapViewer, PopUpConfirm, },
+    components: { MapViewer, PopUpConfirm, CommentEditVue},
     props: {
     },
     async created() {
@@ -226,6 +242,7 @@ export default {
         locEnd: null,
         locDeliver: null,
         bbox: null,
+        dialogCom: false,
         modeTypePop: { report: 0, cancel: 1 },
         modePop: 0,
         popUpMessage: "",

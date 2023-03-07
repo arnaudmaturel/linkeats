@@ -11,12 +11,6 @@ app.use(express.json());
 
 app.use('/comments', commentController);
 
-// route 
-app.get('/comments/status', (req, res) => {
-    console.log('Comments server is alive');
-    res.sendStatus(200);
-});
-
 
 
 
