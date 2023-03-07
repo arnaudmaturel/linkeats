@@ -32,22 +32,22 @@
           </v-card>
         </v-col>
       </v-container>
-      <v-col cols="3">
+      <v-col cols="5">
 
         <p style="color: black;text-align: right;">
-          Items Panier : {{ (itemsPrice/100).toFixed(2) }} €
+          Items Panier : {{ (itemsPrice / 100).toFixed(2) }} €
         </p>
-        
+
         <p style="color: black;text-align: right;">
-          Coût de Livraison : {{ (deliveryCost/100).toFixed(2) }} €
+          Coût de Livraison : {{ (deliveryCost / 100).toFixed(2) }} €
         </p>
-        
+
         <v-card-title style="color: black;text-align: right;">
-          Coût Total : {{ (deliveryCost/100+itemsPrice/100).toFixed(2) }} €
+          Coût Total : {{ (deliveryCost / 100 + itemsPrice / 100).toFixed(2) }} €
         </v-card-title>
       </v-col>
       <v-card-actions>
-        <v-btn variant="elevated" size="large" color="rgb(255, 152, 0)" style="color: white;" @click="validateBasket" >
+        <v-btn variant="elevated" size="large" color="rgb(255, 152, 0)" style="color: white;" @click="validateBasket">
           Passer commande !
         </v-btn>
       </v-card-actions>
@@ -56,20 +56,20 @@
     <!-- DIALOG -->
     <v-dialog v-model="popUp">
       <PopUpConfirm :message="popUpMessage" @on-validated="onValidatePopUp()" @on-cancel="onClosePopUp()" />
-  </v-dialog>
+    </v-dialog>
 
-          <!-- SNACKBAR -->
-          <v-snackbar v-model="snackbar" :timeout="timeout" style="border=solid 3px rgb(228, 228, 228);">
-              <!-- {{ (orderSate == 'En cours') ?
+    <!-- SNACKBAR -->
+    <v-snackbar v-model="snackbar" :timeout="timeout" style="border=solid 3px rgb(228, 228, 228);">
+      <!-- {{ (orderSate == 'En cours') ?
                 'Nous annulons votre coommande ' :
                 'Nous avons pris en considération votre réclamation pour la commande ' }} {{ idOdrer }} -->
-                  {{ text }}
-              <template v-slot:actions>
-                  <v-btn color="rgb(255, 152, 0)" rounded="pill" @click="snackbar = false">
-                      Close
-                  </v-btn>
-              </template>
-          </v-snackbar>
+      {{ text }}
+      <template v-slot:actions>
+        <v-btn color="rgb(255, 152, 0)" rounded="pill" @click="snackbar = false">
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
 
   </v-container>
 </template>
@@ -78,10 +78,12 @@
 import { mapGetters } from "vuex";
 import OrderStatus from '@/store/OrderStatus'
 import PopUpConfirm from '@/components/PopUpConfirm.vue';
+import lvlDataJson from "@/store/lvlData.json"
+import DiscountState from "@/store/DiscountStatus"
 
 
 export default {
-  components:{ PopUpConfirm },
+  components: { PopUpConfirm },
   data() {
     return {
       logged: false,
@@ -94,7 +96,8 @@ export default {
       popUp: false,
       popUpData: null,
       deliveryCost: 0,
-      itemsPrice : 0,
+      itemsPrice: 0,
+      lvlData: lvlDataJson
     }
   },
   computed: mapGetters({
@@ -112,15 +115,13 @@ export default {
         await this.$store.dispatch('getClientBasket', localStorage.getItem('userId'));
       }
 
-      if (!this.basket)
-      {
+      if (!this.basket) {
         console.log("error no basket");
         return;
       }
-      
+
       // var itemsTemp = [];
-      for (var i = 0; i < this.basket.dishes.length; i++)
-      {
+      for (var i = 0; i < this.basket.dishes.length; i++) {
         var d = this.basket.dishes[i];
         const data = await this.$store.dispatch("getOnlyDish", d.idDish);
         const item = { id: d.idDish, idResto: data.IDRestaurant, name: data.name, price: data.price, quantity: d.quantity, weight: data.Wheight };
@@ -220,14 +221,12 @@ export default {
           // TO DO DELETE Line
           var idx = -1;
           for (var i = 0; i < this.items.length; i++)
-            if (this.items[i].idDish == this.popUpData)
-            {
+            if (this.items[i].idDish == this.popUpData) {
               idx = i;
               break;
             }
 
-          if (idx == -1)
-          {
+          if (idx == -1) {
             this.text = "erreur";
             this.snackbar = true;
             console.log("on delete line error !");
@@ -265,18 +264,109 @@ export default {
 
 
     // SEND ORDERS
-    async SendOrder()
-    {
+    async SendOrder() {
       this.orders.forEach(async o => {
         await this.$store.dispatch("createOrder", o);
       })
 
       this.basket.dishes = [];
       await this.$store.dispatch('saveBasket');
+
+      const xp = Math.round((this.deliveryCost / 100 + this.itemsPrice / 100));
+
+
+      await this.checkNextLevl(xp);
+
+
       this.$router.push({ name: 'home' });
     },
+    async checkLevelValidity()
+    {
+      await this.$store.dispatch('getClient', localStorage.getItem('userId'));
 
 
+      if (this.$store.state.client.client.ClientNextLevelXP == 0) {
+        const lvlD = this.getLevel(this.$store.state.client.client.ClientLevel);
+
+        const info = {
+          ClientNextLevelXP: lvlD.MaxXP,
+          ClientCurrentXP: 0
+        };
+
+        this.$store.commit('UPDATE_CLIENT', info);
+
+        console.log("nextLevelXP Updated :", this.$store.state.client.client.ClientNextLevelXP)
+        await this.$store.dispatch("saveClient");
+      }
+
+    },
+    async checkNextLevl(xp) {
+
+      console.log("xp earned", xp);
+      console.log("INIT Client.CurrentXP = ", this.$store.state.client.client.ClientCurrentXP)
+
+      await this.checkLevelValidity()
+      
+      if (xp + this.$store.state.client.client.ClientCurrentXP >= this.$store.state.client.client.ClientNextLevelXP) {
+        // next level
+        const lvlD = this.getLevel(this.$store.state.client.client.ClientLevel+1);
+
+        if (lvlD == null)
+          return;
+
+        const xpLeft = xp + this.$store.state.client.client.ClientCurrentXP - this.$store.state.client.client.ClientNextLevelXP;
+
+        console.log("xp left : ", xpLeft);
+
+        const info = {
+          ClientCurrentXP: 0,
+          ClientNextLevelXP: lvlD.MaxXP,
+          ClientLevel: lvlD.Level
+        };
+
+        this.$store.commit('UPDATE_CLIENT', info);
+
+        // creation of discount
+        const discount =
+        {
+          Name: "Récompense Stars",
+          State: DiscountState.UnClaimed,
+          Description: `Félcitation vous avez atteint le niveau ${lvlD.Level}`,
+          Value: lvlD.Gift,
+          IDClient: localStorage.getItem("userId")
+        }
+
+        await this.$store.dispatch("createDiscount", discount);
+
+        console.log("END Client.CurrentXP = ", this.$store.state.client.client.ClientCurrentXP)
+        await this.$store.dispatch("saveClient");
+        this.checkNextLevl(xpLeft);
+      }
+      else
+      {
+        // add xp
+        const info =
+        {
+          ClientCurrentXP: xp + this.$store.state.client.client.ClientCurrentXP
+        };
+
+        console.log("only add xp :", info);
+
+        this.$store.commit('UPDATE_CLIENT', info);
+
+        console.log("END Client.CurrentXP = ", this.$store.state.client.client.ClientCurrentXP)
+        await this.$store.dispatch("saveClient");
+      }
+
+
+    },
+    getLevel(lvl) {
+      for (var i = 0; i < this.lvlData.length; i++) {
+        if (this.lvlData[i].Level == lvl)
+          return this.lvlData[i];
+      };
+      return null;
+    }
   }
 }
 

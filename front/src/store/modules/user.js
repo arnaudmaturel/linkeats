@@ -37,6 +37,12 @@ const actions = {
     await commit('RECEIVE_CREDENTIAL', data)
   },
 
+  async getOnlyCredential({ state, commit }, credentialId) {
+    const res = await reqHand.get(`/auth/user_credential/${credentialId}/`, { id: credentialId });
+    const data = await res.json();
+    return data;
+  },
+
   async puCredential({ state, commit }, newCredential) {
     const res = await reqHand.put(`/auth/user_credential/${newCredential}/`, state.credential.CredentialID);
   },

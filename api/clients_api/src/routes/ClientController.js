@@ -50,6 +50,19 @@ router.delete('/:id', rolesChecking.checkRole([rolesChecking.roles.Client]), (re
 
 
 // get info of the client account specified in the id
+router.post('/by-login', async (req, res) => {
+    const c = await clientMng.getClientByLogin(req.body);
+    if (c == null) {
+        res.sendStatus(404);
+        console.log("Error No Client found with the login :", req.params);
+    }
+
+    console.log("Client by login sucessfully found !");
+    res.status(200).json(c);
+});
+
+
+// get info of the client account specified in the id
 router.get('/:id', rolesChecking.checkRole([rolesChecking.roles.Client]), (req, res) => {
     const c = clientMng.getById(req.params.id);
     c.then((value) => {

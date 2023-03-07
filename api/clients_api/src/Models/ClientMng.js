@@ -7,6 +7,7 @@ module.exports = {
     getById,
     create,
     update,
+    getClientByLogin,
     delete: _deleted
 }
 
@@ -17,6 +18,16 @@ async function getAll() {
 // get the deliveryman by the id 
 async function getById(id) {
     return await getClient(id);
+}
+
+async function getClientByLogin(login) {
+    var cred = null;
+    cred = await credentialMng.getCredByLogin(login);
+
+    if (cred == null)
+        return null;
+
+    return await getClient(cred.CredentialAssociatedUserID);
 }
 
 // create a deliveryman

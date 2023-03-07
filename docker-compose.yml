@@ -30,6 +30,22 @@ services:
       - '27019:27017'
     volumes: 
       - ./.data/mongodb/dish_mongodb:/data/db
+  discount_mongodb:
+    container_name: linkeats-discount_mongodb
+    restart: unless-stopped
+    image: mongo:5.0
+    ports:
+      - '27022:27017'
+    volumes: 
+      - ./.data/mongodb/discount_mongodb:/data/db
+  comment_mongodb:
+    container_name: linkeats-comment_mongodb
+    restart: unless-stopped
+    image: mongo:5.0
+    ports:
+      - '27023:27017'
+    volumes: 
+      - ./.data/mongodb/comment_mongodb:/data/db
   address_mongodb:
     container_name: linkeats-address_mongodb
     restart: unless-stopped
@@ -103,6 +119,22 @@ services:
     build: ./api/dish_api
     depends_on:
       - dish_mongodb
+    volumes: 
+      - ./api/utils:/usr/src/app/src/utils:ro
+  discount_api:
+    container_name: linkeats-discount_api
+    restart: unless-stopped
+    build: ./api/discount_api
+    depends_on:
+      - discount_mongodb
+    volumes: 
+      - ./api/utils:/usr/src/app/src/utils:ro
+  comment_api:
+    container_name: linkeats-comment_api
+    restart: unless-stopped
+    build: ./api/comment_api
+    depends_on:
+      - comment_mongodb
     volumes: 
       - ./api/utils:/usr/src/app/src/utils:ro
   address_api:
