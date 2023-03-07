@@ -1,0 +1,62 @@
+[
+    {
+        "Level": 1,
+        "Title": "Bézot",
+        "MaxXP": 25,
+        "Gift": 500
+    },
+    {
+        "Level": 2,
+        "Title": "Initié",
+        "MaxXP": 50,
+        "Gift": 500
+    },
+    {
+        "Level": 3,
+        "Title": "Débutant",
+        "MaxXP": 75,
+        "Gift": 1000
+    },
+    {
+        "Level": 4,
+        "Title": "Connaisseur",
+        "MaxXP": 150,
+        "Gift": 1000
+    },
+    {
+        "Level": 5,
+        "Title": "Habitué",
+        "MaxXP": 300,
+        "Gift": 1500
+    },
+    {
+        "Level": 6,
+        "Title": "Vétéran",
+        "MaxXP": 400,
+        "Gift": 2000
+    },
+    {
+        "Level": 7,
+        "Title": "Professionel",
+        "MaxXP": 500,
+        "Gift": 3000
+    },
+    {
+        "Level": 8,
+        "Title": "Expert",
+        "MaxXP": 1000,
+        "Gift": 5000
+    },
+    {
+        "Level": 9,
+        "Title": "Maitre",
+        "MaxXP": 2500,
+        "Gift": 7500
+    },
+    {
+        "Level": 10,
+        "Title": "Grand Maitre Link Eater",
+        "MaxXP": 5000,
+        "Gift": 10000
+    }
+]

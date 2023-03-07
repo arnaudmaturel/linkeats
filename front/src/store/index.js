@@ -11,6 +11,7 @@ import client from './modules/client'
 import delivery from './modules/delivery'
 import deliveryman from './modules/deliveryman'
 import adresses from './modules/adresses'
+import discount from './modules/discount'
 
 export default createStore({
   state: {
@@ -32,6 +33,7 @@ export default createStore({
     client,
     delivery,
     deliveryman,
-    adresses
+    adresses,
+    discount
   }
 });

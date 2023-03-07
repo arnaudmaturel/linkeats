@@ -17,8 +17,12 @@
                         <h5>Wallet:</h5>
                         <div class="d-flex">
                             <v-text-field v-model="wallet" readonly variant="outlined" color="black" />
-                            <v-btn icon="mdi-plus-thick" id="btn" />
+                            <v-btn icon="mdi-plus-thick" id="btn"  />
                         </div>
+                    </v-col>
+                    <v-col offset="1" cols="6" style="text-align: right;">
+                        <v-btn id="btn" class="mt-4" icon="mdi-gift" size="x-large" @click="dialog = true"/>
+                        <v-badge :content="unclaimedDiscount.length" class="mb-3" color="error" size="x-large"/>
                     </v-col>
                 </v-row>
                 <br />
@@ -44,79 +48,25 @@
                     <v-timeline direction="horizontal" side="start">
 
                         <!-- LVL 2 -->
-                        <v-timeline-item size="large">
+                        <v-timeline-item v-for="item in breadCrumData" :key="item" size="large">
                             <template v-slot:icon>
                                 <v-avatar id="btn" icon="mdi-gift" />
                             </template>
                             <template v-slot:opposite >
-                                <v-sheet  id="form" rounded="5" elevation="0" style="text-align: center;;">
-                                    <b>Level 2 : Initié</b>
+                                <v-card  id="form" rounded="5" class="p-2" elevation="0" style="text-align: center;">
+                                    <b>Level {{ item.Level }} <br/> {{ item.Title }}</b>
                                     <br />
                                     <v-btn id="btn" rounded="pill">
-                                        +5€
+                                        {{ (item.Gift/100) }} €
                                     </v-btn>
-
-                                </v-sheet>
+                                </v-card>
 
                             </template>
                         </v-timeline-item>
 
-                        <!-- LVL 3 -->
-                                                <v-timeline-item size="large">
-                                <template v-slot:icon>
-                                    <v-avatar id="btn" icon="mdi-gift" />
-                                </template>
-                                <template v-slot:opposite >
-                                    <v-sheet id="form" rounded="5" elevation="0" style="text-align: center;">
-                                        <b>Level 2 : Debutant</b>
-                                        <br />
-                                        <v-btn id="btn" rounded="pill">
-                                            +5€
-                                        </v-btn>
-
-                                    </v-sheet>
-
-                                </template>
-                            </v-timeline-item>
-                        <!-- LVL 4 -->
-                                                <v-timeline-item size="large">
-                                <template v-slot:icon>
-                                    <v-avatar id="btn" icon="mdi-gift" />
-                                </template>
-                                <template v-slot:opposite >
-                                    <v-sheet id="form" rounded="5" elevation="0" style="text-align: center;">
-                                        <b>Level 2 : connaisseur</b>
-                                        <br />
-                                        <v-btn id="btn" rounded="pill">
-                                            +10€
-                                        </v-btn>
-
-                                    </v-sheet>
-
-                                </template>
-                            </v-timeline-item>
-                        <!-- LVL 5 -->
-                        <v-timeline-item size="large">
-
-                            <template v-slot:icon>
-                                <v-avatar id="btn" icon="mdi-gift" />
-                            </template>
-                                <template v-slot:opposite >
-                                    <v-sheet id="form" rounded="5" elevation="0" style="text-align: center;">
-                                        <b>Level 2 : Habitué</b>
-                                        <br />
-                                        <v-btn id="btn" rounded="pill">
-                                            +10€
-                                        </v-btn>
-                                        
-                                    </v-sheet>
-                                    
-                                </template>
-                        </v-timeline-item>
-
-
-        
                     </v-timeline>
+
+
 
                 </v-row>
                 <br />
@@ -135,21 +85,26 @@
             </template>
         </v-snackbar>
 
+        <!-- DIALOG -->
+        <v-dialog v-model="dialog">
+                <DiscountViewerVue maxHeight="80vh" @on-close="dialog=false; this.refreshData();" @on-refresh="this.refreshData()" :unclaimedDiscount="unclaimedDiscount"/>
+        </v-dialog>
     </v-sheet>
 </template>
 
 <script>
 import { mapState, mapActions } from "vuex";
 const timer = ms => new Promise(res => setTimeout(res, ms));
+import DiscountViewerVue from './DiscountViewer.vue';
+import DiscountState from "@/store/DiscountStatus";
+import lvlDataJson from "@/store/lvlData.json"
+
 
 export default {
-    computed: {
-        // ...mapState({
-        //     firstName: (state) => state.client.client.ClientFirstName,
-        //     lastName: (state) => state.client.client.ClientLastName
-        // })
-    },
     name: 'GeneralInfoClient',
+        components: {
+        DiscountViewerVue,
+    },
     data: () => ({
         wallet: 15,
         level: 2,
@@ -157,33 +112,71 @@ export default {
         xpNextLvl: 1500,
         loading: false,
         timeout: 3000,
-        snackbar: false
+        snackbar: false,
+        dialog: false,
+        unclaimedDiscount: [],
+        lvlData: lvlDataJson,
+        breadCrumData : []
     }),
     async created() {
-        await this.$store.dispatch('getClient', localStorage.getItem('userId'));
-        //await timer(1000);
-        this.firstName = this.$store.state.client.client.ClientFirstName;
-        this.lastName = this.$store.state.client.client.ClientLastName;
-        console.log('client xp :', this.$store.state.client);
+        await this.refreshData();
     },
     methods: {
-        async onSubmit() {
-            console.log('onSubmit');
+        async refreshData()
+        {
+            await this.$store.dispatch('getClient', localStorage.getItem('userId'));
 
-            const newGeneralClientInfo = {
-                ClientFirstName: this.firstName,
-                ClientLastName: this.lastName,
+            this.wallet = this.$store.state.client.client.ClientWallet/100;
+            this.level = this.$store.state.client.client.ClientLevel;
+            this.xpCurent = this.$store.state.client.client.ClientCurrentXP;
+            this.xpNextLvl = this.$store.state.client.client.ClientNextLevelXP;
+
+
+            if (this.$store.state.client.client.ClientNextLevelXP == 0)
+            {
+                const lvlD = this.getLevel(this.$store.state.client.client.ClientLevel);
+
+                const info = {
+                    ClientNextLevelXP: lvlD.MaxXP,
+                    ClientCurrentXP: 0
+                };
+
+                this.$store.commit('UPDATE_CLIENT', info);
+
+                console.log("nextLevelXP Updated :", this.$store.state.client.client.ClientNextLevelXP)
+                await this.$store.dispatch("saveClient");
+                await this.refreshData();
+                return;
+            }
+
+            var unclaimedDiscountTemp = [];
+            
+            await this.$store.dispatch('getDiscountByClient', localStorage.getItem('userId'));
+            
+            this.$store.state.discount.discounts.forEach(d => {
+                if (d.State == DiscountState.UnClaimed)
+                unclaimedDiscountTemp.push(d);
+            });
+            this.unclaimedDiscount = unclaimedDiscountTemp;
+            
+            this.breadCrumData = [];
+            for (var lvlOffset = 0; lvlOffset < 5; lvlOffset++)
+            {
+                var ld = this.getLevel(this.$store.state.client.client.ClientLevel + lvlOffset);
+                if (ld == null)
+                    break;
+
+                this.breadCrumData.push(ld);
+            }
+        },
+        getLevel(lvl)
+        {
+            for (var i = 0; i < this.lvlData.length; i++)
+            {
+                if (this.lvlData[i].Level == lvl)
+                    return this.lvlData[i];
             };
-
-            this.$store.commit('UPDATE_CLIENT', newGeneralClientInfo)
-
-            console.log('client firstname :', this.$store.state.client.client.ClientFirstName);
-
-
-            // "ClientLastName": "e",
-            // "ClientFirstName": "e",
-            await this.$store.dispatch('saveClient');
-            this.snackbar = true;
+            return null;
         }
     }
 }
@@ -222,80 +215,4 @@ export default {
 #btnSave {
     top: 100%;
 }
-
-
-/* 
-
-                            </v-timeline-item>
-                        <!-- LVL 6 -->
-                                                <v-timeline-item size="large">
-                                <template v-slot:icon>
-                                    <v-avatar id="btn" icon="mdi-gift" />
-                                </template>
-                                <template v-slot:opposite >
-                                    <v-sheet id="form" rounded="5" elevation="0" style="text-align: center;">
-                                        <b>Level 2 : Professionel</b>
-                                        <br />
-                                        <v-btn id="btn" rounded="pill">
-                                            +5€
-                                        </v-btn>
-
-                                    </v-sheet>
-
-                                </template>
-                            </v-timeline-item>
-                        <!-- LVL 7 -->
-                                                <v-timeline-item size="large">
-                                <template v-slot:icon>
-                                    <v-avatar id="btn" icon="mdi-gift" />
-                                </template>
-                                <template v-slot:opposite >
-                                    <v-sheet id="form" rounded="5" elevation="0" style="text-align: center;">
-                                        <b>Level 2 : Veteran</b>
-                                        <br />
-                                        <v-btn id="btn" rounded="pill">
-                                            +5€
-                                        </v-btn>
-
-                                    </v-sheet>
-
-                                </template>
-                            </v-timeline-item>
-                        <!-- LVL 9 -->
-                                                <v-timeline-item size="large">
-                                <template v-slot:icon>
-                                    <v-avatar id="btn" icon="mdi-gift" />
-                                </template>
-                                <template v-slot:opposite >
-                                    <v-sheet id="form" rounded="5" elevation="0" style="text-align: center;">
-                                        <b>Level 2 : Maitre</b>
-                                        <br />
-                                        <v-btn id="btn" rounded="pill">
-                                            +5€
-                                        </v-btn>
-
-                                    </v-sheet>
-
-                                </template>
-                            </v-timeline-item>
-                        
-                        <!-- LVL 10 -->
-                        <v-timeline-item size="large">
-                            <template v-slot:icon>
-                                <v-avatar id="btn" icon="mdi-gift" />
-                            </template>
-                            <template v-slot:opposite >
-                                <v-sheet id="form" rounded="5" elevation="0" style="text-align: center;">
-                                    <b>Level 10 : Grand Maitre Link Eater</b>
-                                    <br />
-                                    <v-btn id="btn" rounded="pill">
-                                        +5€
-                                    </v-btn>
-
-                                </v-sheet>
-
-                            </template>
-                        </v-timeline-item>
-
-*/
 </style>

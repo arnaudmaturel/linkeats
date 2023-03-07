@@ -20,6 +20,18 @@ const actions = {
   },
 
 
+  async getClientByLogin({ state, commit }, args) {
+    const res = await reqHand.post(`/clients/by-login`, args)
+    if (res.status == 200) {
+      return await res.json();
+    }
+    else {
+      return null;
+    }
+
+  },
+
+
   async createClient({ state, commit }, newClient) {
     const res = await reqHand.post('/clients/register', newClient);
     const data = await res.text()
@@ -45,7 +57,6 @@ const mutations = {
     state.client = data
   },
   ['UPDATE_CLIENT'](state, value) {
-    //console.log('client:', state.client);
     Object.assign(state.client, value)
   }
 }

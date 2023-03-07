@@ -7,12 +7,35 @@ module.exports = {
     getById,
     create,
     update,
+    getCredByLogin,
     delete: _deleted
 }
 
 // get the credential by the id
 async function getById(id) {
     return await getCredential(id);
+}
+
+async function getCredByLogin(login) {
+    var cred = null;
+
+    // check login
+    cred = await db.Credentials.findOne({ where: { CredentialLogin: login.CredentialLogin, CredentialUserRole: 1 } });
+    if (cred != null)
+        return cred;
+
+    // check mail
+    cred = await db.Credentials.findOne({ where: { CredentialEmail: login.CredentialEmail, CredentialUserRole: 1 } });
+    if (cred != null)
+        return cred;
+
+    // check phone
+    cred = await db.Credentials.findOne({ where: { CredentialPhone: login.CredentialPhone, CredentialUserRole: 1 } });
+    if (cred != null)
+        return cred;
+
+    return null;
+
 }
 
 // create a credential
