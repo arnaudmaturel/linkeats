@@ -1,7 +1,6 @@
 import { createStore } from 'vuex'
 
 import storeCart from './modules/cart'
-import storeMenus from './modules/menus'
 import storeRestaurants from './modules/restaurants_v2'
 import order from './modules/order'
 import user from './modules/user'
@@ -22,7 +21,6 @@ export default createStore({
   },
   modules: {
     storeCart,
-    storeMenus,
     storeRestaurants,
     order,
     user,
