@@ -30,6 +30,10 @@ async function getByUserName(username, userRole) {
 async function update(id, params) {
     const credential = await getCredential(id);
 
+    if (!credential) {
+        return res.status(404).json({ error: 'User not found' });
+    }
+
     Object.assign(credential, params);
 
     await credential.save();
@@ -47,4 +51,9 @@ async function getByPhone(phone, userRole) {
 
 async function getByLogin(login, userRole) {
     return await db.Credentials.findOne({ where: { CredentialLogin: login, CredentialUserRole: userRole } });
+}
+
+// utility to get credential
+async function getCredential(id) {
+    return await db.Credentials.findOne({ where: { CredentialID: id } });
 }

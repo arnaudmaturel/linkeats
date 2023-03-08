@@ -3,6 +3,10 @@
     "version": "1.0.0",
     "description": "Linkeats api documentation",
     "title": "Linkeats api documentation",
-    "url" : "http://linkeats.fr/v1",
-    "sampleUrl": "http://localhost:80"
+    "url" : "http://localhost:3000",
+    "sampleUrl": "http://localhost:80",
+    "template": {
+        "showRequiredLabels": true,
+        "aloneDisplay": true
+    }
 }
