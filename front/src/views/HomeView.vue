@@ -4,14 +4,14 @@
       <v-card min-height="200" style="background: #27476E; background: -webkit-linear-gradient(to bottom, #27476E, #1f4e76, #02678f); background: linear-gradient(to bottom, #27476E, #1f4e76, #02678f);">
         <v-col align-self="center" align="center">
           <v-card-title class="justify-center" style="color: orange; font-size:35px">
-            C'est le moment de trouver de quoi vous régaler ! <br><br>
+            {{ translate("home_main_title") }}<br><br>
           </v-card-title>
           <v-card-subtitle class="justify-center" style="color: white; font-size:20px">
-            Entrez une adresse pour découvrir les menus disponibles
+            {{ translate("home_main_subtitle") }}
           </v-card-subtitle>
 
           <v-card-text>
-            <v-text-field variant="outline" style="width: 40%; background-color: white; border-radius: 30px; height:60px" label="Entrez votre adresse" append-inner-icon="mdi-map-marker" color="white" single-line hide-details :loading="loading" @click:append-inner="address()"></v-text-field>
+            <v-text-field variant="outline" style="width: 40%; background-color: white; border-radius: 30px; height:60px" :label="translate('home_searchbar_label')" append-inner-icon="mdi-map-marker" color="white" single-line hide-details :loading="loading" @click:append-inner="address()"></v-text-field>
           </v-card-text>
           </v-col>
       </v-card>
@@ -24,11 +24,11 @@
           <v-row align="center">
             <v-col cols="7">
               <v-card-title style="color: orange; font-size: 50px; text-align: justify">
-                <b>Suivez votre commande en direct</b>
+                <b>{{ translate("home_order_title") }}</b>
                 <br><br><br>
               </v-card-title>
               <v-card-text style="font-size: 26px; line-height:35px">
-                <b>Faites-vous livrer votre envie du moment en un rien de temps, voyez quand votre commande est prête et suivez son trajet jusqu'à chez vous. Recevez une notification lorsqu'elle n'est pas loin.</b>
+                <b>{{ translate("home_order_subtitle") }}</b>
               </v-card-text>
             </v-col>
             <v-col cols="5">
@@ -48,11 +48,10 @@
           </v-col>
           <v-col cols="6">
             <v-card-title style="color: orange; font-size: 45px; text-align: justify; text-align:center">
-              Puis trouvez votre âme soeur <br><br>
+              {{ translate("home_linker_title") }} <br><br>
             </v-card-title>
             <v-card-text style="font-size: 26px; color: white; line-height:35px ; text-align:center">
-              Activez le programme Linker, et entrez en contact avec quelqu'un ayant commandé le même plat.
-              Rejoignez-vous pour déguster ensemble votre commande... et plus si affinité...
+              {{ translate("home_linker_subtitle") }}
             </v-card-text>
           </v-col>
         </v-row>
@@ -66,10 +65,10 @@
         <v-row align="center">
           <v-col cols="6" align-self="center" align="center">
             <v-card-text style="font-size: 26px;">
-              Comment ça marche ?
+              {{ translate("home_instructions_title") }}
             </v-card-text>
-            <v-card-title style="color: orange; font-size: 45px;">
-              C'est très simple !
+            <v-card-title style="height: 50px; color: orange; font-size: 45px;">
+              {{ translate("home_instructions_subtitle") }}
             </v-card-title>
             <v-row no-gutters>
               <v-col cols="6">
@@ -78,7 +77,7 @@
                     <v-icon style="font-size: 100px" color="warning">mdi-food</v-icon>
                   </v-list-item>
                   <v-list-item style="font-size: 20px">
-                    Sélection restaurant + repas
+                    {{ translate("home_instructions_first_paragraph") }}
                   </v-list-item>
                 </v-list>
               </v-col>
@@ -88,7 +87,7 @@
                     <v-icon style="font-size: 100px" color="warning">mdi-moped-outline</v-icon>
                   </v-list-item>
                   <v-list-item style="font-size: 20px">
-                    Payez et recevez votre commande
+                    {{ translate("home_instructions_second_paragraph") }}
                   </v-list-item>
                 </v-list>
               </v-col>
@@ -96,7 +95,7 @@
           </v-col>
           <v-col cols="6" style="background-color: white;">
             <v-card-title style="font-size: 35px; text-align: center">
-              Rencontrez votre idylle et dégustez
+              {{ translate("home_conclusion_title") }}
             </v-card-title>
             <v-card-text>
               <v-img align="center" class="ma-auto" width="300" src="../assets/ChatSouris.png"></v-img>
