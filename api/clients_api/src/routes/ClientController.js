@@ -63,7 +63,7 @@ router.post('/by-login', async (req, res) => {
 
 
 // get info of the client account specified in the id
-router.get('/:id', rolesChecking.checkRole([rolesChecking.roles.Client]), (req, res) => {
+router.get('/:id', (req, res) => {
     const c = clientMng.getById(req.params.id);
     c.then((value) => {
         if (value)

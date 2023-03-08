@@ -6,15 +6,15 @@
           <v-card-title>Filter</v-card-title>
         </v-card>
       </v-col>
-      
+
       <v-col class="d-flex" cols="12" md="10">
         <v-row>
-          <v-col cols="3" v-for="restaurant in allRestaurants" :key="restaurant">
-            <v-card min-width="100" max-width="400" :loading="loading" :id="restaurant">
-              <v-img height="250" :src='restaurant.RestaurantImgIdentityPath'></v-img>
+          <v-col cols="3" v-for="restoData in datas" :key="restoData">
+            <v-card min-width="100" max-width="400" :loading="loading" :id="restoData">
+              <v-img height="250" :src='restoData.resto.RestaurantImgIdentityPath'></v-img>
 
               <v-card-title>
-                {{ restaurant.RestaurantName }}
+                {{ restoData.resto.RestaurantName }}
               </v-card-title>
 
               <v-card-subtitle>
@@ -22,12 +22,14 @@
               </v-card-subtitle>
 
               <v-card-text>
-                {{ restaurant.RestaurantStars }}
-                <v-rating color="amber" dense half-increments size="14" v-model="restaurant.RestaurantStars"></v-rating>
+                {{ restoData.Rate }}
+                <v-rating color="rgb(255, 152, 0)" disabled dense half-increments size="14" v-model="restoData.rate"></v-rating>
               </v-card-text>
 
               <v-card-actions>
-                <router-link :to="{ name: 'restaurant_menus', params: { restaurant: restaurant.RestaurantName }, query: { id_restaurant: restaurant.UserID }}" style="text-decoration: none;">
+                <router-link
+                  :to="{ name: 'restaurant_menus', params: { restaurant: restoData.resto.RestaurantName }, query: { id_restaurant: restoData.resto.UserID } }"
+                  style="text-decoration: none;">
                   <v-btn variant="elevated" size="default" color="rgb(255, 152, 0)" style="color: white">
                     Order from
                   </v-btn>
@@ -47,10 +49,39 @@ import { mapGetters } from "vuex"
 export default {
   name: 'ShopView',
   computed: mapGetters({
-    allRestaurants: "restaurants"
+    allRestaurants: "restaurants",
   }),
-  created() {
-    this.$store.dispatch("getAllRestaurants")
-  }
+  data: () => ({
+    datas: []
+  }),
+  async created() {
+    await this.$store.dispatch("getAllRestaurants");
+    await this.refreshData();
+  },
+  methods: {
+    async refreshData() {
+
+      for (var i = 0; i < this.allRestaurants.length; i++) {
+        await this.$store.dispatch('getAllNotedUserComments', this.allRestaurants[i].UserID);
+        const tempCom = this.$store.state.comment.comments;
+        var avg = 0;
+        if (tempCom && tempCom.length != 0) {
+          var sum = 0;
+          for (var iCom = 0; iCom < tempCom.length; iCom++) {
+            sum += tempCom[iCom].Rate;
+          }
+          avg = sum / tempCom.length;
+        }
+
+
+        const data = {
+          rate: avg,
+          resto: this.allRestaurants[i]
+        };
+
+        this.datas.push(data);
+      }
+    }
+  },
 }
 </script>

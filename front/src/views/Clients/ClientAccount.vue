@@ -99,7 +99,7 @@
                 <!-- STARS (DEBUG FOR NOW) -->
                         <div v-else-if="menu.component == 'Stars'">
                             <!-- <DishEditor :dish="{name : '',price: 0,PicturePaths: '',Description: '', Tags:'tag1;tag2;tag3',Allergens: '',Wheight: 0,}"/> -->
-                            <div v-if="userRole != 'Client'">Comming soon</div>
+                            <CommentViewer v-if="userRole != 'Client'"/>
                             <StarsClient v-if="userRole == 'Client'" style="width: 100%;"/>
                         </div>
 
@@ -149,6 +149,7 @@ import DishEditor from '@/components/DishEditor.vue';
 import PopUpConfirm from '@/components/PopUpConfirm.vue';
 import GeneralInfoDeliveryMen from '@/components/GeneralInfoDeliveryMen.vue';
 import StarsClient from '@/components/StarsClient.vue';
+import CommentViewer from '@/components/CommentViewer.vue';
 
 import DebugReqView from '@/components/debug/debugReq.vue';
 
@@ -182,6 +183,7 @@ export default {
         PopUpConfirm,
         GeneralInfoDeliveryMen,
         StarsClient,
+        CommentViewer
 },
     created()
     {

@@ -32,7 +32,7 @@ const actions = {
     },
 
     async getAllNotedUserComments({ state, commit }, args) {
-        const res = await reqHand.get('/comments/by-userNoted/' + args);
+        const res = await reqHand.get('/comments/by-userNoted/' + args, "");
         const data = await res.json();
         await commit('RECEIVE_COMMENTS', data)
     },
