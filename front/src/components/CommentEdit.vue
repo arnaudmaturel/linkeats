@@ -16,22 +16,26 @@
                         <v-row>
                             <v-col class="ma-auto">
                                 <h6>Titre :</h6>
-                                <v-text-field v-model="e" clearable
+                                <v-text-field v-model="title" clearable
                                     placeholder="Entrez le titre du commentaire" variant="outlined" color="black">
                                 </v-text-field>
                             </v-col>
                         </v-row>
 
                         <v-row>
-                                <h6>Evaluation :</h6>
-                                <v-rating v-model="rating" density="compact" color="rgb(255, 152, 0)" active-color="rgb(255, 152, 0)" half-increments hover size="x-large"/>
-
+                            <v-col cols="2">
+                                <h6 style="margin-top: 15px">Evaluation :</h6>
+                            </v-col>
+                            <v-col style="text-align: left">
+                                <v-rating v-model="rate" density="compact" color="rgb(255, 152, 0)" active-color="rgb(255, 152, 0)" half-increments hover size="x-large"/>
+                            </v-col>
                         </v-row>
-                        
+                        <br/>
+                        <br/>
                         <v-row>
                             <v-col class="ma-auto">
                                 <h6>Description :</h6>
-                                <v-textarea v-model="data"
+                                <v-textarea v-model="descript"
                                     placeholder="Entrez le nom de l'adresse" variant="outlined" color="black">
                                 </v-textarea>
                             </v-col>
@@ -42,7 +46,7 @@
                         <v-row>
                             <v-col class="ma-auto">
                                 <div style="justify-content=center; text-align: center;">
-                                    <v-btn id="btn" size="large" rounded="pill"
+                                    <v-btn id="btn" size="large" rounded="pill" @click="validate"
                                         :ripple="{ class: 'text-orange', center: true }">
                                         Valider
                                     </v-btn>
@@ -57,21 +61,35 @@
     </v-container>
 </template>
 
-<script>
-import hereIcon from '@/assets/homeMarker.png'
-import { ref } from 'vue'
+<script lang="js">
 
 export default {
     name: 'CommentEdit',
     props:
     {
+        comment: null
     },
-    data:() => {
+    data: () => ({
+            title :"",
+            rate : 0,
+            descript : ""        
+    }),
+    mounted() {
+        this.title = this.comment.Title;
+        this.descript = this.comment.Description;
+        this.rate = this.comment.Rate;
     },
     methods: {
         cancelExpand(e) {
             e.cancelBubble = true;
         },
+        validate()
+        {
+            this.comment.Title = this.title;
+            this.comment.Rate = this.rate;
+            this.comment.Description = this.descript;
+            this.$emit("on-validate")
+        }
     },
 }
 </script>

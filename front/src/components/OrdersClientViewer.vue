@@ -24,20 +24,21 @@
                             <v-expansion-panel-title>
                                 <v-row>
                                     <v-col>
-                                        {{ order.SimpleID.Date + " " + order.SimpleID.Id4Resto }}
+                                        {{ order.order.SimpleID.Date + " " + order.order.SimpleID.Id4Resto }}
                                     </v-col>
 
-                                    <v-col >
-                                        {{ (order.OrderFinalPrice / 100).toFixed(2) }}€
+                                    <v-col>
+                                        {{ (order.order.OrderFinalPrice / 100).toFixed(2) }}€
                                     </v-col>
 
                                     <v-col cols="3" inline-block>
-                                        {{ getPrgressText(order.OrderStatus) }}
+                                        {{ getPrgressText(order.order.OrderStatus) }}
                                     </v-col>
 
                                     <v-col offset="1">
                                         <!-- <v-icon icon="mdi-close-octagon" @click="idOdrer = order._id; snackbar = true" /> -->
-                                        <v-icon icon="mdi-close-octagon" @click="cancelExpand,onCancelOrder(order._id)" />
+                                        <v-icon icon="mdi-close-octagon"
+                                            @click="cancelExpand, onCancelOrder(order.order._id)" />
                                     </v-col>
                                 </v-row>
                             </v-expansion-panel-title>
@@ -47,11 +48,16 @@
                                     <v-col cols="10">
                                         <v-row>
                                             <v-col>
-                                                Articles : {{ (order.ItemsPrice / 100).toFixed(2) }}€
+                                                Restaurant : {{ order.resto.RestaurantName }}
                                             </v-col>
                                         </v-row>
-                                        <v-row v-for="item in order.Items" :key="item" in-block>
-                                            <v-col style="text-align:left;">
+                                        <v-row>
+                                            <v-col>
+                                                Articles : {{ (order.order.ItemsPrice / 100).toFixed(2) }}€
+                                            </v-col>
+                                        </v-row>
+                                        <v-row v-for="item in order.order.Items" :key="item" in-block>
+                                            <v-col offset="1" style="text-align:left;">
                                                 {{ item.NameDish }} :
                                             </v-col>
                                             <v-col>
@@ -63,22 +69,22 @@
                                         </v-row>
                                         <v-row style="text-align:left;">
                                             <v-col>
-                                                Cout de livraison : {{ (order.OrderLinkEatsPart / 100 +
-                                                    order.OrderDeliveryCost
+                                                Cout de livraison : {{ (order.order.OrderLinkEatsPart / 100 +
+                                                    order.order.OrderDeliveryCost
                                                     / 100).toFixed(2) }}€
                                             </v-col>
                                         </v-row>
                                         <v-row style="text-align:center;">
                                             <v-col>
                                                 <b>
-                                                    Cout total : {{ (order.OrderFinalPrice / 100).toFixed(2) }}€
+                                                    Cout total : {{ (order.order.OrderFinalPrice / 100).toFixed(2) }}€
                                                 </b>
                                             </v-col>
                                         </v-row>
                                     </v-col>
 
 
-                                    <v-col v-if="order.OrderStatus == progressOrder" >
+                                    <v-col v-if="order.order.OrderStatus == progressOrder">
                                         <v-btn icon="mdi-map-clock" @click="startOrderDelivery" />
                                     </v-col>
                                 </v-row>
@@ -93,23 +99,23 @@
                         <v-expansion-panel v-for="order in endedOrders" :key="order">
                             <v-expansion-panel-title>
                                 <v-col>
-                                    {{ order.SimpleID.Date+" "+order.SimpleID.Id4Resto }}
+                                    {{ order.order.SimpleID.Date + " " + order.order.SimpleID.Id4Resto }}
                                 </v-col>
 
-                                <v-col >
-                                    {{ formatDate(order.RgpdObjectCreatedAt) }}
+                                <v-col>
+                                    {{ formatDate(order.order.RgpdObjectCreatedAt) }}
                                 </v-col>
 
-                                <v-col >
-                                    {{ (order.OrderFinalPrice / 100).toFixed(2) }}€
+                                <v-col>
+                                    {{ (order.order.OrderFinalPrice / 100).toFixed(2) }}€
                                 </v-col>
 
-                                <v-col cols="2"  inline-block>
-                                    {{ getPrgressText(order.OrderStatus) }}
+                                <v-col cols="2" inline-block>
+                                    {{ getPrgressText(order.order.OrderStatus) }}
                                 </v-col>
 
                                 <v-col offset="1">
-                                    <v-icon icon="mdi-alert-octagon" @click="cancelExpand,onReport(order._id)" />
+                                    <v-icon icon="mdi-alert-octagon" @click="cancelExpand, onReport(order.order._id)" />
                                     <!-- <v-icon icon="mdi-alert-octagon" @click="idOdrer = order._id; snackbar = true" /> -->
                                 </v-col>
                             </v-expansion-panel-title>
@@ -117,10 +123,10 @@
                             <v-expansion-panel-text>
                                 <v-row>
                                     <v-col>
-                                        Articles : {{ (order.ItemsPrice / 100).toFixed(2) }}€
+                                        Restaurant : {{ order.resto.RestaurantName }}
                                     </v-col>
                                 </v-row>
-                                <v-row v-for="item in order.Items" :key="item" in-block>
+                                <v-row v-for="item in order.order.Items" :key="item" in-block>
                                     <v-col style="text-align:right;">
                                         {{ item.NameDish }} :
                                     </v-col>
@@ -131,28 +137,49 @@
                                         = {{ ((item.Quantity * item.Price) / 100).toFixed(2) }}€
                                     </v-col>
                                 </v-row>
-                                <v-row style="text-align:left;">
+                                <v-row>
                                     <v-col>
-                                        Cout de livraison : {{ (order.OrderLinkEatsPart / 100 +
-                                            order.OrderDeliveryCost / 100).toFixed(2) }}€
+                                        Articles : {{ (order.order.ItemsPrice / 100).toFixed(2) }}€
                                     </v-col>
                                 </v-row>
-                                <v-row style="text-align:center;">
+                                <v-row style="text-align:left;">
+                                    <v-col>
+                                        Cout de livraison : {{ (order.order.OrderLinkEatsPart / 100 +
+                                            order.order.OrderDeliveryCost / 100).toFixed(2) }}€
+                                    </v-col>
+                                </v-row>
+                                <v-row style="text-align:left;">
                                     <v-col>
                                         <b>
-                                            Cout total : {{ (order.OrderFinalPrice / 100).toFixed(2) }}€
+                                            Cout total : {{ (order.order.OrderFinalPrice / 100).toFixed(2) }}€
                                         </b>
                                     </v-col>
                                 </v-row>
                                 <v-row>
                                     <v-col class="ma-auto">
-                                        Evaluation : 
+                                        Evaluation Restaurant:
                                     </v-col>
                                     <v-col class="ma-auto">
-                                        <v-rating v-model="rating" disabled color="rgb(255, 152, 0)" active-color="rgb(255, 152, 0)" half-increments size="18"/>
+                                        <v-rating v-model="order.rateResto" disabled color="rgb(255, 152, 0)"
+                                            active-color="rgb(255, 152, 0)" half-increments size="18" />
                                     </v-col>
                                     <v-col class="ma-auto">
-                                        <v-btn icon="mdi-pencil" id="btn" @click="dialogCom=true"/>
+                                        <v-btn icon="mdi-pencil" id="btn"
+                                            @click="editComment(order.order._id, order.order.RestaurantId)" />
+                                    </v-col>
+                                </v-row>
+
+                                <v-row>
+                                    <v-col class="ma-auto">
+                                        Evaluation Livrason:
+                                    </v-col>
+                                    <v-col class="ma-auto">
+                                        <v-rating v-model="order.rateDeliver" disabled color="rgb(255, 152, 0)"
+                                            active-color="rgb(255, 152, 0)" half-increments size="18" />
+                                    </v-col>
+                                    <v-col class="ma-auto">
+                                        <v-btn icon="mdi-pencil" id="btn"
+                                            @click="editComment(order.order._id, order.order.DeliveryManId)" />
                                     </v-col>
                                 </v-row>
                             </v-expansion-panel-text>
@@ -171,7 +198,7 @@
             <!-- {{ (orderSate == 'En cours') ?
                 'Nous annulons votre coommande ' :
                 'Nous avons pris en considération votre réclamation pour la commande ' }} {{ idOdrer }} -->
-                {{ text }}
+            {{ text }}
             <template v-slot:actions>
                 <v-btn color="rgb(255, 152, 0)" rounded="pill" @click="snackbar = false">
                     Close
@@ -191,7 +218,7 @@
         </v-dialog>
 
         <v-dialog v-model="dialogCom">
-            <CommentEditVue @on-close="dialogCom=false" />
+            <CommentEditVue @on-validate="saveCom" @on-close="dialogCom = false;" :comment="editCom" />
         </v-dialog>
     </v-card>
 </template>
@@ -209,14 +236,13 @@ const timer = ms => new Promise(res => setTimeout(res, ms));
 
 
 export default {
-    components: { MapViewer, PopUpConfirm, CommentEditVue},
+    components: { MapViewer, PopUpConfirm, CommentEditVue },
     props: {
     },
     async created() {
         await this.refreshData();
     },
-    async mounted()
-    {
+    async mounted() {
         this.mustRefresh = true;
         this.timedRefresh();
     },
@@ -250,13 +276,15 @@ export default {
         popUpData: null,
         mustRefresh: false,
         progressOrder: OrderStatus.DeliveryInProgress,
+        comments: [],
+        editCom: null,
     }),
     methods: {
         async onValidatePopUp() {
             switch (this.modePop) {
                 case this.modeTypePop.report:
                     this.text = 'Nous avons pris en considération votre réclamation pour la commande ' + this.popUpData;
-                    console.log("OnReport().text = " +this.text);
+                    console.log("OnReport().text = " + this.text);
                     this.snackbar = true;
                     break;
 
@@ -304,10 +332,8 @@ export default {
 
             return [locA[0] + range0 * time, locA[1] + range1 * time]
         },
-        async timedRefresh()
-        {
-            while (this.mustRefresh)
-            {
+        async timedRefresh() {
+            while (this.mustRefresh) {
                 await timer(AppSetting.REFRESH_TIME);
                 await this.refreshData();
             }
@@ -316,8 +342,26 @@ export default {
             var tempCurrentOrder = [];
             var tempEndedOrder = [];
 
+            await this.$store.dispatch('getAllClientComments', localStorage.getItem('userId'));
+            this.comments = this.$store.state.comment.comments;
+
             await this.$store.dispatch('getAllClientOrders', localStorage.getItem('userId'));
-            this.$store.state.order.orders.forEach(x => {
+
+            for (var i = 0; i < this.$store.state.order.orders.length; i++) {
+                var x = this.$store.state.order.orders[i];
+                const cResto = await this.getComment(x._id, x.RestaurantId);
+                const cDeliver = await this.getComment(x._id, x.DeliveryManId);
+
+                var rateResto = -1;
+                if (cResto != null)
+                    rateResto = cResto.Rate;
+
+                var rateDeliver = -1;
+                if (cDeliver != null)
+                    rateDeliver = cDeliver.Rate;
+
+
+                const resto = await this.getResto(x.RestaurantId);
                 switch (x.OrderStatus) {
                     case OrderStatus.Unknown:
                     case OrderStatus.CancelledClient:
@@ -325,7 +369,7 @@ export default {
                     case OrderStatus.RejectededDeliveryman:
                     case OrderStatus.DeliveryCancelled:
                     case OrderStatus.Delivered:
-                        tempEndedOrder.push(x);
+                        tempEndedOrder.push({ order: x, resto: resto, rateResto: rateResto, rateDeliver: rateDeliver });
                         break;
 
                     case OrderStatus.WaitingRestaurantConfirmation:
@@ -333,13 +377,17 @@ export default {
                     case OrderStatus.WaitingDeliverymanConfirmation:
                     case OrderStatus.WaitingDeliverymanPickUp:
                     case OrderStatus.DeliveryInProgress:
-                        tempCurrentOrder.push(x);
+                        tempCurrentOrder.push({ order: x, resto: resto, rateResto: rateResto, rateDeliver: rateDeliver });
                         break;
                 }
-            });
+            }
 
             this.currentOrders = tempCurrentOrder;
             this.endedOrders = tempEndedOrder;
+        },
+        async getResto(id) {
+            await this.$store.dispatch('getRestaurant', id);
+            return this.$store.state.storeRestaurants.restaurant;
         },
         formatDate(date) {
             var d = new Date(date),
@@ -357,8 +405,7 @@ export default {
         async cancelExpand(e) {
             e.cancelBubble = true;
         },
-        getPrgressText(iProgress)
-        {
+        getPrgressText(iProgress) {
             switch (iProgress) {
                 case OrderStatus.Unknown:
                     return "INCONNU";
@@ -391,6 +438,57 @@ export default {
                 case OrderStatus.DeliveryInProgress:
                     return "livraison en cours"
             }
+        },
+        async editComment(idOrder, idNotedUser) {
+            var com = await this.getComment(idOrder, idNotedUser);
+
+            if (com == null) {
+                const id = await this.createComment(idOrder, idNotedUser);
+                com = await this.$store("getComment", id);
+            }
+
+            if (com == null) {
+                console.log("Erreur editComment().com = null");
+                return;
+            }
+
+            console.log("editComment().com : ", com);
+
+            this.editCom = com;
+            this.dialogCom = true;
+        },
+        async saveCom() {
+            console.log("saveCom().editCom :", this.editCom);
+            await this.$store.dispatch("saveComment", { id: this.editCom._id, comment: this.editCom });
+            this.dialogCom = false;
+            await this.refreshData();
+        },
+        async getComment(idOrder, idNotedUser, recursif = true) {
+            var comment = null;
+
+            for (var i = 0; i < this.comments.length; i++) {
+                var c = this.comments[i];
+
+                if (c.IDOrderAssociated == idOrder && c.IDUserNoted == idNotedUser) {
+                    comment = c;
+                    break;
+                }
+            }
+
+            return comment;
+        },
+        async createComment(idOrder, idNotedUser) {
+            const newComment =
+            {
+                Title: "",
+                Rate: 0,
+                Description: "",
+                IDClient: localStorage.getItem("userId"),
+                IDOrderAssociated: idOrder,
+                IDUserNoted: idNotedUser
+            }
+
+            await this.$store.dispatch("createComment", newComment);
         }
 
     },

@@ -10,11 +10,11 @@ router.post('/', async (req, res) => {
     try {
         const id = await dishMng.create(req.body);
         console.log(`creation of comment ${id} Successful !`);
-        res.send(200).send(id);
+        res.status(200).json(id);
     }
     catch (err) {
         console.log("error Creation ! : " + err.message);
-        res.send(500).send(err);
+        res.send(500).json(err);
     }
 });
 
@@ -44,7 +44,7 @@ router.get('/', async (req, res) => {
     try {
         const comments = await dishMng.getAll();
         console.log(`${comments.length} coments found Sucessful !`)
-        res.status(200).send(comments);
+        res.status(200).json(comments);
 
     }
     catch (err) {
@@ -77,7 +77,7 @@ router.get('/by-client/:id', async (req, res) => {
     }
     catch (err) {
         console.log(`Error : no comment found for the client ${req.params.id} : ` + err.message)
-        res.status(500).json(err);
+        res.status(500).json(err).send();
     }
 });
 
