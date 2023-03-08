@@ -61,7 +61,7 @@
       </v-card>
     </v-col>
   </v-row>
-  <v-row no-gutters>
+  <v-row style="margin-bottom: 100px" no-gutters>
     <v-col cols="12" style="background-color: white" align-self="center">
       <v-card style="background-color: white; padding-top: 2%; padding-bottom: 2%; padding-left: 8%; padding-right: 8%;" min-height="400">
         <v-row align="center">

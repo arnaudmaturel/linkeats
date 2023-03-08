@@ -1,5 +1,5 @@
 <template>
-  <v-row no-gutters>
+  <v-row style="margin-bottom: 100px" no-gutters>
     <v-col style="height: 100%; margin: 0;" cols="12" align-self="center">
       <v-card style="background-color: #EEEEEE; padding-top: 2%; padding-bottom: 2%; padding-left: 8%; padding-right: 8%; height: 100%">
         <v-card color="white" style="border-radius: 40px;">
@@ -20,12 +20,12 @@
                 </b>
               </v-card-text>
               <v-row>
-                <v-col cols="3">
+                <v-col cols="3" style="height: 600px">
                   <v-card-item>
                     <v-col>
                       <v-row>
                         <v-avatar size="100%">
-                          <v-img max-height="450" src="../assets/Antoine.png"></v-img>
+                          <v-img height="400" src="../assets/Antoine.png"></v-img>
                         </v-avatar>
                       </v-row>
                       <v-row>
@@ -36,12 +36,12 @@
                     </v-col>
                   </v-card-item>
                 </v-col>
-                <v-col cols="3">
+                <v-col cols="3" style="height: 100%">
                   <v-card-item>
                     <v-col>
                       <v-row>
                         <v-avatar size="100%">
-                          <v-img max-height="450" src="../assets/AntoineLegois.png"></v-img>
+                          <v-img height="400" src="../assets/AntoineLegois.png"></v-img>
                         </v-avatar>
                       </v-row>
                       <v-row>
@@ -57,7 +57,7 @@
                     <v-col>
                       <v-row>
                         <v-avatar size="100%">
-                          <v-img max-height="450" src="../assets/Arnaud.png"></v-img>
+                          <v-img height="400" src="../assets/Arnaud.png"></v-img>
                         </v-avatar>
                       </v-row>
                       <v-row>
@@ -73,7 +73,7 @@
                     <v-col>
                       <v-row>
                         <v-avatar size="100%">
-                          <v-img max-height="450" src="../assets/Alim.png"></v-img>
+                          <v-img height="400" src="../assets/Alim.png"></v-img>
                         </v-avatar>
                       </v-row>
                       <v-row>

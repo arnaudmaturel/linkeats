@@ -1,5 +1,5 @@
 <template>
-  <v-row no-gutters>
+  <v-row style="margin-bottom: 100px" no-gutters>
     <v-col style="height: 100%; margin: 0" cols="12" align-self="center">
       <v-card style="background-color: #EEEEEE; padding-top: 2%; padding-bottom: 2%; padding-left: 8%; padding-right: 8%; height: 100%">
         <v-card color="white" style="border-radius: 40px;">
