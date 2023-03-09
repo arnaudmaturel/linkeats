@@ -6,7 +6,9 @@
       </div>
       <div style="height: 100%">
         <router-view @on-logged="log()" style="height: 100%"/>
-        <footer-component style="position:absolute; bottom: 0"/>
+      </div>
+      <div style="margin-top: 100px;">
+        <footer-component style="position:absolute; bottom: 0;"/>
       </div>
     </v-main>
   </v-app>
