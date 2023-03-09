@@ -20,6 +20,8 @@ const app = createApp(App);
 var fullUrl = document.URL;
 
 var path = fullUrl.split("//")[1];
+if (path.includes(':'))
+    path = path.split(':')[0]
 
 var url = AppSetting.START_URL;
 if (path.includes("/")) {
@@ -28,6 +30,7 @@ if (path.includes("/")) {
 else {
     url += path;
 }
+
 
 AppSetting.baseUrl = url;
 

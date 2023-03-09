@@ -1,5 +1,25 @@
 version: '3.9'
 services:
+  nginx:
+    container_name: linkeats-nginx
+    restart: unless-stopped
+    image: nginx:1.23
+    depends_on:
+      - auth_api
+      - order_api
+      - basket_api
+      - clients_api
+      - restaurants_api
+      - deliverymen_api
+      - developpers_api
+      - address_api
+      - dish_api
+      # - api_doc
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/logs:/home/logs
+    ports:
+    - '80:80'
   basket_mongodb:
     container_name: linkeats-basket_mongodb
     restart: unless-stopped
@@ -177,23 +197,4 @@ services:
       - mssql
     volumes: 
       - ./api/utils:/usr/src/app/src/utils:ro
-  nginx:
-    container_name: linkeats-nginx
-    restart: unless-stopped
-    image: nginx:1.23
-    depends_on:
-      - auth_api
-      - order_api
-      - basket_api
-      - clients_api
-      - restaurants_api
-      - deliverymen_api
-      - developpers_api
-      - address_api
-      - dish_api
-      # - api_doc
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./nginx/logs:/home/logs
-    ports:
-    - '80:80'
+

@@ -157,7 +157,7 @@ const router = createRouter({
 router.beforeEach((to, from) => {
   if (localStorage.getItem("accessToken") === null || localStorage.getItem("accessToken") == undefined) {
     console.log("no token")
-    fetch("http://localhost:80/auth/visitor_token", {
+    fetch(AppSetting.baseUrl + "/auth/visitor_token", {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
@@ -180,7 +180,7 @@ router.beforeEach((to, from) => {
   }
   else {
 
-    fetch(`http://localhost:80/auth/user_role/${userId}/`, {
+    fetch(`${AppSetting.baseUrl}/auth/user_role/${userId}/`, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
