@@ -43,4 +43,21 @@ app.use(vuetify);
 app.use(OpenLayersMap);
 app.mount('#app');
 
+app.mixin({
+    data() {
+        return {
+            file: {}
+        }
+    },
+    created() {
+        const fileLang = localStorage.getItem("codeLang") || "FR_fr"
+        this.file = require(`@/assets/lang/${fileLang}.json`);  
+    },
+    methods: {
+        translate(wordKey) {
+            return this.file[wordKey]
+        },
+    },
+})
+
 app.config.globalProperties.$isLog = false;

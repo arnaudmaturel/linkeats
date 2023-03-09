@@ -1,8 +1,13 @@
 <template>
     <v-footer id="footer">
         <v-row justify="center" no-gutters id="row" >
-            <v-btn v-for="link in links" :key="link" elevation="0" id="btn" :href="link.link">
-                {{ link.title }}
+            <v-btn v-for="link in links" :key="link" elevation="0" id="btn">
+                <router-link :to="link.link">
+                    {{ translate(link.title) }}
+                </router-link>
+            </v-btn>
+            <v-btn elevation="0" id="btn" href="http://localhost:3000/api">
+                {{ translate("nav_doc") }}
             </v-btn>
             <v-col class="text-center mt-4" cols="12">
                 {{ new Date().getFullYear() }} — <strong>LinkEats!</strong>
@@ -16,16 +21,25 @@
 export default {
     data: () => ({
         links: [
-            {'title':'home','link':'/'},
-            { 'title': 'Restaurant', 'link':'/restaurateur/login'},
-            {'title':'Livreur','link':'/deliveryman/login'},
-            {'title':'Developpeur','link':'/developper/login'},
-            {'title':'A propos','link':'/about'},
-            {'title':'Confidentialité','link':'/confidentiality'},
-            {'title':'Contactez-nous','link':'/contact-us'},
-            {'title':'Documentation','link':'http://localhost:3000/api'},
+            {'title':'nav_home','link':'/'},
+            {'title':'nav_restaurateur', 'link':'/restaurateur/login'},
+            {'title':'nav_deliveryman','link':'/deliveryman/login'},
+            {'title':'nav_developer','link':'/developper/login'},
+            {'title':'nav_about','link':'/about'},
+            {'title':'nav_confidentiality','link':'/confidentiality'},
+            {'title':'nav_contact','link':'/contact-us'},
         ],
+        file: {}
     }),
+    created() {
+        const fileLang = localStorage.getItem("codeLang") || "FR_fr"
+        this.file = require(`@/assets/lang/${fileLang}.json`);  
+    },
+    methods: {
+        translate(wordKey) {
+            return this.file[wordKey]
+        },
+    }
 }
 </script>
 
@@ -44,4 +58,9 @@ footer
     height: 100px;
     width: 100%;
 }
-</style>>
+
+a {
+    color: white;
+    text-decoration: none;
+}
+</style>

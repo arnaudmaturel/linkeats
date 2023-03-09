@@ -12,6 +12,20 @@
 
     <v-spacer></v-spacer>
 
+    <div style="width:max-content; margin-right: 20px; margin-top: 20px; width: 140px;">
+      <v-select 
+        :label="translate('lang')" 
+        variant="outlined" 
+        :model-value="selectedLang" 
+        @update:model-value="changeLang($event)" 
+        :items="languages"
+        item-title="name"
+        item-value="code"
+        density="compact"
+        style="color: orange;"
+      />
+    </div>
+
     <v-menu v-model="cartMenu" :close-on-content-click="false">
       <template v-slot:activator="{ props }">
         <div v-if="basket && basket.dishes && basket.dishes.length">
@@ -31,30 +45,30 @@
       <CartComponent/>
     </v-menu>
 
-          <!-- <router-link  :to="{name:'account'}" style="text-decoration: none"> -->
-            <v-btn icon v-bind="props" @click="loginAccount" size="x-large" color="warning" style="margin-left: 20px;"
-              value="Account">
-              <v-icon>mdi-account-tie</v-icon>
-            </v-btn>
-          <!-- </router-link> -->
+    <!-- <router-link  :to="{name:'account'}" style="text-decoration: none"> -->
+    <v-btn icon v-bind="props" @click="loginAccount" size="x-large" color="warning" style="margin-left: 20px;"
+      value="Account">
+      <v-icon>mdi-account-tie</v-icon>
+    </v-btn>
+    <!-- </router-link> -->
 
-          <v-btn icon size="x-large" color="red" style="margin-left: 20px;" @click="logout()" v-if="role !== 5" :to="{ name: 'home' }">
-            <v-icon>mdi-logout</v-icon>
-          </v-btn>
-        </v-app-bar>
-          
+    <v-btn icon size="x-large" color="red" style="margin-left: 20px;" @click="logout()" v-if="role !== 5" :to="{ name: 'home' }">
+      <v-icon>mdi-logout</v-icon>
+    </v-btn>
+  </v-app-bar>
+
   <v-navigation-drawer app v-model="mainMenu">
     <v-list nav density="compact">
       <router-link :to="{ name: 'home' }" style="text-decoration: none; color: black;">
-        <v-list-item prepend-icon="mdi-home" title="Home" value="home" style="font-size: 24px;"></v-list-item>
+        <v-list-item prepend-icon="mdi-home" :title="translate('nav_home')" value="home" style="font-size: 24px;"></v-list-item>
       </router-link>
 
       <router-link :to="{ name: 'restaurants' }" style="text-decoration: none; color: black;">
-        <v-list-item prepend-icon="mdi-silverware" title="Restaurants" value="restaurants" style="font-size: 24px;"></v-list-item>
+        <v-list-item prepend-icon="mdi-silverware" :title="translate('nav_restaurants')" value="restaurants" style="font-size: 24px;"></v-list-item>
       </router-link>
       
       <router-link :to="{ name: 'about' }" style="text-decoration: none; color: black;">
-        <v-list-item prepend-icon="mdi-information" title="About us" value="about" style="font-size: 24px;"></v-list-item>
+        <v-list-item prepend-icon="mdi-information" :title="translate('nav_about')" value="about" style="font-size: 24px;"></v-list-item>
       </router-link>
     </v-list>
   </v-navigation-drawer>
@@ -65,6 +79,7 @@
 <script>
 import CartComponent from "@/components/cart/CartComponent.vue";
 import {mapGetters} from "vuex";
+import languages from "@/assets/lang/lang_list.json"
 
 export default {
   name: 'SideBar',
@@ -80,6 +95,9 @@ export default {
       locationMenu: false,
       logged: false,
       role: localStorage.getItem('userRole'),
+      languages: languages,
+      selectedLang: localStorage.getItem("codeLang"),
+      file: {}
     }
   },
   computed: mapGetters({
@@ -94,10 +112,18 @@ export default {
       console.log("checkBaket");
       await this.$store.dispatch("getClientBasket", localStorage.getItem('userId'));
     }
+    const fileLang = localStorage.getItem("codeLang") || "FR_fr"
+    this.file = require(`@/assets/lang/${fileLang}.json`); 
+    this.languages.forEach(lang => {
+      lang.name = this.translate(lang.name)
+    });
     // console.log('userRole' + localStorage.getItem('userRole'))
     // console.log('userRole != 5' + localStorage.getItem('userRole')!=5)
   },
   methods: {
+    translate(wordKey) {
+      return this.file[wordKey]
+    },
     onClick () {
       this.loading = true;
 
@@ -105,6 +131,11 @@ export default {
         this.loading = false
         this.loaded = true
       }, 2000)
+    },
+    changeLang(lang) {
+      this.selectedLang = lang;
+      localStorage.setItem("codeLang", lang)
+      this.$router.go()
     },
     logout () {
       localStorage.removeItem("userId");
