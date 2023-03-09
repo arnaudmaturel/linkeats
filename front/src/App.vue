@@ -4,9 +4,9 @@
       <div>
         <SideBar  @on-loggout="logout()" :isLogged="isLog" />
       </div>
-      <div style="padding-bottom:150px">
-        <router-view @on-logged="log()"/>
-        <footer-component style="position: absolute; bottom: 0;"/>
+      <div style="height: 100%">
+        <router-view @on-logged="log()" style="height: 100%"/>
+        <footer-component style="position:absolute; bottom: 0"/>
       </div>
     </v-main>
   </v-app>
