@@ -1,3 +1,4 @@
+import AppSetting from "@/AppSetting";
 class RequestHandler {
     constructor(baseUrl) {
         this.baseUrl = baseUrl;
@@ -62,6 +63,7 @@ class RequestHandler {
     }
 }
 
-const reqHand = new RequestHandler('http://localhost:80')
+// const reqHand = new RequestHandler('http://localhost:80')
+const reqHand = new RequestHandler(AppSetting.baseUrl);
 
 export default reqHand

@@ -12,6 +12,7 @@ import FlipLogSignClient from '@/components/FlipLogSignClient.vue'
 import FlipLogSignResto from "@/components/FlipLogSignResto.vue"
 import FlipLogSignDeliver from "@/components/FlipLogSignDeliver.vue"
 import FlipLogSignDev from "@/components/FlipLogSignDev.vue"
+import AppSetting from "@/AppSetting";
 
 
 const routes = [
