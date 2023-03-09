@@ -260,7 +260,9 @@ export default {
         async onValidatePopUp() {
             switch (this.modePop) {
                 case this.modeTypePop.accept:
-                    await this.$store.dispatch('deliveryManAcceptCourse', { id: this.popUpData._id, data: {  OrderStatus: OrderStatus.WaitingDeliverymanPickUp, SimpleID:this.popUpData.SimpleID } });
+
+                    await this.$store.dispatch('deliveryManAcceptCourse', { id: this.popUpData._id, data: { DeliveryManId: localStorage.getItem('userId'), OrderStatus: OrderStatus.DeliveryInProgress, SimpleID: this.popUpData.SimpleID } });
+                    //await this.$store.dispatch('deliveryManAcceptCourse', { id: this.popUpData._id, data: {  OrderStatus: OrderStatus.WaitingDeliverymanPickUp, SimpleID:this.popUpData.SimpleID } });
                     await this.refreshData();
                     break;
 
@@ -275,7 +277,6 @@ export default {
             this.popUp = false;
         },
         async onAcceptOrder(order) {
-            await this.$store.dispatch('deliveryManAcceptCourse', { id: order._id, data: { DeliveryManId: localStorage.getItem('userId'), OrderStatus: OrderStatus.WaitingDeliverymanPickUp, SimpleID: order.SimpleID } });
             // await this.refreshData();
             this.popUpData = order;
             this.modePop = this.modeTypePop.accept;
