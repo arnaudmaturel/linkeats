@@ -82,7 +82,6 @@
                                     </v-text-field>
                                 </v-col>
                             </v-row>
-                            </v-form>
 
                             <v-row>
                                 <v-col cols="10">
@@ -115,8 +114,7 @@
                                     S'inscrire
                                 </v-btn>
                             </div>
-
-
+                        </v-form>
                     </div>
 
                     <div id="middle"></div>
