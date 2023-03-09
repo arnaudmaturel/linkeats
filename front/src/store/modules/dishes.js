@@ -44,6 +44,11 @@ const actions = {
         const data = await res.json();
         commit('RECEIVE_DISH', data)
     },
+
+    async postDishImg({ state, commit }, img) {
+        const res = await reqHand.postImg('/dishes/upload', img)
+    },
+
     async deleteDish({ state, commit }, args) {
         const res = await reqHand.delete(`/dishes/${args._id}/`, { id: args._id });
         const data = await res.json();

@@ -11,7 +11,7 @@
         <v-row>
           <v-col cols="3" v-for="restoData in datas" :key="restoData">
             <v-card min-width="100" max-width="400" :loading="loading" :id="restoData">
-              <v-img height="250" :src='restoData.resto.RestaurantImgIdentityPath'></v-img>
+              <v-img height="250" :src=' getFullPath(restoData.resto.RestaurantImgIdentityPath)' cover></v-img>
 
               <v-card-title>
                 {{ restoData.resto.RestaurantName }}
@@ -45,6 +45,7 @@
 
 <script>
 import { mapGetters } from "vuex"
+import AppSetting from "@/AppSetting"
 
 export default {
   name: 'ShopView',
@@ -59,6 +60,10 @@ export default {
     await this.refreshData();
   },
   methods: {
+    getFullPath(end)
+    {
+      return AppSetting.baseUrl + AppSetting.RESTO_IMGS + end;
+    },
     async refreshData() {
 
       for (var i = 0; i < this.allRestaurants.length; i++) {

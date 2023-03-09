@@ -19,17 +19,22 @@ const rolesChecking = require('../utils/role');
 
 
 router.post('/upload', async (req, res) => {
-    upload(req, res, function (err) {
-        if (err) {
-            console.log("Copy File Failed");
-            res.status(500).json(err);
-        }
-        else {
-            console.log("Copy File Success !")
-            var url = `/usr/src/app/src/images/${req.params}`;
-            res.status(200).send(url);
-        }
-    })
+    try {
+        upload(req, res, function (err) {
+            if (err) {
+                console.log("Copy File Failed : ", err);
+                res.status(500).json(err);
+            }
+            else {
+                console.log("Copy File Success !")
+                res.status(200).send();
+            }
+        })
+    }
+    catch (err) {
+        console.log("Copy File Failed", err);
+        res.status(500).json(err);
+    }
 });
 
 router.get('/', (req, res) => {

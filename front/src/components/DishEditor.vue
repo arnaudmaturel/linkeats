@@ -30,19 +30,21 @@
                 </v-row>
 
 
+                <!-- IMAGES -->
                 <v-row>
-                    <v-col class="ma-auto" style="text-align:center">
-                        PICTURES
-                    </v-col>
+                    <v-img style="height: 250px; border: solid 2px rgb(228, 228, 228);"
+                        :src="getFullPath(dish.PicturePaths)" cover />
+                </v-row>
+                <v-row>
+                    <v-file-input label="Photo du plat" v-model="imgFile" variant="filled" prepend-icon="mdi-camera" />
                 </v-row>
 
 
                 <v-row>
                     <v-col>
                         <h6>Description</h6>
-                        <v-textarea v-model="dish.Description"
-                            placeholder="Entrez la description du plat ou de la boisson" variant="outlined"
-                            color="rgb(255, 152, 0)" />
+                        <v-textarea v-model="dish.Description" placeholder="Entrez la description du plat ou de la boisson"
+                            variant="outlined" color="rgb(255, 152, 0)" />
                     </v-col>
                 </v-row>
 
@@ -51,33 +53,38 @@
                     <div id="chipAdder">
                         <div id="chipAdderHeader">
                             <h6>Tags</h6>
-                            <v-text-field  v-model="newTag" clearable placeholder="Entrez un tag" 
-                            variant="outlined" color="rgb(255, 152, 0)" @keydown.enter="addTag()"/>
+                            <v-text-field v-model="newTag" clearable placeholder="Entrez un tag" variant="outlined"
+                                color="rgb(255, 152, 0)" @keydown.enter="addTag()" />
                         </div>
-                        <v-btn icon="mdi-plus-thick" style="top:30px;" @click="addTag()"/>
+                        <v-btn icon="mdi-plus-thick" style="top:30px;" @click="addTag()" />
                     </div>
                     <v-card>
-                        <v-chip v-for="tag in tags" :key="tag" class="ma-2" style="color:white; background-color: rgb(252, 152, 0);" closable @click:close="removeTag(tag)">{{ tag }}</v-chip>
+                        <v-chip v-for="tag in tags" :key="tag" class="ma-2"
+                            style="color:white; background-color: rgb(252, 152, 0);" closable
+                            @click:close="removeTag(tag)">{{ tag }}</v-chip>
                     </v-card>
                 </div>
-                <br/>
+                <br />
                 <div>
                     <div id="chipAdder">
                         <div id="chipAdderHeader">
                             <h6>Allergènes</h6>
-                            <v-text-field  v-model="newAllgerne" clearable placeholder="Entrez un allergène" 
-                            variant="outlined" color="rgb(255, 152, 0)" @keydown.enter="addAllergen()"/>
+                            <v-text-field v-model="newAllgerne" clearable placeholder="Entrez un allergène"
+                                variant="outlined" color="rgb(255, 152, 0)" @keydown.enter="addAllergen()" />
                         </div>
-                        <v-btn icon="mdi-plus-thick" style="top:30px;" @click="addAllergen()"/>
+                        <v-btn icon="mdi-plus-thick" style="top:30px;" @click="addAllergen()" />
                     </div>
                     <v-card>
-                        <v-chip v-for="tag in allergenes" :key="tag" class="ma-2" style="color:white; background-color: rgb(252, 152, 0);" closable @click:close="removeAllergen(tag)">{{ tag }}</v-chip>
+                        <v-chip v-for="tag in allergenes" :key="tag" class="ma-2"
+                            style="color:white; background-color: rgb(252, 152, 0);" closable
+                            @click:close="removeAllergen(tag)">{{ tag }}</v-chip>
                     </v-card>
                 </div>
 
                 <v-row>
-                    <v-col  class="ma-auto" style="text-align:center">
-                        <v-btn icon="mdi-check-bold" style="color:white; background-color: rgb(252, 152, 0);" @click="saveModif"></v-btn>
+                    <v-col class="ma-auto" style="text-align:center">
+                        <v-btn icon="mdi-check-bold" style="color:white; background-color: rgb(252, 152, 0);"
+                            @click="saveModif"></v-btn>
                     </v-col>
                 </v-row>
 
@@ -87,14 +94,16 @@
 </template>
 
 <script>
+import AppSetting from "@/AppSetting";
+
 export default {
     name: 'DishEditor',
     props: {
-        isEditing:Boolean,
+        isEditing: Boolean,
         maxHeight: null,
-        width:null,
+        width: null,
         dish: {
-            _id : null,
+            _id: null,
             name: String,
             price: String,
             PicturePaths: String,
@@ -105,18 +114,19 @@ export default {
         },
     },
     mounted() {
-        if (this.dish.Tags.trim()!='')
-        this.tags = this.dish.Tags.split(';');
-        if (this.dish.Allergens.trim()!='')
+        if (this.dish.Tags.trim() != '')
+            this.tags = this.dish.Tags.split(';');
+        if (this.dish.Allergens.trim() != '')
             this.allergenes = this.dish.Allergens.split(';');
         this.price = this.dish.price / 100;
     },
     data: () => ({
         newTag: '',
         newAllgerne: '',
-        tags:[],// this.dish.Tags.split(';'),
+        tags: [],// this.dish.Tags.split(';'),
         allergenes: [],
-        price : 0,
+        price: 0,
+        imgFile: null,
     }),
     methods: {
         addTag() {
@@ -142,23 +152,28 @@ export default {
                 return;
             this.allergenes.splice(i, 1);
         },
-        async saveModif()
-        {
+        async saveModif() {
 
-            if (this.isEditing)
-            {
+            var img = "";
+            if (this.imgFile != null)
+                img = this.imgFile[0].name;
+
+            if (this.imgFile != null)
+                await this.$store.dispatch('postDishImg', this.imgFile[0]);
+
+            if (this.isEditing) {
                 const newDish =
                 {
                     name: this.dish.name,
                     price: this.price * 100,
-                    PicturePaths: this.dish.PicturePaths,
+                    PicturePaths: img,
                     Description: this.dish.Description,
                     Tags: this.tags.join(';'),
                     Allergens: this.allergenes.join(';'),
                     Wheight: this.dish.Wheight,
                     IDRestaurant: localStorage.getItem('userId')
                 }
-                await this.$store.dispatch('saveDish', {id:this.dish._id, dish:newDish});
+                await this.$store.dispatch('saveDish', { id: this.dish._id, dish: newDish });
                 console.log("dish saved");
             }
             else // add dish
@@ -167,7 +182,7 @@ export default {
                 {
                     name: this.dish.name,
                     price: this.price * 100,
-                    PicturePaths: this.dish.PicturePaths,
+                    PicturePaths: img,
                     Description: this.dish.Description,
                     Tags: this.tags.join(';'),
                     Allergens: this.allergenes.join(';'),
@@ -178,6 +193,9 @@ export default {
                 console.log("dish added");
             }
             this.$emit('on-save')
+        },
+        getFullPath(end) {
+            return AppSetting.baseUrl + AppSetting.DISHES_IMGS + end;
         }
 
 
@@ -233,11 +251,11 @@ export default {
     background-color: white;
 }
 
-#chipAdder{
+#chipAdder {
     display: flex;
 }
 
-#chipAdderHeader{
+#chipAdderHeader {
     width: 95%;
 }
 </style>

@@ -15,62 +15,6 @@ const getters = {
 
 // actions
 const actions = {
-    // async getAllRestaurants({ state, commit }, args) {
-    //     return reqHand.get('/restaurants')
-    //         .then((response) => {
-    //             response.json()
-    //                 .then((data) => {
-    //                     commit('RECEIVE_RESTAURANTS', { data })
-    //                 })
-    //         })
-    // },
-    // async getRestaurant({ state, commit }, args) {
-    //     return reqHand.get('/restaurants/' + args, { id: args.id })
-    //         .then((response) => {
-    //             response.json()
-    //                 .then((data) => {
-    //                     commit('RECEIVE_RESTAURANT', { data })
-    //                 })
-    //         })
-    // },
-    // async getRestaurantAccount({ state, commit }, args) {
-    //     return reqHand.get(`/restaurants/${args.id}/account`, { id: args.id })
-    //         .then((response) => {
-    //             response.json()
-    //                 .then((data) => {
-    //                     commit('RECEIVE_RESTAURANT', { data })
-    //                 })
-    //         })
-    // },
-    // async createRestaurant({ state, commit }, newRestaurant) {
-    //     return reqHand.post('/restaurants/register', newRestaurant)
-    //         .then((response) => {
-    //             response.text()
-    //                 .then((data) => {
-    //                     commit('RECEIVE_RESTAURANT', { data })
-    //                 })
-    //         })
-    // },
-    // async saveRestaurant({ state, commit }, args) {
-    //     return reqHand.put(`/restaurants/${state.restaurant.id}/`, { id: state.restaurant.id }, state.restaurant)
-    //         .then((response) => {
-    //             response.json()
-    //                 .then((data) => {
-    //                     commit('RECEIVE_RESTAURANT', { data })
-    //                 })
-    //         })
-    // },
-    // async deleteRestaurant({ state, commit }, args) {
-    //     return reqHand.delete(`/restaurants/${args.id}/`, { id: args.id })
-    //         .then((response) => {
-    //             response.json()
-    //                 .then((data) => {
-    //                     commit('RECEIVE_RESTAURANT', { data })
-    //                 })
-    //         })
-    // }
-
-
 
     async getAllRestaurants({ state, commit }, args) {
         const res = await reqHand.get('/restaurants');
@@ -83,11 +27,12 @@ const actions = {
         const data = await res.json();
         commit('RECEIVE_RESTAURANT', data);
     },
-    // async getRestaurantAccount({ state, commit }, args) {
-    //     const res = await reqHand.get(`/restaurants/${args}`, { id: args })
-    //     const data = await response.json();
-    //     commit('RECEIVE_RESTAURANT',  data );
-    // },
+
+    async postRestoImg({ state, commit }, img) {
+        const res = await reqHand.postImg('/restaurants/upload', img);
+    },
+
+
     async createRestaurant({ state, commit }, newRestaurant) {
         const res = await reqHand.post('/restaurants/register', newRestaurant);
         const data = await res.text();
@@ -95,7 +40,7 @@ const actions = {
         // commit('RECEIVE_RESTAURANT', data);
     },
     async saveRestaurant({ state, commit }, args) {
-        const res = await reqHand.put(`/restaurants/${args.id}/`, { id: args.id }, args.data);
+        const res = await reqHand.put(`/restaurants/${state.restaurant.UserID}`, { id: state.restaurant.UserID }, state.restaurant);
         const data = await res.text();
         return data;
     },
@@ -115,7 +60,7 @@ const mutations = {
         state.restaurant = data
     },
     ['UPDATE_RESTAURANT'](state, value) {
-        state.restaurant = Object.assign(state.restaurant, value)
+        Object.assign(state.restaurant, value);
     }
 }
 
