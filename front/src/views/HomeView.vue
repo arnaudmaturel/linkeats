@@ -13,7 +13,7 @@
           <v-card-text>
             <v-text-field variant="outline" style="width: 40%; background-color: white; border-radius: 30px; height:60px" label="Entrez votre adresse" append-inner-icon="mdi-map-marker" color="white" single-line hide-details :loading="loading" @click:append-inner="address()"></v-text-field>
           </v-card-text>
-          </v-col>
+        </v-col>
       </v-card>
     </v-col>
   </v-row>
@@ -110,15 +110,18 @@
 
 <script>
 import { defineComponent } from 'vue';
+import StarsWalletPopUpComponent from "@/components/StarsWalletPopUpComponent.vue";
 
 export default {
   name: 'HomeView',
   data: () => ({
     loaded: false,
     loading: false,
+    dialog: false,
   }),
   components: {
-    
+    StarsWalletPopUpComponent
+
   },
   methods: {
     address() {
@@ -128,6 +131,13 @@ export default {
         this.loading = false
         this.loaded = true
       }, 2000)
+    },
+    closeDialog: function(){
+      this.dialog = false;
+
+    },
+    showAdd: function (data){
+      console.log(data)
     }
   }
 }
