@@ -9,8 +9,6 @@
         <div id="img">
             <div id="infPart">
 
-
-
                 <v-row>
                     <v-col class="ma-auto">
                         <h6>Nom de l'établissement</h6>
@@ -18,6 +16,20 @@
                             placeholder="Entrez le nom de votre établissement" variant="outlined"
                             color="rgb(255, 152, 0)">
                         </v-text-field>
+                    </v-col>
+                </v-row>
+
+                <v-row>
+                        <v-avatar color="rgb(228, 228, 228)" size="75" class="mt-3">
+                            <v-avatar size="69" icon="mdi-shop">
+                                <v-img cover  :src="imgPath" @update:modelValue="saveImg"/>
+                            </v-avatar> 
+                        </v-avatar>
+                    <v-col class="ma-auto">
+                        <div class="ml-10">
+                            Image de Profil
+                        </div>
+                        <v-file-input label="Photo de profil" v-model="imgPath" variant="filled" prepend-icon="mdi-camera"/>
                     </v-col>
                 </v-row>
 
@@ -47,20 +59,6 @@
                         </v-text-field>
                     </v-col>
                 </v-row>
-
-                <!-- <v-row>
-                    <v-col class="ma-auto">
-                        <h6>Heure d'ouverture</h6>
-                        <Datepicker v-model="openAt" time-picker="true" />
-                    </v-col>
-                    <v-col class="ma-auto">
-                        <h6>Heure de fermeture</h6>
-                        <Datepicker v-model="cloaseAt" time-picker="true" />
-                    </v-col>
-
-                </v-row> -->
-
-
 
                 <v-row>
                     <v-col class="ma-auto">
@@ -113,7 +111,8 @@ export default {
         openAt: null,
         cloaseAt: null,
         timeout: 3000,
-        snackbar: false
+        snackbar: false,
+        imgPath : null,
     }),
     components: {
         Datepicker
@@ -131,6 +130,10 @@ export default {
             }
             await this.$store.dispatch('saveRestaurant', { id: localStorage.getItem('userId'), data: newResto });
             this.snackbar = true;
+        },
+        async saveImg()
+        {
+            console.log("TO SAVE IMG");
         }
     }
 }

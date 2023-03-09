@@ -3,9 +3,39 @@
 // const { json } = require('express');
 const express = require('express');
 const dishMng = require('./dishMng');
+const multer = require('multer');
+
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'src/images')
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.originalname)
+    }
+})
+
+const upload = multer({ storage: storage }).single('image')
+
+
 const router = express.Router();
 
+
 const rolesChecking = require('./utils/role')
+
+router.post('/upload', async (req, res) => {
+    upload(req, res, function (err) {
+        if (err) {
+            console.log("Copy File Failed");
+            res.status(500).json(err);
+        }
+        else {
+            console.log("Copy File Success !")
+            var url = `/usr/src/app/src/images/${req.params}`;
+            res.status(200).send(url);
+        }
+    })
+});
+
 
 router.post('/', rolesChecking.checkRole([rolesChecking.roles.Restaurant]), (req, res) => {
     dishMng.create(req.body)
@@ -18,6 +48,7 @@ router.post('/', rolesChecking.checkRole([rolesChecking.roles.Restaurant]), (req
             res.send(500).send(err);
         });
 });
+
 
 router.get('/:id', rolesChecking.checkRole([rolesChecking.roles.Visitor, rolesChecking.roles.Restaurant, rolesChecking.roles.Client]), (req, res) => {
     console.log(req.params.id);

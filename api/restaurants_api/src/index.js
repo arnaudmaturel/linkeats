@@ -11,7 +11,7 @@ app.get('/restaurants/status', (req, res) => {
     res.status(200).send();
 });
 
-
+app.use('/restaurants/images', express.static('src/images'));
 // route restaurants
 app.use('/restaurants', restaurantRouter);
 
