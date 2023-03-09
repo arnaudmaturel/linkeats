@@ -15,7 +15,7 @@ function checkRole(allowedRoles) {
         const authHeader = req.headers['authorization']
         const token = authHeader && authHeader.split(' ')[1]
         if (token === undefined) {
-            return res.sendStatus(401)
+            return res.status(401).json({error: "Authorization missing"})
         }
 
         //jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
