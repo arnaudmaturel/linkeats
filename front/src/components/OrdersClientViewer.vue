@@ -121,7 +121,7 @@
                             </v-expansion-panel-title>
 
                             <v-expansion-panel-text>
-                                <v-row>
+                                <v-row v-if="order.resto">
                                     <v-col>
                                         Restaurant : {{ order.resto.RestaurantName }}
                                     </v-col>
@@ -342,9 +342,10 @@ export default {
             var tempCurrentOrder = [];
             var tempEndedOrder = [];
 
+            
             await this.$store.dispatch('getAllClientComments', localStorage.getItem('userId'));
             this.comments = this.$store.state.comment.comments;
-
+            
             await this.$store.dispatch('getAllClientOrders', localStorage.getItem('userId'));
 
             for (var i = 0; i < this.$store.state.order.orders.length; i++) {
@@ -444,7 +445,8 @@ export default {
 
             if (com == null) {
                 const id = await this.createComment(idOrder, idNotedUser);
-                com = await this.$store("getComment", id);
+                console.log("create comment . id :", id);
+                com = await this.$store.dispatch("getOnlyComment", id);
             }
 
             if (com == null) {
@@ -488,7 +490,7 @@ export default {
                 IDUserNoted: idNotedUser
             }
 
-            await this.$store.dispatch("createComment", newComment);
+           return await this.$store.dispatch("createComment", newComment);
         }
 
     },

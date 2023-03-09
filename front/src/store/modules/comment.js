@@ -52,7 +52,7 @@ const actions = {
 
     async createComment({ state, commit }, newcomment) {
         const res = await reqHand.post('/comments/', newcomment);
-        const data = await res.text();
+        const data = await res.json();
         return data;
     },
 

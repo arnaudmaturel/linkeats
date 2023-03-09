@@ -8,9 +8,9 @@ router.get('/', (req, res) => {
     const c = restaurantMng.getAll({}, "RestaurantName RestaurantIsOpen RestaurantStars RestaurantDeliveryRange");
     c.then((value) => {
         if (value)
-            res.json(value)
+            res.status(200).json(value)
         else
-            res.send("Nothing found ");
+            res.status(404).send();
     })
         .catch((err) => res.json(err));
 });
