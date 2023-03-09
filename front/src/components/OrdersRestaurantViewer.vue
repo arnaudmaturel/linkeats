@@ -1,22 +1,22 @@
 <template>
     <v-card id="form" rounded="5" elevation="0">
         <div v-if="orderStateR == menus[0]">
-        <div id="header">
-            <h5 id="title">
-                Commandes
-            </h5>
-            <div>
-                <v-btn rounded="pill" id="btn" elevation="6" icon="mdi-fullscreen" @click="dialogOrderRW = true" />
+            <div id="header">
+                <h5 id="title">
+                    Commandes
+                </h5>
+                <div>
+                    <v-btn rounded="pill" id="btn" elevation="6" icon="mdi-fullscreen" @click="dialogOrderRW = true" />
+                </div>
             </div>
-        </div>
         </div>
 
         <div v-else>
-        <div id="header">
-            <h5 id="title">
-                Commandes
-            </h5>
-        </div>
+            <div id="header">
+                <h5 id="title">
+                    Commandes
+                </h5>
+            </div>
         </div>
 
 
@@ -31,46 +31,46 @@
         <div id="img">
             <div v-if="orderStateR == 'En Cours'">
                 <!-- ORDER IN PROGRESS -->
-                <OrderRestaurantWorkComponent heightList="450px"/>
+                <OrderRestaurantWorkComponent heightList="450px" />
             </div>
             <div v-else style="width=100%">
                 <!-- ORDER END -->
                 <v-card id="infPart" max-height="450px" class="overflow-y-auto">
                     <v-expansion-panels variant="popout" class="my-4">
-                        <v-expansion-panel  v-for="order in orders" :key="order" style="width: 100%;">
+                        <v-expansion-panel v-for="order in orders" :key="order" style="width: 100%;">
                             <div v-if="order.state == orderStateR && orderStateR == menus[1]">
-                                    <v-expansion-panel-title>
-                                        <v-row>
-                                            <v-col>
-                                                {{ order.SimpleID.Date + " "+order.SimpleID.Id4Resto }}
-                                            </v-col>
+                                <v-expansion-panel-title>
+                                    <v-row>
+                                        <v-col>
+                                            {{ order.SimpleID.Date + " " + order.SimpleID.Id4Resto }}
+                                        </v-col>
 
-                                            <v-col offset="1">
-                                                {{ order.date }}
-                                            </v-col>
+                                        <v-col offset="1">
+                                            {{ order.date }}
+                                        </v-col>
 
-                                            <v-col offset="2">
-                                                {{ order.cost / 100 }}€
-                                            </v-col>
+                                        <v-col offset="2">
+                                            {{ order.cost / 100 }}€
+                                        </v-col>
 
-                                            <v-col offset="1">
-                                                <v-icon icon="mdi-alert-octagon"
-                                                    @click="idOdrer = order.orderN; snackbar = true" />
-                                            </v-col>
-                                        </v-row>
-                                    </v-expansion-panel-title>
+                                        <v-col offset="1">
+                                            <v-icon icon="mdi-alert-octagon"
+                                                @click="idOdrer = order.orderN; snackbar = true" />
+                                        </v-col>
+                                    </v-row>
+                                </v-expansion-panel-title>
 
-                                    <v-expansion-panel-text>
-                                        <v-row v-for="item in order.items" :key="item">
-                                            <v-col class="ma-auto">
-                                                {{ item }}
-                                            </v-col>
-                                        </v-row>
-                                    </v-expansion-panel-text>
-                                </div>
-                                </v-expansion-panel>
+                                <v-expansion-panel-text>
+                                    <v-row v-for="item in order.items" :key="item">
+                                        <v-col class="ma-auto">
+                                            {{ item }}
+                                        </v-col>
+                                    </v-row>
+                                </v-expansion-panel-text>
+                            </div>
+                        </v-expansion-panel>
 
-                        </v-expansion-panels>
+                    </v-expansion-panels>
 
                 </v-card>
             </div>
@@ -89,17 +89,18 @@
 
 
         <!-- DIALOG -->
-        <v-dialog v-model="dialogOrderRW" fullscreen style="background-color:white;" >
+        <v-dialog v-model="dialogOrderRW" fullscreen style="background-color:white;">
             <v-div style="border:solid 1px red; width: 100vw; height: 100%;">
                 <div id="header">
                     <h5 id="title">
                         Commandes
                     </h5>
-                <div>
-                    <v-btn rounded="pill" id="btn" elevation="6" icon="mdi-fullscreen-exit" @click="dialogOrderRW = false" />
+                    <div>
+                        <v-btn rounded="pill" id="btn" elevation="6" icon="mdi-fullscreen-exit"
+                            @click="dialogOrderRW = false" />
+                    </div>
                 </div>
-            </div>
-                        <OrderRestaurantWorkComponent/>
+                <OrderRestaurantWorkComponent />
             </v-div>
         </v-dialog>
     </v-card>
@@ -107,6 +108,7 @@
 
 <script>
 import OrderRestaurantWorkComponent from './OrderRestaurantWorkComponent.vue';
+import OrderStatus from '@/store/OrderStatus';
 
 export default {
     components: {
@@ -123,7 +125,7 @@ export default {
         scrollInvoked: 0,
         dialogOrderRW: false,
         orders: [
-            { orderN: '0009999', state: 'Terminé', date: '01/01/2022', cost: '999999', items: ['item1', 'item2', 'item3'] },
+            !{ orderN: '0009999', state: 'Terminé', date: '01/01/2022', cost: '999999', items: ['item1', 'item2', 'item3'] },
         ],
         snackbar: false,
         text: 'Nous avons pris en considération votre réclamation',
@@ -131,7 +133,28 @@ export default {
         idOdrer: -1,
     }),
     methods: {
+        async refreshData() {
+            await this.$store.dispatch('getAllRestoOrders', localStorage.getItem('userId'));
+            var tempOrder = [];
+            for (var i = 0; i < this.$store.state.order.orders.length; i++) {
+                var order = this.$store.state.order.orders[i];
 
+                switch (order.OrderStatus) {
+
+                    case OrderStatus.Unknown:
+                    case OrderStatus.CancelledClient:
+                    case OrderStatus.CancelledRestaurant:
+                    case OrderStatus.RejectededDeliveryman:
+                    case OrderStatus.DeliveryCancelled:
+                    case OrderStatus.Delivered:
+                        tempOrder.push(order);
+                        break;
+                }
+            }
+
+            this.orders = tempOrder;
+
+        },
         getProgressOrder() {
             let output = [];
             orders.forEach(order => {
