@@ -3,7 +3,7 @@
     <v-row>
       <v-col>
         <v-card>
-          <v-card-title>Filter</v-card-title>
+          <v-card-title>Filtres</v-card-title>
         </v-card>
       </v-col>
 
@@ -18,7 +18,7 @@
               </v-card-title>
 
               <v-card-subtitle>
-                tags
+                Tags
               </v-card-subtitle>
 
               <v-card-text>

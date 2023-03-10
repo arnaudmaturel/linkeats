@@ -35,7 +35,7 @@
       <v-col cols="5">
 
         <p style="color: black;text-align: right;">
-          Items Panier : {{ (itemsPrice / 100).toFixed(2) }} €
+          Articles Panier : {{ (itemsPrice / 100).toFixed(2) }} €
         </p>
 
         <p style="color: black;text-align: right;">
@@ -250,7 +250,7 @@ export default {
     // DELETE ITEM
     del(idDish) {
       this.modePop = this.modeTypePop.romeveLine;
-      this.popUpMessage = "vouler vous suprimmer cet élément ?";
+      this.popUpMessage = "voulez vous supprimer cet élément ?";
       this.popUpData = idDish;
       this.popUp = true;
     },
@@ -258,7 +258,7 @@ export default {
     // VALIDATE THE BASKET 
     async validateBasket() {
       this.modePop = this.modeTypePop.validated;
-      this.popUpMessage = "Envoyer la commander ?";
+      this.popUpMessage = "Envoyer la commande ?";
       this.popUp = true;
     },
 
@@ -331,7 +331,7 @@ export default {
         {
           Name: "Récompense Stars",
           State: DiscountState.UnClaimed,
-          Description: `Félcitation vous avez atteint le niveau ${lvlD.Level}`,
+          Description: `Félicitations, vous avez atteint le niveau ${lvlD.Level}`,
           Value: lvlD.Gift,
           IDClient: localStorage.getItem("userId")
         }

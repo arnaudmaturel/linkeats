@@ -2,7 +2,7 @@
     <v-card id="form" rounded="5" elevation="0" class="overflow-y-auto">
         <v-row id="rowTitle">
             <v-col class="ma-auto" style="text-align:center">
-                <h5> Information Général</h5>
+                <h5> Informations Générales</h5>
             </v-col>
         </v-row>
         <div id="middle"></div>
@@ -57,7 +57,7 @@
 
                 <!-- SNACKBAR -->
             <v-snackbar v-model="snackbar" :timeout="timeout" style="border=solid 3px rgb(228, 228, 228);">
-                    Information général saugardé correctement
+                    Informations générales saugardées correctement
                 <template v-slot:actions>
                     <v-btn color="rgb(255, 152, 0)" rounded="pill" @click="snackbar = false">
                         Close

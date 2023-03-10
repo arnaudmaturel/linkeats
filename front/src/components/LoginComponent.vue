@@ -17,9 +17,9 @@
                         <v-row>
                             <v-col>
                                 
-                                <h6>nom d'utilisateur / E-Mail / Téléphone</h6>
+                                <h6>Identifiant / E-Mail / Téléphone</h6>
                                 <v-text-field v-model="login" :readonly="loading" clearable
-                                placeholder="Entrez votre nom d'utilisateur" variant="outlined" color="rgb(255, 152, 0)"
+                                placeholder="Entrez votre identifiant" variant="outlined" color="rgb(255, 152, 0)"
                                 :rules="[required]" class="mb-2" type="email">
                             </v-text-field>
                         </v-col>
@@ -38,7 +38,7 @@
                     :ripple="{ class: 'text-orange', center: true }">
                     Se Connecter
                 </v-btn><br />
-                <a id="restPwd" href="/client/reset-password">Password forget</a>
+                <a id="restPwd" href="/client/reset-password">Mot de passe oublié</a>
             </div>
             
         </v-form>
@@ -61,7 +61,7 @@
         <v-snackbar v-model="snackbar" :timeout="timeout" style="border=solid 3px rgb(228, 228, 228);" location="top">
             <template v-slot:actions>
                 <div class="ma-auto" >
-                    Login / mot de passe incorrect
+                    Identifiant / mot de passe incorrect
                     <v-btn color="rgb(255, 152, 0)" rounded="pill" @click="snackbar = false">
                         Close
                     </v-btn>

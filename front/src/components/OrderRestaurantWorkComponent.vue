@@ -5,7 +5,7 @@
         <v-card style="border:solid 1px rgb(228, 228, 288); margin-bottom:10px; width:33%;" :height="heightList"
             :max-height="heightList" class="overflow-y-auto px-3">
             <h5 style="text-align:center; margin-top: 10px">
-                Commandes Reçues
+                Commandes reçues
             </h5>
             <v-expansion-panels variant="popout" class="my-4">
                 <v-expansion-panel v-for="order in orderToAccept" :key="order" style="width: 100%;">

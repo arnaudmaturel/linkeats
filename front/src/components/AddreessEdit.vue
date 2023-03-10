@@ -18,7 +18,7 @@
                             <v-col class="ma-auto">
                                 <h6>Nom</h6>
                                 <v-text-field v-model="data.name" :readonly="loading" clearable
-                                    placeholder="Entrez le nom de l'adresse" variant="outlined" color="rgb(255, 152, 0)"
+                                    placeholder="Entrez le nom et l'adresse" variant="outlined" color="rgb(255, 152, 0)"
                                     :rules="[required]" class="mb-2">
                                 </v-text-field>
                             </v-col>

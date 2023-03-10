@@ -69,7 +69,7 @@
                                         </v-row>
                                         <v-row style="text-align:left;">
                                             <v-col>
-                                                Cout de livraison : {{ (order.order.OrderLinkEatsPart / 100 +
+                                                Coût de livraison : {{ (order.order.OrderLinkEatsPart / 100 +
                                                     order.order.OrderDeliveryCost
                                                     / 100).toFixed(2) }}€
                                             </v-col>
@@ -77,7 +77,7 @@
                                         <v-row style="text-align:center;">
                                             <v-col>
                                                 <b>
-                                                    Cout total : {{ (order.order.OrderFinalPrice / 100).toFixed(2) }}€
+                                                    Coût total : {{ (order.order.OrderFinalPrice / 100).toFixed(2) }}€
                                                 </b>
                                             </v-col>
                                         </v-row>
@@ -144,20 +144,20 @@
                                 </v-row>
                                 <v-row style="text-align:left;">
                                     <v-col>
-                                        Cout de livraison : {{ (order.order.OrderLinkEatsPart / 100 +
+                                        Coût de livraison : {{ (order.order.OrderLinkEatsPart / 100 +
                                             order.order.OrderDeliveryCost / 100).toFixed(2) }}€
                                     </v-col>
                                 </v-row>
                                 <v-row style="text-align:left;">
                                     <v-col>
                                         <b>
-                                            Cout total : {{ (order.order.OrderFinalPrice / 100).toFixed(2) }}€
+                                            Coût total : {{ (order.order.OrderFinalPrice / 100).toFixed(2) }}€
                                         </b>
                                     </v-col>
                                 </v-row>
                                 <v-row>
                                     <v-col class="ma-auto">
-                                        Evaluation Restaurant:
+                                        Évaluation Restaurant:
                                     </v-col>
                                     <v-col class="ma-auto">
                                         <v-rating v-model="order.rateResto" disabled color="rgb(255, 152, 0)"
@@ -171,7 +171,7 @@
 
                                 <v-row>
                                     <v-col class="ma-auto">
-                                        Evaluation Livrason:
+                                        Évaluation Livraison:
                                     </v-col>
                                     <v-col class="ma-auto">
                                         <v-rating v-model="order.rateDeliver" disabled color="rgb(255, 152, 0)"
@@ -412,20 +412,20 @@ export default {
                     return "INCONNU";
 
                 case OrderStatus.CancelledClient:
-                    return "Annulation Client";
+                    return "Annulation par le client";
 
                 case OrderStatus.CancelledRestaurant:
-                    return "Annulation Restaurant";
+                    return "Annulation par le restaurant";
 
                 case OrderStatus.DeliveryCancelled:
                 case OrderStatus.RejectededDeliveryman:
-                    return "Annulation livreur";
+                    return "Annulation par le livreur";
 
                 case OrderStatus.Delivered:
                     return "Livré";
 
                 case OrderStatus.WaitingRestaurantConfirmation:
-                    return "En attente de confirmation du Restaurant"
+                    return "En attente de confirmation du restaurant"
 
                 case OrderStatus.CookingProgress:
                     return "Préparation en cours"
@@ -437,7 +437,7 @@ export default {
                     return "En attente de recupération par le livreur"
 
                 case OrderStatus.DeliveryInProgress:
-                    return "livraison en cours"
+                    return "Livraison en cours"
             }
         },
         async editComment(idOrder, idNotedUser) {

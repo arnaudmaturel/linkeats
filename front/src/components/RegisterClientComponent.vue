@@ -18,7 +18,7 @@
                             <v-row>
                                 <v-col cols="6">
 
-                                    <h6>Login</h6>
+                                    <h6>Identifiant</h6>
                                     <v-text-field v-model="newClient.CredentialLogin" :readonly="loading" clearable
                                         placeholder="Entrez votre login" variant="outlined" color="rgb(255, 152, 0)"
                                         :rules="[required]" class="mb-2" type="login">
@@ -197,7 +197,7 @@ export default {
                     {
                         Name: "Cadeau",
                         State: DiscountState.UnClaimed,
-                        Description: `parainage avec ${this.newClient.ClientFirstName} ${this.newClient.ClientLastName}`,
+                        Description: `Parainnage avec ${this.newClient.ClientFirstName} ${this.newClient.ClientLastName}`,
                         Value: 1500,
                         IDClient: this.parain.parainID
                     }

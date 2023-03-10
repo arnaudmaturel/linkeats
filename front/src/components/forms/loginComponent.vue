@@ -1,7 +1,7 @@
 <template>
     <v-card class="mx-auto" max-width="800">
         <v-card-title>
-            Loggin to your account
+            Se connecter à votre compte
         </v-card-title>
 
         <v-form ref="form" v-model="valid" lazy-validation>
@@ -15,11 +15,11 @@
                 <!--<v-checkbox v-model="checkbox" :rules="[v => !!v || 'You must agree to continue!']" label="Do you agree?" required></v-checkbox>-->
 
                 <v-btn color="success" class="mr-4" @click="validate">
-                    Login
+                    Se connecter
                 </v-btn>
 
                 <v-btn color="error" class="mr-4" href="/register">
-                    No account?
+                    Pas de compte?
                 </v-btn>
             </v-card-actions>
         </v-form>

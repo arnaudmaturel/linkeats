@@ -38,7 +38,7 @@
                                 </v-col>
 
                                 <v-col class="ma-auto">
-                                    longueur: {{ orderProgressDelivery.OrderDistance }} km
+                                    Distance: {{ orderProgressDelivery.OrderDistance }} km
                                 </v-col>
 
                                 <v-col class="ma-auto" inline-block>

@@ -12,7 +12,7 @@
             <div id="infPart">
                 <v-row>
                     <v-col cols="5">
-                        <h6>Login</h6>
+                        <h6>Identifiant</h6>
                         <v-text-field v-model="login" :readonly="loading" clearable
                             placeholder="Entrez votre login" variant="outlined" color="rgb(255, 152, 0)">
                         </v-text-field>
@@ -65,7 +65,7 @@
         </div>
                         <!-- SNACKBAR -->
                 <v-snackbar v-model="snackbar" :timeout="timeout" style="border=solid 3px rgb(228, 228, 228);">
-                        Information de sécurité sauvegardé correctement
+                        Informations de sécurité sauvegardé correctement
                     <template v-slot:actions>
                         <v-btn color="rgb(255, 152, 0)" rounded="pill" @click="snackbar = false">
                             Close
