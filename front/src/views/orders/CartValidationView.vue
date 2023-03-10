@@ -5,7 +5,7 @@
       <v-container fluid>
         <v-row>
           <v-col>
-            <h4 style="color: black;">Votre pannier :</h4>
+            <h4 style="color: black;">Votre panier :</h4>
           </v-col>
         </v-row>
         <v-col v-for="item in items" :key="item" dense>

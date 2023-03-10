@@ -6,7 +6,7 @@
           <v-container fluid>
             <v-card-item>
               <v-card-title style="color: black;">
-                Votre pannier :
+                Votre panier :
               </v-card-title>
             </v-card-item>
 

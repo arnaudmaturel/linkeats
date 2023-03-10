@@ -82,7 +82,7 @@
                       <v-icon size="large">mdi-plus-circle-outline</v-icon>
                     </v-btn>
                   </template>
-                  Ajouté au pannier avec succès
+                  Ajouté au panier avec succès
                 </v-snackbar>
               </v-card-actions>
             </v-card>
