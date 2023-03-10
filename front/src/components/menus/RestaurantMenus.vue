@@ -56,7 +56,7 @@
 
           <v-col :cols="4" v-for="plate in dishes" :key="plate">
             <v-card min-width="100" max-width="400">
-              <v-img height="250" :src="plate.PicturePaths"></v-img>
+              <v-img height="250" :src="getFullPath(plate.PicturePaths)" cover></v-img>
 
               <v-card-title>{{ plate.name }}</v-card-title>
 
@@ -95,7 +95,9 @@
 </template>
 
 <script>
-import {mapGetters} from "vuex";
+import { mapGetters } from "vuex";
+import AppSetting from "@/AppSetting";
+
 
 export default {
   name: "RestaurantMenus",
@@ -123,6 +125,9 @@ export default {
     this.$store.dispatch("getAllDishes", this.id_restaurant)
   },
   methods: {
+            getFullPath(end) {
+      return AppSetting.baseUrl + AppSetting.DISHES_IMGS + end;
+    },
     add(menu) {
       let d =
       {

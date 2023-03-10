@@ -1,4 +1,5 @@
-import AppSetting from "@/AppSetting";
+import AppSetting from "@/AppSetting"
+import axios from 'axios'
 class RequestHandler {
     constructor(baseUrl) {
         this.baseUrl = baseUrl;
@@ -31,6 +32,14 @@ class RequestHandler {
         };
 
         return await fetch(this.baseUrl + endUrl, reqOptions)
+    }
+
+    async postImg(endUrl, img) {
+        const formData = new FormData();
+        formData.append('image', img);
+        // formData.append('image', this.imgFile[0]);
+        await axios.post(AppSetting.baseUrl + endUrl, formData, { headers: { 'Authorization': `Bearer ${localStorage.getItem('accessToken')}` } });
+        // await axios.post(AppSetting.baseUrl + '/restaurants/upload', formData, { headers: { 'Authorization': `Bearer ${localStorage.getItem('accessToken')}` } });
     }
 
     put(endUrl, params, body) {

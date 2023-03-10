@@ -1,8 +1,41 @@
 const express = require('express');
 const restaurantMng = require('../Models/RestaurantMng')
 const router = express.Router();
+const multer = require('multer');
 
-const rolesChecking = require('../utils/role')
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'src/images')
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.originalname)
+    }
+})
+
+const upload = multer({ storage: storage }).single('image')
+
+
+const rolesChecking = require('../utils/role');
+
+
+router.post('/upload', async (req, res) => {
+    try {
+        upload(req, res, function (err) {
+            if (err) {
+                console.log("Copy File Failed : ", err);
+                res.status(500).json(err);
+            }
+            else {
+                console.log("Copy File Success !")
+                res.status(200).send();
+            }
+        })
+    }
+    catch (err) {
+        console.log("Copy File Failed", err);
+        res.status(500).json(err);
+    }
+});
 
 router.get('/', (req, res) => {
     const c = restaurantMng.getAll({}, "RestaurantName RestaurantIsOpen RestaurantStars RestaurantDeliveryRange");
