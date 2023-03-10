@@ -17,7 +17,7 @@
                 <v-row>
                     <v-col cols="6">
 
-                        <h6>Login</h6>
+                        <h6>Identifiant</h6>
                         <v-text-field v-model="newDeliver.CredentialLogin" :readonly="loading" clearable placeholder="Entrez votre login"
                             variant="outlined" color="rgb(255, 152, 0)" :rules="[required]" class="mb-2" type="login">
                         </v-text-field>

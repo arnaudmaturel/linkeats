@@ -2,7 +2,7 @@
     <v-card id="form" rounded="5" elevation="0">
         <div id="header">
             <h5 id="title">
-                Discount à récuperer
+                Réductions à récupérer
             </h5>
             <div>
                 <v-btn rounded="pill" id="btn" elevation="6" icon="mdi-close-thick" @click="this.$emit('on-close')" />
@@ -23,7 +23,7 @@
                             </v-col>
                             
                             <v-col cols="3" class="ma-auto" style="text-align: right;">
-                                Value : {{ (discount.Value/100) }}€
+                                Valeur : {{ (discount.Value/100) }}€
                             </v-col>                        
                             <v-col cols="1" class="ma-auto" style="text-align: right;">
                                 <v-btn id="btn" icon="mdi-cash-100" @click="onClaimedDiscount(discount)" size="x-large"/>

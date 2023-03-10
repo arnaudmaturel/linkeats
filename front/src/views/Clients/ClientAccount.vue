@@ -198,7 +198,7 @@ export default {
                     { 'title': 'Commandes', 'component': "OrderView", 'icon': 'mdi-clipboard-text' },
                     { 'title': 'Addresses', 'component': "AdressesView", 'icon': 'mdi-home-account' },
                     // { 'title': 'Carte', 'component': "RestaurantCardEditor", 'icon': 'mdi-food' },
-                    { 'title': 'Stars (preview)', 'component': "Stars", 'icon': 'mdi-account-star' },
+                    { 'title': 'Stars', 'component': "Stars", 'icon': 'mdi-account-star' },
                     { 'title': 'Linker (preview)', 'component': "", 'icon': 'mdi-account-heart' },
                 ]                
                 break;
@@ -213,7 +213,7 @@ export default {
                     { 'title': 'Commandes', 'component': "OrderView", 'icon': 'mdi-clipboard-text' },
                     { 'title': 'Addresses', 'component': "AdressesView", 'icon': 'mdi-home-account' },
                     { 'title': 'Carte', 'component': "RestaurantCardEditor", 'icon': 'mdi-food' },
-                    { 'title': 'Stars (preview)', 'component': "Stars", 'icon': 'mdi-account-star' },
+                    { 'title': 'Stars', 'component': "Stars", 'icon': 'mdi-account-star' },
                     // { 'title': 'Linker (preview)', 'component': "", 'icon': 'mdi-account-heart' },
                 ]
                 break;
@@ -228,7 +228,7 @@ export default {
                     { 'title': 'Commandes', 'component': "OrderView", 'icon': 'mdi-clipboard-text' },
                     // { 'title': 'Addresses', 'component': "AdressesView", 'icon': 'mdi-home-account' },
                     // { 'title': 'Carte', 'component': "RestaurantCardEditor", 'icon': 'mdi-food' },
-                    { 'title': 'Stars (preview)', 'component': "Stars", 'icon': 'mdi-account-star' },
+                    { 'title': 'Stars', 'component': "Stars", 'icon': 'mdi-account-star' },
                     // { 'title': 'Linker (preview)', 'component': "", 'icon': 'mdi-account-heart' },
                 ]
                 break;

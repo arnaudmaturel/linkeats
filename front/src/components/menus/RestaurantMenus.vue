@@ -17,13 +17,13 @@
       <v-col>
         <v-card>
           <v-card-item>
-            <v-card-title>All menus</v-card-title>
+            <v-card-title>Menus</v-card-title>
           </v-card-item>
 
           <v-divider></v-divider>
 
           <v-card-item>
-            <v-card-title>Categories</v-card-title>
+            <v-card-title>Catégories</v-card-title>
           </v-card-item>
 
           <v-row>

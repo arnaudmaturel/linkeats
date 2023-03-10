@@ -77,7 +77,7 @@
 
         <!-- SNACKBAR -->
         <v-snackbar v-model="snackbar" :timeout="timeout" style="border=solid 3px rgb(228, 228, 228);">
-            Information général saugardé correctement
+            Informations générales sauvegardées correctement
             <template v-slot:actions>
                 <v-btn color="rgb(255, 152, 0)" rounded="pill" @click="snackbar = false">
                     Close

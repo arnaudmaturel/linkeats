@@ -3,7 +3,7 @@
         <v-card id="form" rounded="5" elevation="0" class="mx-auto">
             <div id="header">
                 <h5 id="title">
-                    Edition du Commentaire
+                    Édition du Commentaire
                 </h5>
                 <div>
                     <v-btn rounded="pill" id="btn" elevation="6" @click="this.$emit('on-close')"
@@ -24,7 +24,7 @@
 
                         <v-row>
                             <v-col cols="2">
-                                <h6 style="margin-top: 15px">Evaluation :</h6>
+                                <h6 style="margin-top: 15px">Évaluation :</h6>
                             </v-col>
                             <v-col style="text-align: left">
                                 <v-rating v-model="rate" density="compact" color="rgb(255, 152, 0)" active-color="rgb(255, 152, 0)" half-increments hover size="x-large"/>
@@ -36,7 +36,7 @@
                             <v-col class="ma-auto">
                                 <h6>Description :</h6>
                                 <v-textarea v-model="descript"
-                                    placeholder="Entrez le nom de l'adresse" variant="outlined" color="black">
+                                    placeholder="Entrez le nom et l'adresse" variant="outlined" color="black">
                                 </v-textarea>
                             </v-col>
                         </v-row>

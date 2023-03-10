@@ -56,7 +56,7 @@
                                         <v-chip class="ma-2" v-for="tag in dish.Tags.split(';')" :key="tag" id="btn">{{tag}}</v-chip>
                                     </v-row>
                                     <v-row>
-                                        Allergens:
+                                        Allergènes:
                                         <v-chip class="ma-2" v-for="tag in dish.Allergens.split(';')" :key="tag" id="btn">{{tag}}</v-chip>
                                     </v-row>
                                 </v-expansion-panel-text>
